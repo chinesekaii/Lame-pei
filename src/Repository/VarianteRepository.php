@@ -17,7 +17,7 @@ class VarianteRepository extends ServiceEntityRepository
     }
 
     /**
-     * Variantes demandées avec leur modèle, triées par modèle puis pointure.
+     * Variantes demandées avec leur modèle, triées par modèle puis taille.
      *
      * @param int[] $ids
      *
@@ -35,7 +35,7 @@ class VarianteRepository extends ServiceEntityRepository
             ->andWhere('v.id IN (:ids)')
             ->setParameter('ids', $ids)
             ->orderBy('m.ordre', 'ASC')
-            ->addOrderBy('v.pointure', 'ASC')
+            ->addOrderBy('v.taille', 'ASC')
             ->getQuery()
             ->getResult();
     }

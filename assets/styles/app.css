@@ -624,7 +624,189 @@ textarea.champ {
     color: var(--brun-bois);
 }
 
+/* ---------- Collections ---------- */
+
+.section--collection-alt {
+    background: var(--fond-section);
+    border-block: 1px solid var(--sable);
+}
+
+.grille-collection {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 330px));
+    justify-content: center;
+    gap: 44px 36px;
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.grille-collection .carte {
+    width: 100%;
+}
+
+.grille-collection .carte__image {
+    aspect-ratio: 3 / 4;
+    position: relative;
+}
+
+.carte__tailles {
+    margin: 10px 0 0;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--brun-bois);
+}
+
+.carte--epuisee .carte__image {
+    filter: saturate(0.75);
+}
+
+.carte--epuisee .carte__tailles {
+    color: #9C8576;
+    font-style: italic;
+}
+
+.badge--epuise {
+    background: var(--brun-volcan);
+    color: var(--texte-bouton);
+}
+
+.collection__etat {
+    margin-top: 14px !important;
+    font-size: 11px !important;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--terre-cuite) !important;
+}
+
+.collection__etat--epuisee {
+    color: #9C8576 !important;
+}
+
+.collection__lien {
+    position: relative;
+    text-align: center;
+    margin: 46px 0 0;
+}
+
+/* Page d'une collection : chaque modèle avec ses photos et ses caractéristiques */
+
+.collection-modeles {
+    position: relative;
+    max-width: 1060px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 70px;
+}
+
+.collection-modele {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: start;
+}
+
+.collection-modele:nth-child(even) .collection-modele__photos {
+    order: 2;
+}
+
+.collection-modele__photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.collection-modele__photos img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border: 1px solid var(--sable);
+    background: #FFF;
+}
+
+.collection-modele__titre {
+    font-size: 42px;
+}
+
+.taille-choix--dispo span {
+    border-color: var(--or);
+    color: var(--brun-volcan);
+}
+
+.autre-collection {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px 26px;
+    border: 1px solid var(--sable);
+    background: #FFF;
+}
+
+.autre-collection__nom {
+    font-family: var(--police-titre);
+    font-size: 24px;
+    color: var(--brun-volcan);
+}
+
+.autre-collection__info {
+    font-size: 12px;
+    color: var(--brun-bois);
+}
+
 /* ---------- Fiche produit ---------- */
+
+.fiche__collection {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--or);
+}
+
+.etiquette--epuise {
+    background: var(--brun-volcan);
+    border-color: var(--brun-volcan);
+    color: var(--texte-bouton);
+}
+
+.fiche__rubrique-aide {
+    letter-spacing: 0.04em;
+    text-transform: none;
+    color: var(--brun-bois);
+    opacity: 0.7;
+}
+
+.galerie__vignettes {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.galerie__vignette {
+    width: 72px;
+    padding: 0;
+    border: 1px solid var(--sable);
+    background: none;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s, border-color 0.2s;
+}
+
+.galerie__vignette img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+.galerie__vignette:hover,
+.galerie__vignette--active {
+    opacity: 1;
+    border-color: var(--terre-cuite);
+}
 
 .fiche {
     position: relative;
@@ -882,6 +1064,7 @@ textarea.champ {
 }
 
 .autre__image {
+    position: relative;
     width: 100%;
     aspect-ratio: 140 / 272;
     background-size: cover;
@@ -1716,6 +1899,10 @@ textarea.champ {
     .fiche__titre { font-size: 44px; }
 
     .commande__grille { grid-template-columns: 1fr; gap: 36px; }
+
+    .collection-modele { grid-template-columns: 1fr; gap: 26px; }
+    .collection-modele:nth-child(even) .collection-modele__photos { order: 0; }
+    .collection-modele__titre { font-size: 34px; }
 
     .ligne-commande {
         grid-template-columns: 1fr auto;

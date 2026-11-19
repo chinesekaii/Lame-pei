@@ -1,0 +1,31 @@
+{# Carte d'un modèle (accueil, pages de collection). Variable : modele #}
+{% set enStock = modele.variantes|filter(v => v.enStock) %}
+<a href="{{ path('app_modele_show', {slug: modele.slug}) }}" class="carte{{ enStock is empty ? ' carte--epuisee' }}">
+    <div class="carte__image" style="background-image: url('{{ asset('uploads/modeles/' ~ modele.image) }}')" role="img" aria-label="Savates {{ modele.nom }}">
+        {% if not modele.disponible %}
+            <span class="badge">En production</span>
+        {% elseif enStock is empty %}
+            <span class="badge badge--epuise">Épuisé</span>
+        {% endif %}
+    </div>
+    <div class="carte__titre-ligne">
+        <h3 class="carte__nom" style="color: {{ modele.couleur ?? '#8C3A1E' }}">{{ modele.nom }}</h3>
+        <span class="carte__prix">{{ modele.prix|prix }}</span>
+    </div>
+    <p class="carte__accroche">{{ modele.accroche }}</p>
+    <div class="carte__palette">
+        {% for couleur in modele.couleursPerle|slice(0, 4) %}
+            <span class="pastille" style="background: {{ couleur.codeHex }}" title="{{ couleur.nom }}"></span>
+        {% endfor %}
+        <span class="carte__lien">Découvrir</span>
+    </div>
+    {% if modele.disponible %}
+        <p class="carte__tailles">
+            {% if enStock is empty %}
+                Toutes les paires sont parties
+            {% else %}
+                Disponible en {{ enStock|map(v => v.taille)|join(' · ') }}
+            {% endif %}
+        </p>
+    {% endif %}
+</a>

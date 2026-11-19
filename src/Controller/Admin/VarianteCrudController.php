@@ -5,9 +5,10 @@ namespace App\Controller\Admin;
 use App\Entity\Variante;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 /**
- * Utilisé uniquement comme formulaire imbriqué dans la fiche d'un modèle (stock par pointure).
+ * Utilisé uniquement comme formulaire imbriqué dans la fiche d'un modèle (stock par taille).
  */
 class VarianteCrudController extends AbstractCrudController
 {
@@ -18,7 +19,7 @@ class VarianteCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield IntegerField::new('pointure')
+        yield TextField::new('taille')
             ->setFormTypeOption('disabled', true)
             ->setColumns(6);
         yield IntegerField::new('stock')

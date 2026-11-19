@@ -1,0 +1,24 @@
+{# Bloc d'une collection sur l'accueil. Variables : collection, loop_index #}
+{% set stock = collection.stockTotal %}
+<section id="{{ collection.slug }}" class="section section--collection{{ loop_index is odd ? ' section--collection-alt' }}">
+    <img src="{{ asset('images/hibiscus.png') }}" alt="" class="hibiscus {{ loop_index is odd ? 'hibiscus--bientot' : 'hibiscus--collection' }}">
+
+    <div class="section__entete">
+        {% if collection.theme %}<div class="surtitre">{{ collection.theme }}</div>{% endif %}
+        <h2 class="titre-section">{{ collection.nom }}</h2>
+        {% if collection.description %}<p>{{ collection.description }}</p>{% endif %}
+        <p class="collection__etat{{ stock == 0 ? ' collection__etat--epuisee' }}">
+            {{ stock == 0 ? 'Collection épuisée' : (stock == 1 ? '1 paire disponible' : stock ~ ' paires disponibles') }}
+        </p>
+    </div>
+
+    <div class="grille-collection">
+        {% for modele in collection.modeles %}
+            {{ include('modele/_carte.html.twig') }}
+        {% endfor %}
+    </div>
+
+    <p class="collection__lien">
+        <a href="{{ path('app_collection_show', {slug: collection.slug}) }}" class="btn btn--contour">Voir la collection {{ collection.nom }}</a>
+    </p>
+</section>

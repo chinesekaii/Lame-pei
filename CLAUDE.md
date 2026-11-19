@@ -41,14 +41,18 @@ La maquette validée est dans `docs/maquette/maquette.html` (faite avec Claude D
 
 Polices (Google Fonts) : **Cormorant Garamond** pour les titres, **Jost** pour le texte.
 
-### Contenu de la maquette
-- Accroche : « Dann chak pa, nana un bout nout île. »
-- **Modèles disponibles** (photographiés, prêts à partir) : *Capucine* (terre cuite, perles pêche) et *Bougainvilliers* (fuchsia, perles roses).
-- **Modèles en production** (bouton « Me prévenir de sa sortie ») : Lagon, Mint Lagoon, Azure Sea, Fleur de sable, Butter Bloom, Coral Kiss, Lavender Shell.
-- **Sur-mesure** : formulaire avec coloris, taille, message (mariage, naissance, cadeau…). Réponse sous 48 h.
-- Tailles **36 à 42**. Fabrication **8 à 10 jours**. Envoi **La Réunion et France métropolitaine**. Paire disponible : envoi suivi sous 48 h.
-- Fiche produit : titre, texte poétique, prix, palette de perles, matériaux, choix de la taille, ajout au panier, autres modèles.
-- Panier en tiroir latéral, avec total et bouton « Passer commande ».
+### Contenu actuel (mis à jour par la marque, prime sur la maquette)
+- Identité : « L'ÂME PEÏ est une marque de savates artisanales, inspirée de notre île, de ses couleurs et de son identité réunionnaise. » La marque dit **savates** (pas « tongs »).
+- Slogan : **« Dans chaque pas, nana un bout nout île. »** (remplace « Dann chak pa… » de la maquette).
+- **Collections** (entité `Drop`), chacune avec sa section sur l'accueil et sa page `/collection/{slug}` :
+  - **Fleur Peï** (collection 1) : Capucine, Bougainvilliers — épuisée ;
+  - **Éclat Peï** (collection 2) : Zarlor Peï, Soley Glitter (2 photos : nacre et roz), Soley Square.
+- Les 7 modèles de la planche (Lagon, Mint Lagoon…) sont **archivés** (invisibles, alertes conservées).
+- Prix : 45 € pour tous les modèles.
+- **Tailles Havaianas doubles** : 33/34, 35/36, 37/38, 39/40, 41/42 (`Variante::TAILLES`).
+- Livraison en main propre à La Réunion uniquement, 24 à 72 h (voir CGV). Sur-mesure : réponse sous 48 h.
+- **Catalogue de référence** : `src/Catalogue/CatalogueReference.php` (collections, modèles, palettes, stock). Pour mettre à jour : modifier ce fichier puis `php bin/console app:catalogue:synchroniser` (ne touche ni aux clients, ni aux commandes, ni aux alertes). Les fixtures utilisent la même référence.
+- Photos sources dans `docs/nouveautes/`, versions web (JPEG ≤ 900 px) dans `public/uploads/modeles/`.
 
 ## Modèle de données prévu
 
@@ -56,11 +60,11 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
 
 | Entité | Champs principaux | Relations |
 |---|---|---|
-| `Modele` | nom, slug, accroche, description (texte poétique), prix, image, statut (`disponible` / `en_production` / `archive`), ordre | OneToMany `Variante`, ManyToMany `CouleurPerle`, ManyToOne `Drop` (nullable) |
-| `Variante` | pointure (36–42), stock | ManyToOne `Modele` |
+| `Modele` | nom, slug, accroche, description (texte poétique), prix, image, galerie (JSON), couleur, statut (`disponible` / `en_production` / `archive`), ordre | OneToMany `Variante`, ManyToMany `CouleurPerle`, ManyToOne `Drop` (= collection, nullable) |
+| `Variante` | taille (Havaianas : « 35/36 »…), stock | ManyToOne `Modele` |
 | `CouleurPerle` | nom, codeHex | ManyToMany `Modele` (palette affichée sur la fiche) |
 | `Materiau` | libellé | ManyToMany `Modele` |
-| `Drop` | nom, thème, description, bannière, dateSortie | OneToMany `Modele` — table nommée `drops` (`DROP` est un mot réservé SQL) |
+| `Drop` (= **collection**) | nom, slug, thème (sous-titre), description, ordre, bannière, dateSortie | OneToMany `Modele` — table nommée `drops` (`DROP` est un mot réservé SQL) ; « Collections » dans l'admin |
 | `Alerte` | email, createdAt, envoyee | ManyToOne `Modele` (« Me prévenir de sa sortie ») |
 | `DemandeSurMesure` | nom, email, coloris, taille, message, statut, createdAt | ManyToOne `Modele` (nullable) |
 | `User` | email, password, roles, nom, prénom | OneToMany `Commande` |
@@ -94,6 +98,7 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
   - `Modele::setMateriaux()` / `setCouleursPerle()` : nécessaires car l'inflecteur anglais de Symfony ne trouve pas `addMateriau()`
 - [x] CGV : page `/cgv` (`PageController`, `templates/page/cgv.html.twig`, texte fourni par la marque, ne pas le reformuler), lien dans le pied de page, case obligatoire à la commande (`AdresseLivraison::accepteCgv`), date enregistrée dans `Commande::cgvAccepteesLe`
 - [x] Livraison alignée sur les CGV : **La Réunion uniquement, en main propre par la créatrice**, sous 24 à 72 h. Enum `SecteurLivraison` (communes → secteur → frais : Ouest 0 €, Nord 5 €, Sud/Est 8 €), choix de la commune au checkout, téléphone obligatoire, CP en 974. `Commande` : `secteurLivraison`, `fraisLivraison`, `total` = articles + livraison. Contrôleur Stimulus `livraison_controller.js` pour le total en direct
+- [x] Nouveau catalogue (19/11/2026) : collections Fleur Peï et Éclat Peï, pages `/collection/{slug}`, tailles Havaianas (migration `Version20261119122103` qui convertit et fusionne les anciennes pointures sans perdre les commandes), galerie photo, slogan et texte d'identité, anciens modèles archivés. Sauvegarde de la base avant migration dans `var/sauvegardes/`
 - [ ] Mentions légales : identité du vendeur fournie (avis de situation INSEE) — EI Djemylla SINOPE, nom commercial L'AME PEI, SIRET 109 390 658 00010, 71 chemin Saint-Alme 97419 La Possession, APE 15.20Z. Manquent : e-mail/téléphone de contact, régime de TVA, hébergeur, médiateur
 - [ ] Paiement (CGV : CB, lien SumUp, espèces en main propre) à décider
 - [ ] Paiement en ligne et mise en ligne

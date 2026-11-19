@@ -103,7 +103,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Catalogue');
         yield MenuItem::linkTo(ModeleCrudController::class, 'Modèles', 'fa fa-shoe-prints');
-        yield MenuItem::linkTo(DropCrudController::class, 'Drops', 'fa fa-layer-group');
+        yield MenuItem::linkTo(DropCrudController::class, 'Collections', 'fa fa-layer-group');
         yield MenuItem::linkTo(CouleurPerleCrudController::class, 'Couleurs de perles', 'fa fa-palette');
         yield MenuItem::linkTo(MateriauCrudController::class, 'Matériaux', 'fa fa-scissors');
 

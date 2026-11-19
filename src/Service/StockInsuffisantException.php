@@ -12,9 +12,9 @@ class StockInsuffisantException extends \RuntimeException
     public function __construct(public readonly Variante $variante)
     {
         parent::__construct(sprintf(
-            'Il ne reste plus assez de paires %s en taille %d.',
+            'Il ne reste plus assez de paires %s en taille %s.',
             $variante->getModele()?->getNom(),
-            $variante->getPointure(),
+            $variante->getTaille(),
         ));
     }
 }

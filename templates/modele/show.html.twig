@@ -1,24 +1,49 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ modele.nom }} · L'ÂME PEÏ{% endblock %}
-{% block meta_description %}{{ modele.nom }} — {{ modele.description ?? modele.accroche }} Tongs brodées à la main à La Réunion.{% endblock %}
+{% block meta_description %}{{ modele.nom }} — {{ modele.description ?? modele.accroche }} Savates artisanales brodées à la main à La Réunion.{% endblock %}
+
+{% set collection = modele.drop %}
+{% set epuise = modele.disponible and modele.stockTotal == 0 %}
 
 {% block body %}
     <div class="fiche">
         <img src="{{ asset('images/hibiscus.png') }}" alt="" class="hibiscus hibiscus--fiche">
 
         <nav class="fil-ariane" aria-label="Fil d'Ariane">
-            <a href="{{ path('app_home') }}#collection">Boutique</a> &nbsp;/&nbsp; {{ modele.nom }}
+            <a href="{{ path('app_home') }}#collections">Boutique</a>
+            {% if collection and collection.slug %}
+                &nbsp;/&nbsp; <a href="{{ path('app_collection_show', {slug: collection.slug}) }}">{{ collection.nom }}</a>
+            {% endif %}
+            &nbsp;/&nbsp; {{ modele.nom }}
         </nav>
 
         <section class="fiche__grille">
-            <div class="fiche__visuel">
-                <img src="{{ asset('uploads/modeles/' ~ modele.image) }}" alt="Tongs {{ modele.nom }} brodées de perles">
+            {# Galerie : photo principale + vignettes cliquables (contrôleur Stimulus « galerie ») #}
+            <div class="fiche__visuel" data-controller="galerie">
+                <img src="{{ asset('uploads/modeles/' ~ modele.image) }}" alt="Savates {{ modele.nom }} brodées de perles" data-galerie-target="principale">
+                {% if modele.photos|length > 1 %}
+                    <div class="galerie__vignettes">
+                        {% for photo in modele.photos %}
+                            <button type="button" class="galerie__vignette{{ loop.first ? ' galerie__vignette--active' }}"
+                                    data-action="galerie#afficher" data-galerie-target="vignette"
+                                    data-galerie-src-param="{{ asset('uploads/modeles/' ~ photo) }}"
+                                    aria-label="Voir la photo {{ loop.index }} de {{ modele.nom }}">
+                                <img src="{{ asset('uploads/modeles/' ~ photo) }}" alt="">
+                            </button>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
 
             <div class="fiche__infos">
+                {% if collection %}
+                    <a href="{{ collection.slug ? path('app_collection_show', {slug: collection.slug}) : '#' }}" class="fiche__collection">Collection {{ collection.nom }}</a>
+                {% endif %}
                 {% if not modele.disponible %}
                     <div class="etiquette">En production</div>
+                {% elseif epuise %}
+                    <div class="etiquette etiquette--epuise">Épuisé</div>
                 {% endif %}
 
                 <h1 class="fiche__titre" style="color: {{ modele.couleur ?? '#8C3A1E' }}">{{ modele.nom|upper }}</h1>
@@ -47,32 +72,32 @@
                     <form class="fiche__achat" method="post" action="{{ path('app_panier_ajouter') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token('panier') }}">
                         <fieldset class="choix-taille">
-                            <legend class="fiche__rubrique">Taille</legend>
+                            <legend class="fiche__rubrique">Taille <span class="fiche__rubrique-aide">(tailles Havaianas)</span></legend>
                             <div class="tailles-fiche">
                                 {% for variante in modele.variantes %}
                                     <label class="taille-choix{{ variante.enStock ? '' : ' taille-choix--epuisee' }}"
-                                           title="{{ variante.enStock ? 'Pointure ' ~ variante.pointure : 'Épuisée' }}">
+                                           title="{{ variante.enStock ? variante.stock ~ ' paire(s) en ' ~ variante.taille : 'Épuisée en ' ~ variante.taille }}">
                                         <input type="radio" name="variante" value="{{ variante.id }}" required
-                                               {{ variante.pointure == pointureSelectionnee ? 'checked' }}
+                                               {{ variante.taille == tailleSelectionnee ? 'checked' }}
                                                {{ variante.enStock ? '' : 'disabled' }}>
-                                        <span>{{ variante.pointure }}</span>
+                                        <span>{{ variante.taille }}</span>
                                     </label>
                                 {% endfor %}
                             </div>
                         </fieldset>
 
-                        {% if pointureSelectionnee %}
+                        {% if tailleSelectionnee %}
                             <button type="submit" class="btn btn--plein btn--fiche">Ajouter au panier</button>
                             <p class="fiche__note">Paire déjà brodée, prête à partir. Livraison en main propre à La Réunion sous 24 à 72 h.</p>
                         {% else %}
-                            <p class="fiche__note">Toutes les paires de ce modèle sont parties. Demandez-la en <a href="{{ path('app_home', {modele: modele.slug}) }}#commander">sur-mesure</a>.</p>
+                            <p class="fiche__note">Toutes les paires de ce modèle sont parties. Vous pouvez la demander en <a href="{{ path('app_home', {modele: modele.slug}) }}#commander">sur-mesure</a>.</p>
                         {% endif %}
                     </form>
                 {% else %}
-                    <div class="fiche__rubrique">Taille</div>
+                    <div class="fiche__rubrique">Tailles <span class="fiche__rubrique-aide">(tailles Havaianas)</span></div>
                     <div class="tailles-fiche">
-                        {% for pointure in 36..42 %}
-                            <span class="taille-choix"><span>{{ pointure }}</span></span>
+                        {% for taille in constant('App\\Entity\\Variante::TAILLES') %}
+                            <span class="taille-choix"><span>{{ taille }}</span></span>
                         {% endfor %}
                     </div>
 
@@ -85,7 +110,7 @@
                             <button type="submit" class="btn btn--contour-fort btn--fiche">Me prévenir de sa sortie</button>
                         {{ form_end(formAlerte) }}
                     </div>
-                    <p class="fiche__note">Modèle en cours de broderie — visuel de la planche de collection. Comptez 8 à 10 jours après lancement.</p>
+                    <p class="fiche__note">Modèle en cours de broderie. Comptez 8 à 10 jours après lancement.</p>
                     <p class="fiche__note">Vous le voulez sans attendre ? <a href="{{ path('app_home', {modele: modele.slug}) }}#commander">Demandez-le en sur-mesure</a>.</p>
                 {% endif %}
             </div>
@@ -98,7 +123,9 @@
                     <div class="autres__liste">
                         {% for autre in autres %}
                             <a href="{{ path('app_modele_show', {slug: autre.slug}) }}" class="autre">
-                                <div class="autre__image" style="background-image: url('{{ asset('uploads/modeles/' ~ autre.image) }}')" role="img" aria-label="Tongs {{ autre.nom }}"></div>
+                                <div class="autre__image" style="background-image: url('{{ asset('uploads/modeles/' ~ autre.image) }}')" role="img" aria-label="Savates {{ autre.nom }}">
+                                    {% if autre.disponible and autre.stockTotal == 0 %}<span class="badge">Épuisé</span>{% endif %}
+                                </div>
                                 <div class="autre__nom" style="color: {{ autre.couleur ?? '#8C3A1E' }}">{{ autre.nom }}</div>
                             </a>
                         {% endfor %}

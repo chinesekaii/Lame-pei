@@ -40,7 +40,7 @@ class ModeleCrudController extends AbstractCrudController
             ->setPageTitle(Crud::PAGE_INDEX, 'Modèles')
             ->setDefaultSort(['ordre' => 'ASC'])
             ->setSearchFields(['nom', 'accroche', 'description'])
-            ->setHelp(Crud::PAGE_NEW, 'Les 7 pointures (36 à 42) sont créées automatiquement avec un stock à 0 : renseignez le stock ensuite.');
+            ->setHelp(Crud::PAGE_NEW, 'Les 5 tailles Havaianas (33/34 à 41/42) sont créées automatiquement avec un stock à 0 : renseignez le stock ensuite.');
     }
 
     public function configureActions(Actions $actions): Actions
@@ -59,7 +59,7 @@ class ModeleCrudController extends AbstractCrudController
     {
         return $filters
             ->add(ChoiceFilter::new('statut')->setChoices(StatutModele::cases()))
-            ->add(EntityFilter::new('drop'));
+            ->add(EntityFilter::new('drop', 'Collection'));
     }
 
     public function configureFields(string $pageName): iterable
@@ -73,6 +73,14 @@ class ModeleCrudController extends AbstractCrudController
             ->setUploadedFileNamePattern('[slug]-[randomhash].[extension]')
             ->setRequired($pageName === Crud::PAGE_NEW)
             ->setHelp('Photo verticale, au format PNG ou JPG.');
+        yield ImageField::new('galerie', 'Photos supplémentaires')
+            ->setBasePath('uploads/modeles')
+            ->setUploadDir('public/uploads/modeles')
+            ->setUploadedFileNamePattern('[slug]-[randomhash].[extension]')
+            ->setFormTypeOption('multiple', true)
+            ->setRequired(false)
+            ->setHelp('Autres vues du modèle, affichées en vignettes sur la fiche.')
+            ->hideOnIndex();
         yield TextField::new('nom');
         yield SlugField::new('slug')
             ->setTargetFieldName('nom')
@@ -94,8 +102,8 @@ class ModeleCrudController extends AbstractCrudController
             ->setFormTypeOption('by_reference', false)
             ->hideOnIndex();
 
-        yield FormField::addFieldset('Stock par pointure')
-            ->setHelp('Nombre de paires prêtes à partir dans chaque pointure.')
+        yield FormField::addFieldset('Stock par taille')
+            ->setHelp('Nombre de paires prêtes à partir dans chaque taille.')
             ->onlyWhenUpdating();
         yield CollectionField::new('variantes', false)
             ->useEntryCrudForm(VarianteCrudController::class)
@@ -103,7 +111,7 @@ class ModeleCrudController extends AbstractCrudController
             ->allowDelete(false)
             ->renderExpanded()
             ->onlyWhenUpdating();
-        yield CollectionField::new('variantes', 'Stock par pointure')
+        yield CollectionField::new('variantes', 'Stock par taille')
             ->onlyOnDetail();
 
         yield FormField::addColumn(4);
@@ -122,14 +130,14 @@ class ModeleCrudController extends AbstractCrudController
         yield ColorField::new('couleur', 'Couleur du titre')
             ->setHelp('Couleur du nom du modèle sur le site.')
             ->hideOnIndex();
-        yield AssociationField::new('drop')
-            ->setHelp('Collection à laquelle appartient ce modèle (facultatif).');
+        yield AssociationField::new('drop', 'Collection')
+            ->setHelp('Collection à laquelle appartient ce modèle (Fleur Peï, Éclat Peï…).');
         yield IntegerField::new('ordre', 'Ordre d\'affichage')
             ->setHelp('Le plus petit s\'affiche en premier.');
     }
 
     /**
-     * À la création, on ajoute automatiquement les 7 pointures.
+     * À la création, on ajoute automatiquement les 5 tailles.
      */
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {

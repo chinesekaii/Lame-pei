@@ -15,9 +15,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ModeleController extends AbstractController
 {
-    /** Pointure présélectionnée sur la fiche (celle de la maquette). */
-    private const POINTURE_PAR_DEFAUT = 39;
-
     #[Route('/modele/{slug}', name: 'app_modele_show', requirements: ['slug' => '[a-z0-9-]+'], methods: ['GET', 'POST'])]
     public function show(string $slug, Request $request, ModeleRepository $modeleRepository, EntityManagerInterface $em): Response
     {
@@ -51,22 +48,17 @@ final class ModeleController extends AbstractController
             }
         }
 
-        // Pointure cochée par défaut : la 39 si elle est en stock, sinon la première disponible
-        $pointureSelectionnee = null;
+        // Taille cochée par défaut : la première encore en stock
+        $tailleSelectionnee = null;
         if ($modele->isDisponible()) {
-            $enStock = $modele->getVariantes()->filter(fn (Variante $v) => $v->isEnStock());
-            foreach ($enStock as $variante) {
-                $pointureSelectionnee ??= $variante->getPointure();
-                if ($variante->getPointure() === self::POINTURE_PAR_DEFAUT) {
-                    $pointureSelectionnee = self::POINTURE_PAR_DEFAUT;
-                    break;
-                }
-            }
+            $tailleSelectionnee = $modele->getVariantes()
+                ->findFirst(fn (int $i, Variante $v) => $v->isEnStock())
+                ?->getTaille();
         }
 
         return $this->render('modele/show.html.twig', [
             'modele' => $modele,
-            'pointureSelectionnee' => $pointureSelectionnee,
+            'tailleSelectionnee' => $tailleSelectionnee,
             'autres' => $modeleRepository->findAutres($modele),
             'formAlerte' => $formAlerte,
         ]);

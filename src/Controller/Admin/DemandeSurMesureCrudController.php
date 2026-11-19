@@ -65,7 +65,7 @@ class DemandeSurMesureCrudController extends AbstractCrudController
         yield EmailField::new('email', 'E-mail')->setDisabled();
         yield TextField::new('coloris')->setDisabled();
         yield AssociationField::new('modele', 'Modèle de référence')->onlyOnDetail();
-        yield IntegerField::new('taille')->setDisabled();
+        yield TextField::new('taille')->setDisabled();
         yield TextareaField::new('message')->setDisabled()->hideOnIndex();
         yield ChoiceField::new('statut')
             ->renderAsBadges([

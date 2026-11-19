@@ -7,14 +7,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Une collection / sortie groupée de modèles.
+ * Une collection de modèles (ex. Fleur Peï, Éclat Peï), avec sa page de présentation.
  * Table nommée « drops » car DROP est un mot réservé SQL.
  */
 #[ORM\Entity(repositoryClass: DropRepository::class)]
 #[ORM\Table(name: 'drops')]
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields: ['slug'], message: 'Ce slug est déjà utilisé par une autre collection.')]
 class Drop
 {
     #[ORM\Id]
@@ -23,9 +27,18 @@ class Drop
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: 'Le nom du drop est obligatoire.')]
+    #[Assert\NotBlank(message: 'Le nom de la collection est obligatoire.')]
     #[Assert\Length(max: 100)]
     private ?string $nom = null;
+
+    /** Adresse de la page : /collection/{slug} */
+    #[ORM\Column(length: 120, unique: true, nullable: true)]
+    #[Assert\Regex(pattern: '/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: 'Le slug ne doit contenir que des minuscules, chiffres et tirets.')]
+    private ?string $slug = null;
+
+    /** Ordre d'affichage sur l'accueil (plus petit = en premier). */
+    #[ORM\Column(options: ['default' => 0])]
+    private int $ordre = 0;
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Length(max: 100)]
@@ -54,6 +67,46 @@ class Drop
     public function __toString(): string
     {
         return (string) $this->nom;
+    }
+
+    /** Génère le slug à partir du nom s'il n'a pas été saisi (« Fleur Peï » → « fleur-pei »). */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function genererSlug(): void
+    {
+        if (empty($this->slug) && $this->nom !== null) {
+            $this->slug = (new AsciiSlugger('fr'))->slug($this->nom)->lower()->toString();
+        }
+    }
+
+    /** Nombre de paires en stock dans toute la collection. */
+    public function getStockTotal(): int
+    {
+        return array_sum($this->modeles->map(fn (Modele $m) => $m->getStockTotal())->toArray());
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getOrdre(): int
+    {
+        return $this->ordre;
+    }
+
+    public function setOrdre(int $ordre): static
+    {
+        $this->ordre = $ordre;
+
+        return $this;
     }
 
     public function getId(): ?int

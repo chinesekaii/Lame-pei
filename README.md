@@ -3,13 +3,13 @@
 </p>
 
 <h1 align="center">L'ÂME PEÏ</h1>
-<p align="center"><em>Tongs perlées fait main · La Réunion</em></p>
+<p align="center"><em>Savates perlées fait main · La Réunion</em></p>
 
 ---
 
 ## Présentation
 
-**L'ÂME PEÏ** est une jeune marque réunionnaise de tongs personnalisées : chaque bride est brodée à la main, perle après perle (perles nacrées, rocailles, perles dorées), sur une tong Havaianas. Les coloris s'inspirent des paysages de l'île : hibiscus, bougainvilliers, lagon, terre volcanique.
+**L'ÂME PEÏ** est une marque de savates artisanales, inspirée de La Réunion, de ses couleurs et de son identité réunionnaise : « Dans chaque pas, nana un bout nout île. » Des savates personnalisées : chaque bride est brodée à la main, perle après perle (perles nacrées, rocailles, perles dorées), sur une tong Havaianas. Les coloris s'inspirent des paysages de l'île : hibiscus, bougainvilliers, lagon, terre volcanique.
 
 Ce dépôt contient le **site de vente en ligne** de la marque, développé avec **Symfony**.
 
@@ -18,9 +18,9 @@ Ce dépôt contient le **site de vente en ligne** de la marque, développé avec
 ## Fonctionnalités prévues
 
 **Boutique**
-- Catalogue des modèles disponibles, avec fiche produit (palette de perles, matériaux, tailles 36 à 42)
+- Collections (Fleur Peï, Éclat Peï) avec leur page de présentation
+- Fiche produit : photos, palette de perles, matériaux, tailles Havaianas (33/34 à 41/42), stock par taille
 - Modèles « en production » avec bouton *Me prévenir de sa sortie*
-- Collections à thème (drops) avec date de sortie
 - Panier persistant et tunnel de commande
 
 **Sur-mesure**
@@ -63,7 +63,8 @@ Puis :
 ```bash
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
-php bin/console doctrine:fixtures:load
+php bin/console doctrine:fixtures:load   # base de démonstration (efface les données !)
+# ou, sur une base existante : php bin/console app:catalogue:synchroniser
 symfony serve
 ```
 

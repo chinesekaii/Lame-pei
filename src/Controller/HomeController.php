@@ -6,6 +6,7 @@ use App\Entity\DemandeSurMesure;
 use App\Entity\User;
 use App\Enum\StatutModele;
 use App\Form\DemandeSurMesureType;
+use App\Repository\DropRepository;
 use App\Repository\ModeleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home', methods: ['GET', 'POST'])]
-    public function index(Request $request, ModeleRepository $modeleRepository, EntityManagerInterface $em): Response
+    public function index(Request $request, ModeleRepository $modeleRepository, DropRepository $dropRepository, EntityManagerInterface $em): Response
     {
         // Formulaire sur-mesure (section #commander)
         $demande = new DemandeSurMesure();
@@ -46,7 +47,12 @@ final class HomeController extends AbstractController
         }
 
         return $this->render('home/index.html.twig', [
-            'disponibles' => $modeleRepository->findByStatut(StatutModele::Disponible),
+            'collections' => $dropRepository->findVisibles(),
+            // Modèles en vente qui ne sont rattachés à aucune collection (affichés à part s'il y en a)
+            'horsCollection' => array_filter(
+                $modeleRepository->findByStatut(StatutModele::Disponible),
+                fn ($m) => $m->getDrop() === null,
+            ),
             'enProduction' => $modeleRepository->findByStatut(StatutModele::EnProduction),
             'form' => $form,
         ]);

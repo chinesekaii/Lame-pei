@@ -44,9 +44,9 @@ final class PanierController extends AbstractController
             $this->addFlash('ouvrir_panier', '1');
         } else {
             $this->addFlash('error', sprintf(
-                'Désolé, il ne reste plus de paire %s en taille %d.',
+                'Désolé, il ne reste plus de paire %s en taille %s.',
                 $variante->getModele()->getNom(),
-                $variante->getPointure(),
+                $variante->getTaille(),
             ));
         }
 
@@ -63,10 +63,10 @@ final class PanierController extends AbstractController
         $quantite = $request->getPayload()->getInt('quantite');
         if (!$this->panier->modifierQuantite($variante, $quantite)) {
             $this->addFlash('error', sprintf(
-                'Il ne reste que %d paire(s) %s en taille %d.',
+                'Il ne reste que %d paire(s) %s en taille %s.',
                 $variante->getStock(),
                 $variante->getModele()->getNom(),
-                $variante->getPointure(),
+                $variante->getTaille(),
             ));
         }
 

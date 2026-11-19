@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Collection {{ collection.nom }} · L'ÂME PEÏ{% endblock %}
+{% block meta_description %}Collection {{ collection.nom }} — {{ collection.description }} Savates artisanales brodées à la main à La Réunion.{% endblock %}
+
+{% set stock = collection.stockTotal %}
+
+{% block body %}
+    <div class="fiche">
+        <img src="{{ asset('images/hibiscus.png') }}" alt="" class="hibiscus hibiscus--fiche">
+
+        <nav class="fil-ariane" aria-label="Fil d'Ariane">
+            <a href="{{ path('app_home') }}#collections">Boutique</a> &nbsp;/&nbsp; Collection {{ collection.nom }}
+        </nav>
+
+        <section class="section section--collection">
+            <div class="section__entete">
+                {% if collection.theme %}<div class="surtitre">{{ collection.theme }}</div>{% endif %}
+                <h1 class="titre-section">{{ collection.nom }}</h1>
+                {% if collection.description %}<p>{{ collection.description }}</p>{% endif %}
+                <p class="collection__etat{{ stock == 0 ? ' collection__etat--epuisee' }}">
+                    {{ collection.modeles|length }} modèle{{ collection.modeles|length > 1 ? 's' }} ·
+                    {{ stock == 0 ? 'collection épuisée' : (stock == 1 ? '1 paire disponible' : stock ~ ' paires disponibles') }}
+                </p>
+            </div>
+
+            {# Chaque modèle avec ses photos et ses caractéristiques #}
+            <div class="collection-modeles">
+                {% for modele in collection.modeles %}
+                    {% set enStock = modele.variantes|filter(v => v.enStock) %}
+                    <article class="collection-modele">
+                        <a href="{{ path('app_modele_show', {slug: modele.slug}) }}" class="collection-modele__photos">
+                            {% for photo in modele.photos %}
+                                <img src="{{ asset('uploads/modeles/' ~ photo) }}" alt="Savates {{ modele.nom }}{{ loop.length > 1 ? ', photo ' ~ loop.index }}" loading="lazy">
+                            {% endfor %}
+                        </a>
+
+                        <div class="collection-modele__infos">
+                            <h2 class="fiche__titre collection-modele__titre" style="color: {{ modele.couleur ?? '#8C3A1E' }}">{{ modele.nom }}</h2>
+                            <p class="fiche__poeme">{{ modele.description ?? modele.accroche }}</p>
+                            <div class="fiche__prix">{{ modele.prix|prix }}</div>
+
+                            {% if modele.couleursPerle is not empty %}
+                                <div class="fiche__rubrique">Palette de perles</div>
+                                <ul class="palette">
+                                    {% for couleur in modele.couleursPerle %}
+                                        <li><span class="perle" style="background: {{ couleur.codeHex }}"></span>{{ couleur.nom }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+
+                            <div class="fiche__rubrique">Tailles <span class="fiche__rubrique-aide">(tailles Havaianas)</span></div>
+                            <div class="tailles-fiche">
+                                {% for variante in modele.variantes %}
+                                    <span class="taille-choix{{ variante.enStock ? ' taille-choix--dispo' : ' taille-choix--epuisee' }}"
+                                          title="{{ variante.enStock ? variante.stock ~ ' paire(s) disponible(s)' : 'Épuisée' }}">
+                                        <span>{{ variante.taille }}</span>
+                                    </span>
+                                {% endfor %}
+                            </div>
+
+                            {% if enStock is empty %}
+                                <p class="fiche__note">Toutes les paires sont parties. Vous pouvez la demander en <a href="{{ path('app_home', {modele: modele.slug}) }}#commander">sur-mesure</a>.</p>
+                            {% else %}
+                                <a href="{{ path('app_modele_show', {slug: modele.slug}) }}" class="btn btn--plein btn--fiche">Choisir ma taille</a>
+                            {% endif %}
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        {% if autresCollections is not empty %}
+            <section class="autres">
+                <div class="autres__inner">
+                    <div class="surtitre autres__titre">Autres collections</div>
+                    <div class="autres__liste">
+                        {% for autre in autresCollections %}
+                            <a href="{{ path('app_collection_show', {slug: autre.slug}) }}" class="autre-collection">
+                                <span class="autre-collection__nom">{{ autre.nom }}</span>
+                                <span class="autre-collection__info">{{ autre.modeles|length }} modèle{{ autre.modeles|length > 1 ? 's' }}{{ autre.stockTotal == 0 ? ' · épuisée' }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+    </div>
+{% endblock %}

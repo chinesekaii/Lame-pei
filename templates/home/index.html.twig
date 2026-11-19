@@ -8,14 +8,13 @@
 
         <div class="hero__contenu">
             <img src="{{ asset('images/logo.png') }}" alt="L'Âme Peï — fait main" class="hero__logo">
-            <p class="hero__accroche">Dann chak pa, nana un bout nout île.</p>
+            <p class="hero__accroche">« Dans chaque pas, nana un bout nout île. »</p>
             <p class="hero__texte">
-                Perles nacrées, rocailles et fil doré : chaque paire est cousue une à une, fleur après fleur.
-                {{ disponibles|length > 1 ? (disponibles|length == 2 ? 'Deux modèles sont disponibles' : disponibles|length ~ ' modèles sont disponibles') : 'Un modèle est disponible' }}
-                aujourd'hui — les suivants sont en atelier.
+                L'ÂME PEÏ est une marque de savates artisanales, inspirée de notre île, de ses couleurs et de son identité réunionnaise.
+                Chaque paire est brodée à la main, perle après perle.
             </p>
             <div class="hero__actions">
-                <a href="#collection" class="btn btn--plein">Les modèles disponibles</a>
+                <a href="#collections" class="btn btn--plein">Découvrir les collections</a>
                 <a href="#commander" class="btn btn--contour">Sur-mesure</a>
             </div>
         </div>
@@ -23,63 +22,55 @@
 
     {# ───────── Bandeau ───────── #}
     <div class="bandeau">
-        <span>Fait main à La Réunion</span><span class="fleur">✿</span><span>Pièces uniques</span><span class="fleur">✿</span><span>Tailles 36 à 42</span>
+        <span>Fait main à La Réunion</span><span class="fleur">✿</span><span>Pièces uniques</span><span class="fleur">✿</span><span>Livraison partout à La Réunion</span>
     </div>
 
-    {# ───────── Modèles disponibles ───────── #}
-    <section id="collection" class="section section--collection">
-        <img src="{{ asset('images/hibiscus.png') }}" alt="" class="hibiscus hibiscus--collection">
+    {# ───────── Collections ───────── #}
+    <div id="collections">
+        {% for collection in collections %}
+            {{ include('collection/_section.html.twig', {loop_index: loop.index0}) }}
+        {% else %}
+            <section class="section"><p class="vide">Les collections arrivent bientôt.</p></section>
+        {% endfor %}
+    </div>
 
-        <div class="section__entete">
-            <div class="surtitre">Disponibles maintenant</div>
-            <h2 class="titre-section">Les deux premières</h2>
-            <p><i>Photographiées à l'atelier. Chaque paire est unique.</i></p>
-        </div>
+    {# Modèles en vente rattachés à aucune collection (affiché seulement s'il y en a) #}
+    {% if horsCollection is not empty %}
+        <section class="section section--collection">
+            <div class="section__entete">
+                <h2 class="titre-section titre-section--moyen">Autres créations</h2>
+            </div>
+            <div class="grille-collection">
+                {% for modele in horsCollection %}
+                    {{ include('modele/_carte.html.twig') }}
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
 
-        <div class="grille-disponibles">
-            {% for modele in disponibles %}
-                <a href="{{ path('app_modele_show', {slug: modele.slug}) }}" class="carte">
-                    <div class="carte__image" style="background-image: url('{{ asset('uploads/modeles/' ~ modele.image) }}')" role="img" aria-label="Tongs {{ modele.nom }}"></div>
-                    <div class="carte__titre-ligne">
-                        <h3 class="carte__nom" style="color: {{ modele.couleur ?? '#8C3A1E' }}">{{ modele.nom }}</h3>
-                        <span class="carte__prix">{{ modele.prix|prix }}</span>
-                    </div>
-                    <p class="carte__accroche">{{ modele.accroche }}</p>
-                    <div class="carte__palette">
-                        {% if modele.couleur %}<span class="pastille" style="background: {{ modele.couleur }}"></span>{% endif %}
-                        {% for couleur in modele.couleursPerle|slice(0, 3) %}
-                            <span class="pastille" style="background: {{ couleur.codeHex }}" title="{{ couleur.nom }}"></span>
-                        {% endfor %}
-                        <span class="carte__lien">Découvrir</span>
-                    </div>
-                </a>
-            {% else %}
-                <p class="vide">Aucun modèle disponible pour le moment.</p>
-            {% endfor %}
-        </div>
-    </section>
+    {# ───────── En production (affiché seulement s'il y a des modèles en cours de broderie) ───────── #}
+    {% if enProduction is not empty %}
+        <section id="bientot" class="section section--bientot">
+            <img src="{{ asset('images/hibiscus.png') }}" alt="" class="hibiscus hibiscus--bientot">
 
-    {# ───────── En production ───────── #}
-    <section id="bientot" class="section section--bientot">
-        <img src="{{ asset('images/hibiscus.png') }}" alt="" class="hibiscus hibiscus--bientot">
+            <div class="section__entete">
+                <div class="surtitre">En production</div>
+                <h2 class="titre-section titre-section--moyen">Bientôt à l'atelier</h2>
+                <p>Des modèles en cours de broderie. Dites-nous celui qui vous plaît : nous vous prévenons dès sa sortie.</p>
+            </div>
 
-        <div class="section__entete">
-            <div class="surtitre">En production</div>
-            <h2 class="titre-section titre-section--moyen">Bientôt à l'atelier</h2>
-            <p>Sept coloris en cours de broderie. Dites-nous celui qui vous plaît : nous vous prévenons dès sa sortie.</p>
-        </div>
-
-        <div class="grille-bientot">
-            {% for modele in enProduction %}
-                <a href="{{ path('app_modele_show', {slug: modele.slug}) }}" class="vignette">
-                    <div class="vignette__image" style="background-image: url('{{ asset('uploads/modeles/' ~ modele.image) }}')" role="img" aria-label="Tongs {{ modele.nom }}">
-                        <span class="badge">En production</span>
-                    </div>
-                    <div class="vignette__nom" style="color: {{ modele.couleur ?? '#8C3A1E' }}">{{ modele.nom }}</div>
-                </a>
-            {% endfor %}
-        </div>
-    </section>
+            <div class="grille-bientot">
+                {% for modele in enProduction %}
+                    <a href="{{ path('app_modele_show', {slug: modele.slug}) }}" class="vignette">
+                        <div class="vignette__image" style="background-image: url('{{ asset('uploads/modeles/' ~ modele.image) }}')" role="img" aria-label="Savates {{ modele.nom }}">
+                            <span class="badge">En production</span>
+                        </div>
+                        <div class="vignette__nom" style="color: {{ modele.couleur ?? '#8C3A1E' }}">{{ modele.nom }}</div>
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
 
     {# ───────── Savoir-faire ───────── #}
     <section id="savoirfaire" class="section savoir-faire">
@@ -87,7 +78,7 @@
             <div>
                 <div class="savoir-faire__icone" style="color: #D8462A">✿</div>
                 <h3>Brodé à la main</h3>
-                <p>Chaque bride est cousue à l'aiguille sur une tong Havaianas, perle après perle, dans notre atelier de l'île.</p>
+                <p>Chaque bride est cousue à l'aiguille sur une savate Havaianas, perle après perle, dans notre atelier de l'île.</p>
             </div>
             <div>
                 <div class="savoir-faire__icone" style="color: #C79A3E">❍</div>
@@ -112,7 +103,7 @@
                 <h2 class="titre-section titre-section--petit">Sur-mesure &amp; sur demande</h2>
                 <p class="commander__texte">Dites-nous votre coloris, votre taille et l'occasion — mariage, naissance, cadeau. Nous confirmons le délai sous 48 h.</p>
                 <ul class="commander__liste">
-                    <li>Tailles 36 à 42</li>
+                    <li>Tailles Havaianas, du 33/34 au 41/42</li>
                     <li>Délai de fabrication 8 à 10 jours</li>
                     <li>Livraison en main propre partout à La Réunion</li>
                 </ul>

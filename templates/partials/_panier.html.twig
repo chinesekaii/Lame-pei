@@ -15,12 +15,12 @@
                 <li class="panier__ligne">
                     <span class="panier__nom">
                         {{ ligne.modele.nom }}
-                        <span class="panier__taille">Taille {{ ligne.variante.pointure }}{{ ligne.quantite > 1 ? ' × ' ~ ligne.quantite }}</span>
+                        <span class="panier__taille">Taille {{ ligne.variante.taille }}{{ ligne.quantite > 1 ? ' × ' ~ ligne.quantite }}</span>
                     </span>
                     <span class="panier__prix">{{ ligne.sousTotal|prix }}</span>
                     <form method="post" action="{{ path('app_panier_retirer', {id: ligne.variante.id}) }}" class="panier__retirer">
                         <input type="hidden" name="_token" value="{{ csrf_token('panier') }}">
-                        <button type="submit" aria-label="Retirer {{ ligne.modele.nom }} taille {{ ligne.variante.pointure }}">Retirer</button>
+                        <button type="submit" aria-label="Retirer {{ ligne.modele.nom }} taille {{ ligne.variante.taille }}">Retirer</button>
                     </form>
                 </li>
             {% endfor %}

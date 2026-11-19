@@ -49,9 +49,17 @@ class Modele
     #[Assert\Positive(message: 'Le prix doit être supérieur à 0.')]
     private ?int $prix = null;
 
-    /** Nom du fichier image (ex. capucine.png). */
+    /** Nom du fichier image (ex. capucine.jpg). */
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    /**
+     * Photos supplémentaires (noms de fichiers dans public/uploads/modeles).
+     *
+     * @var list<string>
+     */
+    #[ORM\Column(type: Types::JSON)]
+    private array $galerie = [];
 
     /** Couleur du titre du modèle sur le site (ex. #B4472A pour Capucine). */
     #[ORM\Column(length: 7, nullable: true)]
@@ -68,7 +76,7 @@ class Modele
 
     /** @var Collection<int, Variante> */
     #[ORM\OneToMany(targetEntity: Variante::class, mappedBy: 'modele', cascade: ['persist'], orphanRemoval: true)]
-    #[ORM\OrderBy(['pointure' => 'ASC'])]
+    #[ORM\OrderBy(['taille' => 'ASC'])]
     #[Assert\Valid]
     private Collection $variantes;
 
@@ -116,21 +124,21 @@ class Modele
         return $this->statut === StatutModele::Disponible;
     }
 
-    /** Nombre total de paires en stock, toutes pointures confondues. */
+    /** Nombre total de paires en stock, toutes tailles confondues. */
     public function getStockTotal(): int
     {
         return array_sum($this->variantes->map(fn (Variante $v) => $v->getStock())->toArray());
     }
 
     /**
-     * Crée les variantes manquantes (une par pointure de 36 à 42, stock 0).
+     * Crée les variantes manquantes (une par taille Havaianas, stock 0).
      */
     public function completerVariantes(): static
     {
-        $existantes = $this->variantes->map(fn (Variante $v) => $v->getPointure())->toArray();
-        for ($pointure = Variante::POINTURE_MIN; $pointure <= Variante::POINTURE_MAX; ++$pointure) {
-            if (!\in_array($pointure, $existantes, true)) {
-                $this->addVariante((new Variante())->setPointure($pointure));
+        $existantes = $this->variantes->map(fn (Variante $v) => $v->getTaille())->toArray();
+        foreach (Variante::TAILLES as $taille) {
+            if (!\in_array($taille, $existantes, true)) {
+                $this->addVariante((new Variante())->setTaille($taille));
             }
         }
 
@@ -212,6 +220,26 @@ class Modele
         $this->image = $image;
 
         return $this;
+    }
+
+    /** @return list<string> */
+    public function getGalerie(): array
+    {
+        return $this->galerie;
+    }
+
+    /** @param list<string>|null $galerie */
+    public function setGalerie(?array $galerie): static
+    {
+        $this->galerie = array_values(array_filter($galerie ?? []));
+
+        return $this;
+    }
+
+    /** Photo principale suivie des photos de la galerie. */
+    public function getPhotos(): array
+    {
+        return array_values(array_filter([$this->image, ...$this->galerie]));
     }
 
     public function getCouleur(): ?string

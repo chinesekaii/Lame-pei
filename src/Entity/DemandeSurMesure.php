@@ -36,14 +36,11 @@ class DemandeSurMesure
     #[Assert\Length(max: 150)]
     private ?string $coloris = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    #[Assert\NotNull(message: 'Merci de choisir une taille.')]
-    #[Assert\Range(
-        notInRangeMessage: 'La taille doit être comprise entre {{ min }} et {{ max }}.',
-        min: Variante::POINTURE_MIN,
-        max: Variante::POINTURE_MAX,
-    )]
-    private ?int $taille = null;
+    /** Taille Havaianas souhaitée (35/36, 37/38…). */
+    #[ORM\Column(length: 5)]
+    #[Assert\NotBlank(message: 'Merci de choisir une taille.')]
+    #[Assert\Choice(choices: Variante::TAILLES, message: 'Merci de choisir une taille dans la liste.')]
+    private ?string $taille = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank(message: 'Racontez-nous votre projet.')]
@@ -107,12 +104,12 @@ class DemandeSurMesure
         return $this;
     }
 
-    public function getTaille(): ?int
+    public function getTaille(): ?string
     {
         return $this->taille;
     }
 
-    public function setTaille(?int $taille): static
+    public function setTaille(?string $taille): static
     {
         $this->taille = $taille;
 

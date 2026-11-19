@@ -44,7 +44,7 @@
                         <li>
                             <span>
                                 <span class="mini-recap__nom" style="color: {{ ligne.modele.couleur ?? '#8C3A1E' }}">{{ ligne.modele.nom }}</span>
-                                Taille {{ ligne.variante.pointure }}{{ ligne.quantite > 1 ? ' × ' ~ ligne.quantite }}
+                                Taille {{ ligne.variante.taille }}{{ ligne.quantite > 1 ? ' × ' ~ ligne.quantite }}
                             </span>
                             <span>{{ ligne.sousTotal|prix }}</span>
                         </li>

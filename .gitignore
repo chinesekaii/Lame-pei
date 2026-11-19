@@ -18,3 +18,8 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> L'ÂME PEÏ ###
+# Photos d'origine (lourdes) : les versions web sont dans public/uploads/modeles/
+/docs/nouveautes/
+###< L'ÂME PEÏ ###

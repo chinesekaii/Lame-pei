@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Une ligne de commande : une variante (modèle + pointure) et sa quantité.
+ * Une ligne de commande : une variante (modèle + taille) et sa quantité.
  */
 #[ORM\Entity(repositoryClass: LigneCommandeRepository::class)]
 class LigneCommande

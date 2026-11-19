@@ -40,10 +40,7 @@ class DemandeSurMesureType extends AbstractType
             ])
             ->add('taille', ChoiceType::class, [
                 'label' => 'Taille',
-                'choices' => array_combine(
-                    range(Variante::POINTURE_MIN, Variante::POINTURE_MAX),
-                    range(Variante::POINTURE_MIN, Variante::POINTURE_MAX),
-                ),
+                'choices' => array_combine(Variante::TAILLES, Variante::TAILLES),
                 'expanded' => true,
                 'attr' => ['class' => 'choix-tailles'],
             ])

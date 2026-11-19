@@ -16,7 +16,7 @@
         {% if commandes is empty %}
             <div class="page__vide">
                 <p>Vous n'avez pas encore passé de commande.</p>
-                <a href="{{ path('app_home') }}#collection" class="btn btn--plein">Découvrir les modèles</a>
+                <a href="{{ path('app_home') }}#collections" class="btn btn--plein">Découvrir les modèles</a>
             </div>
         {% else %}
             <div class="tableau-commandes">
@@ -25,7 +25,7 @@
                         <span class="ligne-commande__ref">{{ commande.reference }}</span>
                         <span class="ligne-commande__date">{{ commande.createdAt|date('d/m/Y') }}</span>
                         <span class="ligne-commande__articles">
-                            {% for ligne in commande.lignes %}{{ ligne.variante.modele.nom }} ({{ ligne.variante.pointure }}){{ not loop.last ? ', ' }}{% endfor %}
+                            {% for ligne in commande.lignes %}{{ ligne.variante.modele.nom }} ({{ ligne.variante.taille }}){{ not loop.last ? ', ' }}{% endfor %}
                         </span>
                         <span class="statut statut--{{ commande.statut.value }}">{{ commande.statut.label }}</span>
                         <span class="ligne-commande__total">{{ commande.total|prix }}</span>

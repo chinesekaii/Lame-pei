@@ -20,7 +20,7 @@
                         <li>
                             <span>
                                 <a href="{{ path('app_modele_show', {slug: ligne.variante.modele.slug}) }}" class="mini-recap__nom" style="color: {{ ligne.variante.modele.couleur ?? '#8C3A1E' }}">{{ ligne.variante.modele.nom }}</a>
-                                Taille {{ ligne.variante.pointure }}{{ ligne.quantite > 1 ? ' × ' ~ ligne.quantite }} · {{ ligne.prixUnitaire|prix }}
+                                Taille {{ ligne.variante.taille }}{{ ligne.quantite > 1 ? ' × ' ~ ligne.quantite }} · {{ ligne.prixUnitaire|prix }}
                             </span>
                             <span>{{ ligne.sousTotal|prix }}</span>
                         </li>

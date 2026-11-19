@@ -12,7 +12,7 @@
         {% if panier.estVide %}
             <div class="page__vide">
                 <p>Votre panier est vide.</p>
-                <a href="{{ path('app_home') }}#collection" class="btn btn--plein">Voir les modèles disponibles</a>
+                <a href="{{ path('app_home') }}#collections" class="btn btn--plein">Voir les modèles disponibles</a>
             </div>
         {% else %}
             <div class="recap">
@@ -25,7 +25,7 @@
 
                         <div class="recap__infos">
                             <a href="{{ path('app_modele_show', {slug: ligne.modele.slug}) }}" class="recap__nom" style="color: {{ ligne.modele.couleur ?? '#8C3A1E' }}">{{ ligne.modele.nom }}</a>
-                            <div class="recap__detail">Taille {{ variante.pointure }} · {{ ligne.prixUnitaire|prix }}</div>
+                            <div class="recap__detail">Taille {{ variante.taille }} · {{ ligne.prixUnitaire|prix }}</div>
 
                             <div class="quantite">
                                 <form method="post" action="{{ path('app_panier_modifier', {id: variante.id}) }}">
@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="recap__actions">
-                    <a href="{{ path('app_home') }}#collection" class="btn btn--contour">Continuer mes achats</a>
+                    <a href="{{ path('app_home') }}#collections" class="btn btn--contour">Continuer mes achats</a>
                     <a href="{{ path('app_commande_new') }}" class="btn btn--plein">Passer commande</a>
                 </div>
                 <p class="recap__note">Paires déjà brodées, prêtes à partir. Livraison en main propre à La Réunion sous 24 à 72 h : offerte dans l'Ouest, 5 € dans le Nord, 8 € dans le Sud et l'Est (calculée à l'étape suivante).</p>
