@@ -1,0 +1,11 @@
+{# Tiroir latéral du panier. Le contenu réel sera branché à l'étape « Panier et commande ». #}
+<div class="panier-overlay" data-panier-target="overlay" data-action="click->panier#fermer" hidden></div>
+
+<aside class="panier" data-panier-target="tiroir" aria-label="Panier" aria-hidden="true">
+    <div class="panier__entete">
+        <span class="surtitre">Panier</span>
+        <button type="button" class="panier__fermer" data-action="panier#fermer" aria-label="Fermer le panier">×</button>
+    </div>
+
+    <p class="panier__vide">Votre panier est vide.</p>
+</aside>

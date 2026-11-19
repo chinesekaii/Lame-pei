@@ -1,0 +1,17 @@
+<header class="header">
+    <div class="header__tagline">Fait main à La Réunion</div>
+
+    <a href="{{ path('app_home') }}" class="header__brand">
+        <img src="{{ asset('images/logo.png') }}" alt="L'Âme Peï" class="header__logo">
+        <span class="header__name">L'ÂME PEÏ</span>
+    </a>
+
+    <nav class="header__nav" aria-label="Navigation principale">
+        <a href="{{ path('app_home') }}#collection">Boutique</a>
+        <a href="{{ path('app_home') }}#bientot">Bientôt</a>
+        <a href="{{ path('app_home') }}#commander">Commander</a>
+        <button type="button" class="btn-panier" data-action="panier#ouvrir">
+            Panier (<span data-panier-target="compteur">0</span>)
+        </button>
+    </nav>
+</header>

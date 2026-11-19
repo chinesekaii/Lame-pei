@@ -88,8 +88,8 @@ Le site est accessible sur `https://127.0.0.1:8000`.
 - [x] Projet Symfony et connexion à la base MySQL
 - [x] Modèle de données : 10 entités Doctrine, relations, validation, migration
 - [x] Données de démonstration (fixtures)
-- [ ] Mise en page fidèle à la maquette (Twig)
-- [ ] Catalogue et fiches produits
+- [x] Mise en page fidèle à la maquette (Twig) et page d'accueil
+- [ ] Fiches produits
 - [ ] Panier et commande
 - [ ] Formulaire sur-mesure et alertes de sortie
 - [ ] Authentification et espace client

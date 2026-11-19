@@ -53,6 +53,11 @@ class Modele
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    /** Couleur du titre du modèle sur le site (ex. #B4472A pour Capucine). */
+    #[ORM\Column(length: 7, nullable: true)]
+    #[Assert\CssColor(formats: Assert\CssColor::HEX_LONG, message: 'La couleur doit être au format #RRGGBB.')]
+    private ?string $couleur = null;
+
     #[ORM\Column(length: 20, enumType: StatutModele::class)]
     #[Assert\NotNull]
     private StatutModele $statut = StatutModele::EnProduction;
@@ -184,6 +189,18 @@ class Modele
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCouleur(): ?string
+    {
+        return $this->couleur;
+    }
+
+    public function setCouleur(?string $couleur): static
+    {
+        $this->couleur = $couleur;
 
         return $this;
     }

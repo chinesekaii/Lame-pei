@@ -74,8 +74,9 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
 - [x] Création du projet Symfony et connexion à la base (MySQL 8.4 WAMP, InnoDB forcé dans `doctrine.yaml`)
 - [x] Entités, enums de statut (`src/Enum`), migration initiale
 - [x] Fixtures (`src/DataFixtures` : catalogue de la maquette, comptes admin@lamepei.re / admin1234 et client@lamepei.re / client1234, données de démo)
-- [ ] Layout Twig fidèle à la maquette
-- [ ] Accueil, catalogue, fiche produit
+- [x] Layout Twig fidèle à la maquette (`base.html.twig` + `templates/partials/`, CSS dans `assets/styles/app.css`, images dans `assets/images/`, filtre Twig `|prix`, tiroir panier Stimulus `panier_controller.js`)
+- [x] Page d'accueil (`HomeController`, modèles chargés depuis la base, champ `Modele::couleur` pour la couleur du titre)
+- [ ] Fiche produit (route par slug) et liens « Découvrir » depuis l'accueil
 - [ ] Panier persistant et commande
 - [ ] Formulaire sur-mesure et alertes de sortie
 - [ ] Authentification et espace client

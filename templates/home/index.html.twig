@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {# ───────── Accroche ───────── #}
+    <section class="hero">
+        <img src="{{ asset('images/hibiscus.png') }}" alt="" class="hibiscus hibiscus--hero-gauche">
+        <img src="{{ asset('images/hibiscus.png') }}" alt="" class="hibiscus hibiscus--hero-droite">
+
+        <div class="hero__contenu">
+            <img src="{{ asset('images/logo.png') }}" alt="L'Âme Peï — fait main" class="hero__logo">
+            <p class="hero__accroche">Dann chak pa, nana un bout nout île.</p>
+            <p class="hero__texte">
+                Perles nacrées, rocailles et fil doré : chaque paire est cousue une à une, fleur après fleur.
+                {{ disponibles|length > 1 ? (disponibles|length == 2 ? 'Deux modèles sont disponibles' : disponibles|length ~ ' modèles sont disponibles') : 'Un modèle est disponible' }}
+                aujourd'hui — les suivants sont en atelier.
+            </p>
+            <div class="hero__actions">
+                <a href="#collection" class="btn btn--plein">Les modèles disponibles</a>
+                <a href="#commander" class="btn btn--contour">Sur-mesure</a>
+            </div>
+        </div>
+    </section>
+
+    {# ───────── Bandeau ───────── #}
+    <div class="bandeau">
+        <span>Fait main à La Réunion</span><span class="fleur">✿</span><span>Pièces uniques</span><span class="fleur">✿</span><span>Tailles 36 à 42</span>
+    </div>
+
+    {# ───────── Modèles disponibles ───────── #}
+    <section id="collection" class="section section--collection">
+        <img src="{{ asset('images/hibiscus.png') }}" alt="" class="hibiscus hibiscus--collection">
+
+        <div class="section__entete">
+            <div class="surtitre">Disponibles maintenant</div>
+            <h2 class="titre-section">Les deux premières</h2>
+            <p><i>Photographiées à l'atelier. Chaque paire est unique.</i></p>
+        </div>
+
+        <div class="grille-disponibles">
+            {% for modele in disponibles %}
+                <article class="carte">
+                    <div class="carte__image" style="background-image: url('{{ asset('images/modeles/' ~ modele.image) }}')" role="img" aria-label="Tongs {{ modele.nom }}"></div>
+                    <div class="carte__titre-ligne">
+                        <h3 class="carte__nom" style="color: {{ modele.couleur ?? '#8C3A1E' }}">{{ modele.nom }}</h3>
+                        <span class="carte__prix">{{ modele.prix|prix }}</span>
+                    </div>
+                    <p class="carte__accroche">{{ modele.accroche }}</p>
+                    <div class="carte__palette">
+                        {% if modele.couleur %}<span class="pastille" style="background: {{ modele.couleur }}"></span>{% endif %}
+                        {% for couleur in modele.couleursPerle|slice(0, 3) %}
+                            <span class="pastille" style="background: {{ couleur.codeHex }}" title="{{ couleur.nom }}"></span>
+                        {% endfor %}
+                        <span class="carte__lien">Découvrir</span>
+                    </div>
+                </article>
+            {% else %}
+                <p class="vide">Aucun modèle disponible pour le moment.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# ───────── En production ───────── #}
+    <section id="bientot" class="section section--bientot">
+        <img src="{{ asset('images/hibiscus.png') }}" alt="" class="hibiscus hibiscus--bientot">
+
+        <div class="section__entete">
+            <div class="surtitre">En production</div>
+            <h2 class="titre-section titre-section--moyen">Bientôt à l'atelier</h2>
+            <p>Sept coloris en cours de broderie. Dites-nous celui qui vous plaît : nous vous prévenons dès sa sortie.</p>
+        </div>
+
+        <div class="grille-bientot">
+            {% for modele in enProduction %}
+                <article class="vignette">
+                    <div class="vignette__image" style="background-image: url('{{ asset('images/modeles/' ~ modele.image) }}')" role="img" aria-label="Tongs {{ modele.nom }}">
+                        <span class="badge">En production</span>
+                    </div>
+                    <div class="vignette__nom" style="color: {{ modele.couleur ?? '#8C3A1E' }}">{{ modele.nom }}</div>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# ───────── Savoir-faire ───────── #}
+    <section id="savoirfaire" class="section savoir-faire">
+        <div class="savoir-faire__grille">
+            <div>
+                <div class="savoir-faire__icone" style="color: #D8462A">✿</div>
+                <h3>Brodé à la main</h3>
+                <p>Chaque bride est cousue à l'aiguille sur une tong Havaianas, perle après perle, dans notre atelier de l'île.</p>
+            </div>
+            <div>
+                <div class="savoir-faire__icone" style="color: #C79A3E">❍</div>
+                <h3>Pièces uniques</h3>
+                <p>Perles nacrées 6 mm, rocailles et perles dorées 2 mm, fil nylon résistant : deux paires ne sont jamais identiques.</p>
+            </div>
+            <div>
+                <div class="savoir-faire__icone" style="color: #EE8A73">♡</div>
+                <h3>L'âme péi</h3>
+                <p>Hibiscus, bougainvilliers, terre volcanique : nos couleurs viennent des paysages de La Réunion.</p>
+            </div>
+        </div>
+    </section>
+
+    {# ───────── Sur-mesure ───────── #}
+    <section id="commander" class="section section--commander">
+        <img src="{{ asset('images/hibiscus.png') }}" alt="" class="hibiscus hibiscus--commander">
+
+        <div class="commander__grille">
+            <div>
+                <div class="surtitre">Commander</div>
+                <h2 class="titre-section titre-section--petit">Sur-mesure &amp; sur demande</h2>
+                <p class="commander__texte">Dites-nous votre coloris, votre taille et l'occasion — mariage, naissance, cadeau. Nous confirmons le délai sous 48 h.</p>
+                <ul class="commander__liste">
+                    <li>Tailles 36 à 42</li>
+                    <li>Délai de fabrication 8 à 10 jours</li>
+                    <li>Envoi La Réunion &amp; France métropolitaine</li>
+                </ul>
+            </div>
+
+            {# Formulaire visuel : il sera remplacé par un vrai formulaire Symfony à l'étape « Sur-mesure ». #}
+            <div class="carte-formulaire">
+                <label class="champ__label" for="sm-coloris">Coloris souhaité</label>
+                <select id="sm-coloris" class="champ">
+                    {% for modele in disponibles %}<option>{{ modele.nom }} (disponible)</option>{% endfor %}
+                    {% for modele in enProduction %}<option>{{ modele.nom }}</option>{% endfor %}
+                    <option>Sur-mesure</option>
+                </select>
+
+                <span class="champ__label">Taille</span>
+                <div class="tailles">
+                    {% for taille in 36..42 %}<span class="taille">{{ taille }}</span>{% endfor %}
+                </div>
+
+                <label class="champ__label" for="sm-message">Votre message</label>
+                <textarea id="sm-message" rows="3" class="champ" placeholder="Occasion, couleurs, date souhaitée…"></textarea>
+
+                <button type="button" class="btn btn--plein btn--large">Envoyer ma demande</button>
+            </div>
+        </div>
+    </section>
+{% endblock %}

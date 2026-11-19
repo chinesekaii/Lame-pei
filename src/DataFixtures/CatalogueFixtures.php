@@ -32,47 +32,47 @@ class CatalogueFixtures extends Fixture
 
     private const MODELES = [
         [
-            'nom' => 'Capucine', 'image' => 'capucine.png', 'disponible' => true,
+            'nom' => 'Capucine', 'image' => 'capucine.png', 'couleur' => '#B4472A', 'disponible' => true,
             'poeme' => 'Terre cuite et perles pêche — la couleur des toits chauffés par le soleil.',
             'perles' => [['Nacré pêche 6 mm', '#EFB39A'], ['Rocailles ivoire 2 mm', '#F6EADF'], ['Perles dorées 2 mm', '#C79A3E'], ['Nacré rosé 6 mm', '#E8A98F']],
         ],
         [
-            'nom' => 'Bougainvilliers', 'image' => 'bougainvilliers.png', 'disponible' => true,
+            'nom' => 'Bougainvilliers', 'image' => 'bougainvilliers.png', 'couleur' => '#A02A55', 'disponible' => true,
             'poeme' => 'Fuchsia profond et perles roses — les bougainvilliers en pleine saison.',
             'perles' => [['Fuchsia 6 mm', '#C4276B'], ['Rose nacré 6 mm', '#E58AAE'], ['Rocailles framboise 2 mm', '#A02A55'], ['Perles dorées 2 mm', '#C79A3E']],
         ],
         [
-            'nom' => 'Lagon', 'image' => 'lagon.png', 'disponible' => false,
+            'nom' => 'Lagon', 'image' => 'lagon.png', 'couleur' => '#2E7C86', 'disponible' => false,
             'poeme' => 'Le premier reflet du soleil sur une eau cristalline.',
             'perles' => [['Bleu lagon 6 mm', '#57BFC9'], ['Bleu ciel 2 mm', '#8AD5DC'], ['Nacré blanc 2 mm', '#F4EFE6'], ['Doré 2 mm', '#D9AE55'], ['Turquoise 2 mm', '#4FB5A8']],
         ],
         [
-            'nom' => 'Mint Lagoon', 'image' => 'mint-lagoon.png', 'disponible' => false,
+            'nom' => 'Mint Lagoon', 'image' => 'mint-lagoon.png', 'couleur' => '#5C8348', 'disponible' => false,
             'poeme' => "Le souffle des jardins tropicaux qui rejoint l'océan.",
             'perles' => [['Mint 6 mm', '#7FBE8E'], ["Vert d'eau 2 mm", '#AFD6A6'], ['Nacré blanc 2 mm', '#F4EFE6'], ['Doré 2 mm', '#D9AE55'], ['Vert sauge 2 mm', '#6E8F5B']],
         ],
         [
-            'nom' => 'Azure Sea', 'image' => 'azure-sea.png', 'disponible' => false,
+            'nom' => 'Azure Sea', 'image' => 'azure-sea.png', 'couleur' => '#284D82', 'disponible' => false,
             'poeme' => "L'océan, immense et profond, où le bleu semble infini.",
             'perles' => [['Bleu azur 6 mm', '#2F5FA8'], ['Bleu marine 2 mm', '#1E3F73'], ['Nacré blanc 2 mm', '#EFE9DD'], ['Argenté 2 mm', '#B9BFC6'], ['Bleu roi 2 mm', '#2B6BC4']],
         ],
         [
-            'nom' => 'Fleur de sable', 'image' => 'fleur-de-sable.png', 'disponible' => false,
+            'nom' => 'Fleur de sable', 'image' => 'fleur-de-sable.png', 'couleur' => '#8C7148', 'disponible' => false,
             'poeme' => 'Le sable chaud illuminé par des reflets nacrés.',
             'perles' => [['Blanc 6 mm', '#F3EEE3'], ['Nacré blanc 2 mm', '#E9E1D2'], ['Beige 2 mm', '#E0D2BC'], ['Doré 2 mm', '#D9AE55'], ['Champagne 2 mm', '#EDE0C8']],
         ],
         [
-            'nom' => 'Butter Bloom', 'image' => 'butter-bloom.png', 'disponible' => false,
+            'nom' => 'Butter Bloom', 'image' => 'butter-bloom.png', 'couleur' => '#B58A24', 'disponible' => false,
             'poeme' => 'Les premières fleurs baignées par la lumière du matin.',
             'perles' => [['Jaune beurre 6 mm', '#F2CE63'], ['Nacré blanc 2 mm', '#EFD9A0'], ['Doré 2 mm', '#D9AE55'], ['Miel 2 mm', '#E0A93F'], ['Corail clair 2 mm', '#E9A05A']],
         ],
         [
-            'nom' => 'Coral Kiss', 'image' => 'coral-kiss.png', 'disponible' => false,
+            'nom' => 'Coral Kiss', 'image' => 'coral-kiss.png', 'couleur' => '#C15A50', 'disponible' => false,
             'poeme' => "La chaleur des récifs coralliens embrasse l'horizon.",
             'perles' => [['Rose blush 6 mm', '#DE6E72'], ['Saumon 2 mm', '#E1908E'], ['Nacré blanc 2 mm', '#F1E7DD'], ['Nacré 2 mm', '#D9AE55'], ['Terracotta 2 mm', '#D2603C']],
         ],
         [
-            'nom' => 'Lavender Shell', 'image' => 'lavender-shell.png', 'disponible' => false,
+            'nom' => 'Lavender Shell', 'image' => 'lavender-shell.png', 'couleur' => '#7658A6', 'disponible' => false,
             'poeme' => 'Quand le crépuscule habille la mer de nuances lavande.',
             'perles' => [['Lavande 6 mm', '#A48ACB'], ['Lilas 2 mm', '#BFAEDD'], ['Nacré blanc 2 mm', '#F1EBE3'], ['Doré 2 mm', '#D9AE55'], ['Améthyste 2 mm', '#7E5FA6']],
         ],
@@ -106,6 +106,7 @@ class CatalogueFixtures extends Fixture
                 ->setDescription($data['poeme'])
                 ->setPrix(self::PRIX)
                 ->setImage($data['image'])
+                ->setCouleur($data['couleur'])
                 ->setStatut($data['disponible'] ? StatutModele::Disponible : StatutModele::EnProduction)
                 ->setOrdre(($i + 1) * 10);
 
