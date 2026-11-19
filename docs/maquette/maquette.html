@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&amp;family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#FDF4EA; color:#4A2A1C; }
+  a { color:#A9502E; text-decoration:none; }
+  a:hover { color:#7C331C; }
+  ::selection { background:#F6DCC4; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(14px);} to { opacity:1; transform:none;} }
+</style>
+</helmet>
+<div style="font-family:'Jost',sans-serif;background:#FDF4EA;min-height:100vh;overflow-x:hidden;position:relative">
+
+  <header style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 40px;border-bottom:1px solid #EFD9C0;position:sticky;top:0;background:rgba(253,244,234,0.95);backdrop-filter:blur(8px);z-index:40">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:12px;letter-spacing:0.26em;color:#A9502E;text-transform:uppercase">Fait main à La Réunion</div>
+    <button onClick="{{ goHome }}" style="display:flex;align-items:center;gap:12px;background:none;border:0;cursor:pointer;padding:0">
+      <img src="img/logo.png" alt="L'Âme Peï" style="height:52px;width:auto;display:block">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:24px;letter-spacing:0.16em;color:#8C3A1E;font-weight:600">L'ÂME PEÏ</span>
+    </button>
+    <nav style="display:flex;align-items:center;gap:24px;font-size:12px;letter-spacing:0.16em;text-transform:uppercase">
+      <a href="#collection" onClick="{{ goHome }}" style="color:#A9502E">Boutique</a>
+      <a href="#bientot" onClick="{{ goHome }}" style="color:#A9502E">Bientôt</a>
+      <a href="#commander" onClick="{{ goHome }}" style="color:#A9502E">Commander</a>
+      <button onClick="{{ openCart }}" style="font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;border:1px solid #C79A3E;background:#FFF;color:#8C3A1E;padding:8px 16px;border-radius:999px;cursor:pointer">Panier ({{ cartCount }})</button>
+    </nav>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <section style="position:relative;overflow:hidden;padding:70px 40px 76px;background:linear-gradient(180deg,#FFF9F2,#FDF4EA);text-align:center">
+      <img src="img/hibiscus.png" alt="" style="position:absolute;top:-30px;left:-40px;width:300px;opacity:0.22;transform:rotate(-12deg);pointer-events:none">
+      <img src="img/hibiscus.png" alt="" style="position:absolute;bottom:-50px;right:-30px;width:340px;opacity:0.22;transform:scaleX(-1) rotate(-8deg);pointer-events:none">
+      <div style="position:relative;max-width:760px;margin:0 auto;animation:fadeUp 0.8s ease both">
+        <img src="img/logo.png" alt="L'Âme Peï — fait main" style="width:290px;height:auto;display:block;margin:0 auto 26px">
+        <div style="font-family: 'Cormorant Garamond',serif; font-style: italic; font-size: 22px; color: #A9502E; line-height: 1.5; position: static">Dann chak pa, nana un bout nout île.<br></div>
+        <p style="font-size:16px;line-height:1.85;color:#6B4634;margin:24px auto 34px;max-width:520px;text-wrap:pretty">Perles nacrées, rocailles et fil doré : chaque paire est cousue une à une, fleur après fleur. Deux modèles sont disponibles aujourd'hui — les suivants sont en atelier.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+          <a href="#collection" style="display:inline-block;background:#A9502E;color:#FFF7EE;padding:15px 30px;border-radius:999px;font-size:12px;letter-spacing:0.2em;text-transform:uppercase">Les modèles disponibles</a>
+          <a href="#commander" style="display:inline-block;border:1px solid #C79A3E;color:#A9502E;padding:15px 30px;border-radius:999px;font-size:12px;letter-spacing:0.2em;text-transform:uppercase">Sur-mesure</a>
+        </div>
+      </div>
+    </section>
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:36px;padding:20px 40px;border-block:1px solid #EFD9C0;background:#F8E7D3;font-size:11px;letter-spacing:0.24em;text-transform:uppercase;color:#A9502E;flex-wrap:wrap">
+      <span>Fait main à La Réunion</span><span style="color:#D8462A">✿</span><span>Pièces uniques</span><span style="color:#D8462A">✿</span><span>Tailles 36 à 42</span>
+    </div>
+
+    <section id="collection" style="position:relative;overflow:hidden;padding:84px 40px 60px">
+      <img src="img/hibiscus.png" alt="" style="position:absolute;top:120px;right:-70px;width:260px;opacity:0.16;transform:scaleX(-1);pointer-events:none">
+      <div style="text-align:center;max-width:620px;margin:0 auto 52px;position:relative">
+        <div style="font-size:11px;letter-spacing:0.32em;color:#C79A3E;text-transform:uppercase">Disponibles maintenant</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:50px;line-height:1.1;color:#8C3A1E;margin:14px 0 12px">Les deux premières</h2>
+        <p style="font-size:15px;line-height:1.75;color:#6B4634;margin:0"><i>Photographiées à l'atelier. Chaque paire est unique.</i></p>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:44px;justify-content:center;position:relative">
+
+        <article onClick="{{ pick0 }}" style="width:380px;cursor:pointer">
+          <div style="width:380px;height:633px;background-image:url('img/capucine.png');background-size:cover;background-position:center;border:1px solid #EFD9C0"></div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:18px">
+            <h3 style="font-family:'Cormorant Garamond',serif;font-size:32px;letter-spacing:0.06em;color:#B4472A;margin:0">Capucine</h3>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#8C3A1E">{{ priceLabel }}</span>
+          </div>
+          <p style="font-size:13px;line-height:1.7;color:#6B4634;margin:8px 0 14px">Terre cuite et perles pêche — la couleur des toits chauffés par le soleil.</p>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span style="width:14px;height:14px;border-radius:50%;background:#B4472A"></span>
+            <span style="width:14px;height:14px;border-radius:50%;background:#EFB39A"></span>
+            <span style="width:14px;height:14px;border-radius:50%;background:#F6EADF"></span>
+            <span style="width:14px;height:14px;border-radius:50%;background:#C79A3E"></span>
+            <span style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#A9502E;margin-left:8px">Découvrir</span>
+          </div>
+        </article>
+
+        <article onClick="{{ pick1 }}" style="width:380px;cursor:pointer">
+          <div style="width:380px;height:633px;background-image:url('img/bougainvilliers.png');background-size:cover;background-position:center;border:1px solid #EFD9C0"></div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:18px">
+            <h3 style="font-family:'Cormorant Garamond',serif;font-size:32px;letter-spacing:0.06em;color:#A02A55;margin:0">Bougainvilliers</h3>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#8C3A1E">{{ priceLabel }}</span>
+          </div>
+          <p style="font-size:13px;line-height:1.7;color:#6B4634;margin:8px 0 14px">Fuchsia profond et perles roses — les bougainvilliers en pleine saison.</p>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span style="width:14px;height:14px;border-radius:50%;background:#A02A55"></span>
+            <span style="width:14px;height:14px;border-radius:50%;background:#D64B85"></span>
+            <span style="width:14px;height:14px;border-radius:50%;background:#EFA9C4"></span>
+            <span style="width:14px;height:14px;border-radius:50%;background:#C79A3E"></span>
+            <span style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#A9502E;margin-left:8px">Découvrir</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="bientot" style="position:relative;overflow:hidden;margin-top:70px;padding:76px 40px 80px;background:#F8E7D3;border-block:1px solid #EFD9C0">
+      <img src="img/hibiscus.png" alt="" style="position:absolute;bottom:-60px;left:-60px;width:300px;opacity:0.2;pointer-events:none">
+      <div style="text-align:center;max-width:640px;margin:0 auto 46px;position:relative">
+        <div style="font-size:11px;letter-spacing:0.32em;color:#C79A3E;text-transform:uppercase">En production</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:46px;line-height:1.1;color:#8C3A1E;margin:14px 0 12px">Bientôt à l'atelier</h2>
+        <p style="font-size:15px;line-height:1.75;color:#6B4634;margin:0">Sept coloris en cours de broderie. Dites-nous celui qui vous plaît : nous vous prévenons dès sa sortie.</p>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:22px;justify-content:center;max-width:1120px;margin:0 auto;position:relative">
+
+        <article onClick="{{ pick2 }}" style="width:180px;cursor:pointer">
+          <div style="position:relative;width:180px;height:350px;background-image:url('img/lagon.png');background-size:cover;background-position:center;border:1px solid #EFD9C0">
+            <span style="position:absolute;top:10px;left:10px;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;background:rgba(253,244,234,0.92);color:#A9502E;padding:5px 9px">En production</span>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#2E7C86;margin-top:10px">Lagon</div>
+        </article>
+
+        <article onClick="{{ pick3 }}" style="width:180px;cursor:pointer">
+          <div style="position:relative;width:180px;height:350px;background-image:url('img/mint-lagoon.png');background-size:cover;background-position:center;border:1px solid #EFD9C0">
+            <span style="position:absolute;top:10px;left:10px;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;background:rgba(253,244,234,0.92);color:#A9502E;padding:5px 9px">En production</span>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#5C8348;margin-top:10px">Mint Lagoon</div>
+        </article>
+
+        <article onClick="{{ pick4 }}" style="width:180px;cursor:pointer">
+          <div style="position:relative;width:180px;height:350px;background-image:url('img/azure-sea.png');background-size:cover;background-position:center;border:1px solid #EFD9C0">
+            <span style="position:absolute;top:10px;left:10px;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;background:rgba(253,244,234,0.92);color:#A9502E;padding:5px 9px">En production</span>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#284D82;margin-top:10px">Azure Sea</div>
+        </article>
+
+        <article onClick="{{ pick5 }}" style="width:180px;cursor:pointer">
+          <div style="position:relative;width:180px;height:350px;background-image:url('img/fleur-de-sable.png');background-size:cover;background-position:center;border:1px solid #EFD9C0">
+            <span style="position:absolute;top:10px;left:10px;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;background:rgba(253,244,234,0.92);color:#A9502E;padding:5px 9px">En production</span>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#8C7148;margin-top:10px">Fleur de sable</div>
+        </article>
+
+        <article onClick="{{ pick6 }}" style="width:180px;cursor:pointer">
+          <div style="position:relative;width:180px;height:350px;background-image:url('img/butter-bloom.png');background-size:cover;background-position:center;border:1px solid #EFD9C0">
+            <span style="position:absolute;top:10px;left:10px;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;background:rgba(253,244,234,0.92);color:#A9502E;padding:5px 9px">En production</span>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#B58A24;margin-top:10px">Butter Bloom</div>
+        </article>
+
+        <article onClick="{{ pick7 }}" style="width:180px;cursor:pointer">
+          <div style="position:relative;width:180px;height:350px;background-image:url('img/coral-kiss.png');background-size:cover;background-position:center;border:1px solid #EFD9C0">
+            <span style="position:absolute;top:10px;left:10px;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;background:rgba(253,244,234,0.92);color:#A9502E;padding:5px 9px">En production</span>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#C15A50;margin-top:10px">Coral Kiss</div>
+        </article>
+
+        <article onClick="{{ pick8 }}" style="width:180px;cursor:pointer">
+          <div style="position:relative;width:180px;height:350px;background-image:url('img/lavender-shell.png');background-size:cover;background-position:center;border:1px solid #EFD9C0">
+            <span style="position:absolute;top:10px;left:10px;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;background:rgba(253,244,234,0.92);color:#A9502E;padding:5px 9px">En production</span>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#7658A6;margin-top:10px">Lavender Shell</div>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="savoirfaire" style="padding:80px 40px;position:relative;overflow:hidden">
+      <div style="max-width:1040px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:46px">
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#D8462A">✿</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:25px;color:#8C3A1E;margin:10px 0 12px;font-weight:500">Brodé à la main</h3>
+          <p style="font-size:14px;line-height:1.85;color:#6B4634;margin:0">Chaque bride est cousue à l'aiguille sur une tong Havaianas, perle après perle, dans notre atelier de l'île.</p>
+        </div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#C79A3E">❍</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:25px;color:#8C3A1E;margin:10px 0 12px;font-weight:500">Pièces uniques</h3>
+          <p style="font-size:14px;line-height:1.85;color:#6B4634;margin:0">Perles nacrées 6 mm, rocailles et perles dorées 2 mm, fil nylon résistant : deux paires ne sont jamais identiques.</p>
+        </div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;color:#EE8A73">♡</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:25px;color:#8C3A1E;margin:10px 0 12px;font-weight:500">L'âme péi</h3>
+          <p style="font-size:14px;line-height:1.85;color:#6B4634;margin:0">Hibiscus, bougainvilliers, terre volcanique : nos couleurs viennent des paysages de La Réunion.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="commander" style="position:relative;overflow:hidden;padding:80px 40px 90px;background:#F8E7D3;border-top:1px solid #EFD9C0">
+      <img src="img/hibiscus.png" alt="" style="position:absolute;top:-40px;right:-50px;width:280px;opacity:0.2;transform:scaleX(-1);pointer-events:none">
+      <div style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;position:relative">
+        <div>
+          <div style="font-size:11px;letter-spacing:0.32em;color:#C79A3E;text-transform:uppercase">Commander</div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:42px;line-height:1.1;color:#8C3A1E;margin:14px 0 16px">Sur-mesure &amp; sur demande</h2>
+          <p style="font-size:15px;line-height:1.8;color:#6B4634;margin:0 0 22px;text-wrap:pretty">Dites-nous votre coloris, votre taille et l'occasion — mariage, naissance, cadeau. Nous confirmons le délai sous 48 h.</p>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;font-size:14px;color:#6B4634">
+            <li>Tailles 36 à 42</li>
+            <li>Délai de fabrication 8 à 10 jours</li>
+            <li>Envoi La Réunion &amp; France métropolitaine</li>
+          </ul>
+        </div>
+        <div style="background:#FFF;border:1px solid #EFD9C0;padding:30px">
+          <label style="display:block;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#A9502E;margin-bottom:8px">Coloris souhaité</label>
+          <select style="width:100%;font-family:'Jost',sans-serif;font-size:14px;padding:12px;border:1px solid #EFD9C0;background:#FFF9F2;color:#8C3A1E;margin-bottom:20px">
+            <option>Capucine (disponible)</option><option>Bougainvilliers (disponible)</option><option>Lagon</option><option>Mint Lagoon</option><option>Azure Sea</option><option>Fleur de sable</option><option>Butter Bloom</option><option>Coral Kiss</option><option>Lavender Shell</option><option>Sur-mesure</option>
+          </select>
+          <label style="display:block;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#A9502E;margin-bottom:8px">Taille</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+            <span style="border:1px solid #EFD9C0;padding:8px 13px;font-size:13px;color:#6B4634">36</span>
+            <span style="border:1px solid #EFD9C0;padding:8px 13px;font-size:13px;color:#6B4634">37</span>
+            <span style="border:1px solid #EFD9C0;padding:8px 13px;font-size:13px;color:#6B4634">38</span>
+            <span style="border:1px solid #EFD9C0;padding:8px 13px;font-size:13px;color:#6B4634">39</span>
+            <span style="border:1px solid #EFD9C0;padding:8px 13px;font-size:13px;color:#6B4634">40</span>
+            <span style="border:1px solid #EFD9C0;padding:8px 13px;font-size:13px;color:#6B4634">41</span>
+            <span style="border:1px solid #EFD9C0;padding:8px 13px;font-size:13px;color:#6B4634">42</span>
+          </div>
+          <label style="display:block;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#A9502E;margin-bottom:8px">Votre message</label>
+          <textarea rows="3" placeholder="Occasion, couleurs, date souhaitée…" style="width:100%;box-sizing:border-box;font-family:'Jost',sans-serif;font-size:14px;padding:12px;border:1px solid #EFD9C0;background:#FFF9F2;color:#8C3A1E;margin-bottom:22px"></textarea>
+          <button style="width:100%;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;background:#A9502E;color:#FFF7EE;border:0;padding:15px;border-radius:999px;cursor:pointer">Envoyer ma demande</button>
+        </div>
+      </div>
+    </section>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isProduct }}" hint-placeholder-val="{{ false }}">
+  <div style="animation:fadeUp 0.5s ease both;position:relative;overflow:hidden">
+    <img src="img/hibiscus.png" alt="" style="position:absolute;top:60px;left:-70px;width:260px;opacity:0.14;pointer-events:none">
+    <div style="padding:22px 40px 0;max-width:1160px;margin:0 auto;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#C79A3E;position:relative">
+      <a href="#collection" onClick="{{ goHome }}" style="color:#C79A3E">Boutique</a> &nbsp;/&nbsp; {{ pName }}
+    </div>
+    <section style="max-width:1160px;margin:0 auto;padding:26px 40px 70px;display:grid;grid-template-columns:0.95fr 1.05fr;gap:60px;align-items:start;position:relative">
+      <div style="border:1px solid #EFD9C0;padding:12px;background:#FFF">
+        <div style="width:100%;aspect-ratio:{{ pRatio }};background-image:url('{{ pImg }}');background-size:cover;background-position:center;background-color:{{ pTint }}"></div>
+      </div>
+      <div style="position:sticky;top:110px">
+        <sc-if value="{{ pSoon }}" hint-placeholder-val="{{ false }}">
+          <div style="display:inline-block;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#A9502E;border:1px solid #C79A3E;padding:6px 12px;margin-bottom:16px">En production</div>
+        </sc-if>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:54px;line-height:1.05;letter-spacing:0.04em;margin:0;color:{{ pColor }}">{{ pTitle }}</h1>
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;line-height:1.5;color:#A9502E;margin:14px 0 22px;max-width:430px">{{ pPoem }}</p>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:#8C3A1E">{{ priceLabel }}</div>
+
+        <div style="font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#C79A3E;margin:32px 0 14px">Palette de perles</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ pBeads }}" as="b" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:13px;font-size:14px;color:#6B4634">
+              <span style="width:17px;height:17px;border-radius:50%;background:{{ b.hex }};box-shadow:inset -2px -2px 4px rgba(0,0,0,0.18)"></span>{{ b.label }}
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#C79A3E;margin:32px 0 14px">Matériaux</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;color:#6B4634">
+          <sc-for list="{{ materials }}" as="m" hint-placeholder-count="5">
+            <div>· {{ m }}</div>
+          </sc-for>
+        </div>
+
+        <div style="font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#C79A3E;margin:32px 0 14px">Taille</div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <sc-for list="{{ sizeOptions }}" as="s" hint-placeholder-count="7">
+            <button onClick="{{ s.pick }}" style="font-family:'Jost',sans-serif;cursor:pointer;padding:12px 16px;font-size:14px;border:1px solid {{ s.border }};background:{{ s.bg }};color:{{ s.fg }}">{{ s.n }}</button>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ pAvailable }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <button onClick="{{ add }}" style="margin-top:30px;width:min(380px,100%);font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;background:#A9502E;color:#FFF7EE;border:0;padding:16px;border-radius:999px;cursor:pointer">Ajouter au panier</button>
+            <p style="font-size:13px;color:#A9502E;line-height:1.75;margin:16px 0 0;max-width:380px">Paire déjà brodée, prête à partir. Envoi suivi sous 48 h.</p>
+          </div>
+        </sc-if>
+        <sc-if value="{{ pSoon }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <a href="#commander" onClick="{{ goHome }}" style="display:inline-block;margin-top:30px;width:min(380px,100%);text-align:center;box-sizing:border-box;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;border:1px solid #A9502E;color:#A9502E;padding:16px;border-radius:999px">Me prévenir de sa sortie</a>
+            <p style="font-size:13px;color:#A9502E;line-height:1.75;margin:16px 0 0;max-width:380px">Modèle en cours de broderie — visuel de la planche de collection. Comptez 8 à 10 jours après lancement.</p>
+          </div>
+        </sc-if>
+      </div>
+    </section>
+
+    <section style="padding:56px 40px 90px;background:#F8E7D3;border-top:1px solid #EFD9C0">
+      <div style="max-width:1160px;margin:0 auto">
+        <div style="font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#C79A3E;margin-bottom:24px">Autres modèles</div>
+        <div style="display:flex;gap:18px;flex-wrap:wrap">
+          <sc-for list="{{ others }}" as="o" hint-placeholder-count="6">
+            <div onClick="{{ o.go }}" style="width:140px;cursor:pointer">
+              <div style="width:140px;height:272px;background-image:url('{{ o.img }}');background-size:cover;background-position:center;border:1px solid #EFD9C0"></div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:17px;margin-top:9px;color:{{ o.color }}">{{ o.name }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </div>
+  </sc-if>
+
+  <footer style="padding:44px 40px;background:#8C3A1E;color:#F8E2CE">
+    <div style="max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:14px">
+        <img src="img/logo.png" alt="" style="height:54px;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.9">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:22px;letter-spacing:0.16em">L'ÂME PEÏ</span>
+      </div>
+      <div style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#E8BFA2">Tongs perlées fait main · La Réunion</div>
+      <div style="display:flex;gap:20px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase">
+        <a href="#collection" onClick="{{ goHome }}" style="color:#F8E2CE">Boutique</a>
+        <a href="#commander" onClick="{{ goHome }}" style="color:#F8E2CE">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <sc-if value="{{ cartOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeCart }}" style="position:fixed;inset:0;background:rgba(90,40,20,0.42);z-index:60"></div>
+  </sc-if>
+  <sc-if value="{{ cartOpen }}" hint-placeholder-val="{{ false }}">
+    <aside style="position:fixed;top:0;right:0;bottom:0;width:min(400px,92vw);background:#FFF9F2;border-left:1px solid #EFD9C0;z-index:61;overflow-y:auto;padding:26px 28px 40px;box-shadow:-30px 0 60px -40px rgba(140,58,30,0.6)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+        <span style="font-size:11px;letter-spacing:0.24em;text-transform:uppercase;color:#C79A3E">Panier</span>
+        <button onClick="{{ closeCart }}" style="font-family:'Jost',sans-serif;background:none;border:0;font-size:22px;color:#A9502E;cursor:pointer;line-height:1">×</button>
+      </div>
+      <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ true }}">
+        <p style="font-size:14px;color:#6B4634">Votre panier est vide.</p>
+      </sc-if>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <sc-for list="{{ cartLines }}" as="l" hint-placeholder-count="0">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #EFD9C0;padding-bottom:12px">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#8C3A1E">{{ l.name }} <span style="font-family:'Jost',sans-serif;font-size:12px;color:#A9502E">Taille {{ l.size }}</span></span>
+            <span style="font-size:14px;color:#6B4634">{{ l.price }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ hasCart }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-top:22px;font-family:'Cormorant Garamond',serif;font-size:22px;color:#8C3A1E">
+            <span>Total</span><span>{{ totalLabel }}</span>
+          </div>
+          <button style="margin-top:24px;width:100%;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;background:#A9502E;color:#FFF7EE;border:0;padding:15px;border-radius:999px;cursor:pointer">Passer commande</button>
+        </div>
+      </sc-if>
+    </aside>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;price&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:45,&quot;tsType&quot;:&quot;number&quot;,&quot;unit&quot;:&quot;€&quot;,&quot;min&quot;:20,&quot;max&quot;:150,&quot;section&quot;:&quot;Boutique&quot;}}">
+const MODELS = [
+  { name: "Capucine", file: "capucine", ratio: "900 / 1500", color: "#B4472A", tint: "#F6E4DC", available: true,
+    poem: "Terre cuite et perles pêche — la couleur des toits chauffés par le soleil.",
+    beads: [["Nacré pêche 6 mm","#EFB39A"],["Rocailles ivoire 2 mm","#F6EADF"],["Perles dorées 2 mm","#C79A3E"],["Nacré rosé 6 mm","#E8A98F"]] },
+  { name: "Bougainvilliers", file: "bougainvilliers", ratio: "900 / 1500", color: "#A02A55", tint: "#F5E2E8", available: true,
+    poem: "Fuchsia profond et perles roses — les bougainvilliers en pleine saison.",
+    beads: [["Fuchsia 6 mm","#C4276B"],["Rose nacré 6 mm","#E58AAE"],["Rocailles framboise 2 mm","#A02A55"],["Perles dorées 2 mm","#C79A3E"]] },
+  { name: "Lagon", file: "lagon", ratio: "140 / 272", color: "#2E7C86", tint: "#EAF2F1", available: false,
+    poem: "Le premier reflet du soleil sur une eau cristalline.",
+    beads: [["Bleu lagon 6 mm","#57BFC9"],["Bleu ciel 2 mm","#8AD5DC"],["Nacré blanc 2 mm","#F4EFE6"],["Doré 2 mm","#D9AE55"],["Turquoise 2 mm","#4FB5A8"]] },
+  { name: "Mint Lagoon", file: "mint-lagoon", ratio: "140 / 272", color: "#5C8348", tint: "#EDF3E7", available: false,
+    poem: "Le souffle des jardins tropicaux qui rejoint l'océan.",
+    beads: [["Mint 6 mm","#7FBE8E"],["Vert d'eau 2 mm","#AFD6A6"],["Nacré blanc 2 mm","#F4EFE6"],["Doré 2 mm","#D9AE55"],["Vert sauge 2 mm","#6E8F5B"]] },
+  { name: "Azure Sea", file: "azure-sea", ratio: "140 / 272", color: "#284D82", tint: "#E8ECF2", available: false,
+    poem: "L'océan, immense et profond, où le bleu semble infini.",
+    beads: [["Bleu azur 6 mm","#2F5FA8"],["Bleu marine 2 mm","#1E3F73"],["Nacré blanc 2 mm","#EFE9DD"],["Argenté 2 mm","#B9BFC6"],["Bleu roi 2 mm","#2B6BC4"]] },
+  { name: "Fleur de sable", file: "fleur-de-sable", ratio: "140 / 272", color: "#8C7148", tint: "#F7F2EA", available: false,
+    poem: "Le sable chaud illuminé par des reflets nacrés.",
+    beads: [["Blanc 6 mm","#F3EEE3"],["Nacré blanc 2 mm","#E9E1D2"],["Beige 2 mm","#E0D2BC"],["Doré 2 mm","#D9AE55"],["Champagne 2 mm","#EDE0C8"]] },
+  { name: "Butter Bloom", file: "butter-bloom", ratio: "140 / 272", color: "#B58A24", tint: "#FBF3DF", available: false,
+    poem: "Les premières fleurs baignées par la lumière du matin.",
+    beads: [["Jaune beurre 6 mm","#F2CE63"],["Nacré blanc 2 mm","#EFD9A0"],["Doré 2 mm","#D9AE55"],["Miel 2 mm","#E0A93F"],["Corail clair 2 mm","#E9A05A"]] },
+  { name: "Coral Kiss", file: "coral-kiss", ratio: "140 / 272", color: "#C15A50", tint: "#FAEBE6", available: false,
+    poem: "La chaleur des récifs coralliens embrasse l'horizon.",
+    beads: [["Rose blush 6 mm","#DE6E72"],["Saumon 2 mm","#E1908E"],["Nacré blanc 2 mm","#F1E7DD"],["Nacré 2 mm","#D9AE55"],["Terracotta 2 mm","#D2603C"]] },
+  { name: "Lavender Shell", file: "lavender-shell", ratio: "140 / 272", color: "#7658A6", tint: "#F0ECF6", available: false,
+    poem: "Quand le crépuscule habille la mer de nuances lavande.",
+    beads: [["Lavande 6 mm","#A48ACB"],["Lilas 2 mm","#BFAEDD"],["Nacré blanc 2 mm","#F1EBE3"],["Doré 2 mm","#D9AE55"],["Améthyste 2 mm","#7E5FA6"]] }
+];
+const SIZES = [36,37,38,39,40,41,42];
+const MATERIALS = ["Perles rondes nacrées (6 mm)","Perles rocailles (2 mm)","Perles dorées (2 mm)","Fil nylon ou polyester résistant","Tongs Havaianas"];
+
+class Component extends DCLogic {
+  state = { page: "home", index: 0, size: 39, cart: [], cartOpen: false };
+
+  price() { return this.props.price ?? 45; }
+  go = (i) => { this.setState({ page: "product", index: i, size: 39, cartOpen: false }); window.scrollTo(0, 0); };
+  goHome = () => { this.setState({ page: "home", cartOpen: false }); };
+  add = () => {
+    const m = MODELS[this.state.index];
+    this.setState(s => ({ cart: s.cart.concat([{ name: m.name, size: s.size }]), cartOpen: true }));
+  };
+
+  renderVals() {
+    const m = MODELS[this.state.index];
+    const cart = this.state.cart;
+    const picks = {};
+    MODELS.forEach((_, i) => { picks["pick" + i] = () => this.go(i); });
+    return {
+      isHome: this.state.page === "home",
+      isProduct: this.state.page === "product",
+      goHome: this.goHome,
+      priceLabel: this.price() + " €",
+      materials: MATERIALS,
+      pName: m.name,
+      pTitle: m.name.toUpperCase(),
+      pPoem: m.poem,
+      pImg: "img/" + m.file + ".png",
+      pRatio: m.ratio,
+      pColor: m.color,
+      pTint: m.tint,
+      pAvailable: m.available,
+      pSoon: !m.available,
+      pBeads: m.beads.map(b => ({ label: b[0], hex: b[1] })),
+      sizeOptions: SIZES.map(n => ({
+        n,
+        pick: () => this.setState({ size: n }),
+        border: n === this.state.size ? m.color : "#EFD9C0",
+        bg: n === this.state.size ? m.color : "#FFFFFF",
+        fg: n === this.state.size ? "#FFFFFF" : "#6B4634"
+      })),
+      others: MODELS.map((o, i) => ({ name: o.name, color: o.color, img: "img/" + o.file + ".png", go: () => this.go(i) })).filter((o, i) => i !== this.state.index),
+      add: this.add,
+      cartOpen: this.state.cartOpen,
+      openCart: () => this.setState({ cartOpen: true }),
+      closeCart: () => this.setState({ cartOpen: false }),
+      cartCount: cart.length,
+      cartEmpty: cart.length === 0,
+      hasCart: cart.length > 0,
+      cartLines: cart.map(it => ({ name: it.name, size: it.size, price: this.price() + " €" })),
+      totalLabel: cart.length * this.price() + " €",
+      ...picks
+    };
+  }
+}
+</script>
+</body>
+</html>
