@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ modele.nom }} · L'ÂME PEÏ{% endblock %}
+{% block meta_description %}{{ modele.nom }} — {{ modele.description ?? modele.accroche }} Tongs brodées à la main à La Réunion.{% endblock %}
+
+{% block body %}
+    <div class="fiche">
+        <img src="{{ asset('images/hibiscus.png') }}" alt="" class="hibiscus hibiscus--fiche">
+
+        <nav class="fil-ariane" aria-label="Fil d'Ariane">
+            <a href="{{ path('app_home') }}#collection">Boutique</a> &nbsp;/&nbsp; {{ modele.nom }}
+        </nav>
+
+        <section class="fiche__grille">
+            <div class="fiche__visuel">
+                <img src="{{ asset('images/modeles/' ~ modele.image) }}" alt="Tongs {{ modele.nom }} brodées de perles">
+            </div>
+
+            <div class="fiche__infos">
+                {% if not modele.disponible %}
+                    <div class="etiquette">En production</div>
+                {% endif %}
+
+                <h1 class="fiche__titre" style="color: {{ modele.couleur ?? '#8C3A1E' }}">{{ modele.nom|upper }}</h1>
+                <p class="fiche__poeme">{{ modele.description ?? modele.accroche }}</p>
+                <div class="fiche__prix">{{ modele.prix|prix }}</div>
+
+                {% if modele.couleursPerle is not empty %}
+                    <div class="fiche__rubrique">Palette de perles</div>
+                    <ul class="palette">
+                        {% for couleur in modele.couleursPerle %}
+                            <li><span class="perle" style="background: {{ couleur.codeHex }}"></span>{{ couleur.nom }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if modele.materiaux is not empty %}
+                    <div class="fiche__rubrique">Matériaux</div>
+                    <ul class="materiaux">
+                        {% for materiau in modele.materiaux %}
+                            <li>· {{ materiau.libelle }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if modele.disponible %}
+                    {# Le formulaire sera relié au panier à l'étape « Panier et commande ». #}
+                    <form class="fiche__achat" method="post" onsubmit="return false">
+                        <fieldset class="choix-taille">
+                            <legend class="fiche__rubrique">Taille</legend>
+                            <div class="tailles-fiche">
+                                {% for variante in modele.variantes %}
+                                    <label class="taille-choix{{ variante.enStock ? '' : ' taille-choix--epuisee' }}"
+                                           title="{{ variante.enStock ? 'Pointure ' ~ variante.pointure : 'Épuisée' }}">
+                                        <input type="radio" name="variante" value="{{ variante.id }}" required
+                                               {{ variante.pointure == pointureSelectionnee ? 'checked' }}
+                                               {{ variante.enStock ? '' : 'disabled' }}>
+                                        <span>{{ variante.pointure }}</span>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+
+                        {% if pointureSelectionnee %}
+                            <button type="submit" class="btn btn--plein btn--fiche">Ajouter au panier</button>
+                            <p class="fiche__note">Paire déjà brodée, prête à partir. Envoi suivi sous 48 h.</p>
+                        {% else %}
+                            <p class="fiche__note">Toutes les paires de ce modèle sont parties. Demandez-la en <a href="{{ path('app_home') }}#commander">sur-mesure</a>.</p>
+                        {% endif %}
+                    </form>
+                {% else %}
+                    <div class="fiche__rubrique">Taille</div>
+                    <div class="tailles-fiche">
+                        {% for pointure in 36..42 %}
+                            <span class="taille-choix"><span>{{ pointure }}</span></span>
+                        {% endfor %}
+                    </div>
+
+                    <a href="{{ path('app_home') }}#commander" class="btn btn--contour-fort btn--fiche">Me prévenir de sa sortie</a>
+                    <p class="fiche__note">Modèle en cours de broderie — visuel de la planche de collection. Comptez 8 à 10 jours après lancement.</p>
+                {% endif %}
+            </div>
+        </section>
+
+        {% if autres is not empty %}
+            <section class="autres">
+                <div class="autres__inner">
+                    <div class="surtitre autres__titre">Autres modèles</div>
+                    <div class="autres__liste">
+                        {% for autre in autres %}
+                            <a href="{{ path('app_modele_show', {slug: autre.slug}) }}" class="autre">
+                                <div class="autre__image" style="background-image: url('{{ asset('images/modeles/' ~ autre.image) }}')" role="img" aria-label="Tongs {{ autre.nom }}"></div>
+                                <div class="autre__nom" style="color: {{ autre.couleur ?? '#8C3A1E' }}">{{ autre.nom }}</div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+    </div>
+{% endblock %}

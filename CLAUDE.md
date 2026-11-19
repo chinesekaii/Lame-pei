@@ -76,7 +76,8 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
 - [x] Fixtures (`src/DataFixtures` : catalogue de la maquette, comptes admin@lamepei.re / admin1234 et client@lamepei.re / client1234, données de démo)
 - [x] Layout Twig fidèle à la maquette (`base.html.twig` + `templates/partials/`, CSS dans `assets/styles/app.css`, images dans `assets/images/`, filtre Twig `|prix`, tiroir panier Stimulus `panier_controller.js`)
 - [x] Page d'accueil (`HomeController`, modèles chargés depuis la base, champ `Modele::couleur` pour la couleur du titre)
-- [ ] Fiche produit (route par slug) et liens « Découvrir » depuis l'accueil
+- [x] Fiche produit (`ModeleController`, route `/modele/{slug}`, 404 si inconnu ou archivé, choix de pointure selon le stock, autres modèles) et liens depuis l'accueil
+- [ ] Brancher « Ajouter au panier » (formulaire présent sur la fiche, `onsubmit` bloqué en attendant) et « Me prévenir de sa sortie » (renvoie pour l'instant vers #commander)
 - [ ] Panier persistant et commande
 - [ ] Formulaire sur-mesure et alertes de sortie
 - [ ] Authentification et espace client

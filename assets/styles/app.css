@@ -363,8 +363,32 @@ img {
 }
 
 .carte {
+    display: block;
     width: 380px;
     max-width: 100%;
+    color: inherit;
+}
+
+.carte:hover,
+.vignette:hover {
+    color: inherit;
+}
+
+.carte__image,
+.vignette__image,
+.autre__image {
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.carte:hover .carte__image,
+.vignette:hover .vignette__image,
+.autre:hover .autre__image {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px -28px rgba(140, 58, 30, 0.55);
+}
+
+.carte:hover .carte__lien {
+    color: var(--brun-volcan);
 }
 
 .carte__image {
@@ -442,6 +466,7 @@ img {
 }
 
 .vignette {
+    display: block;
     width: 180px;
 }
 
@@ -576,6 +601,277 @@ textarea.champ {
     padding: 8px 13px;
     font-size: 13px;
     color: var(--brun-bois);
+}
+
+/* ---------- Fiche produit ---------- */
+
+.fiche {
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+}
+
+.hibiscus--fiche { top: 60px; left: -70px; width: 260px; opacity: 0.14; }
+
+.fil-ariane {
+    position: relative;
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 22px var(--gouttiere) 0;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--or);
+}
+
+.fil-ariane a {
+    color: var(--or);
+}
+
+.fil-ariane a:hover {
+    color: var(--terre-cuite);
+}
+
+.fiche__grille {
+    position: relative;
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 26px var(--gouttiere) 70px;
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.fiche__visuel {
+    border: 1px solid var(--sable);
+    padding: 12px;
+    background: #FFF;
+}
+
+.fiche__visuel img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.fiche__infos {
+    position: sticky;
+    top: 110px;
+}
+
+.etiquette {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terre-cuite);
+    border: 1px solid var(--or);
+    padding: 6px 12px;
+    margin-bottom: 16px;
+}
+
+.fiche__titre {
+    font-family: var(--police-titre);
+    font-weight: 500;
+    font-size: 54px;
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    margin: 0;
+}
+
+.fiche__poeme {
+    font-family: var(--police-titre);
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--terre-cuite);
+    margin: 14px 0 22px;
+    max-width: 430px;
+}
+
+.fiche__prix {
+    font-family: var(--police-titre);
+    font-size: 28px;
+    color: var(--brun-volcan);
+}
+
+.fiche__rubrique {
+    display: block;
+    padding: 0;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin: 32px 0 14px;
+}
+
+.palette,
+.materiaux {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    color: var(--brun-bois);
+}
+
+.palette { gap: 10px; }
+.materiaux { gap: 8px; }
+
+.palette li {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.perle {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.18);
+}
+
+.choix-taille {
+    border: 0;
+    padding: 0;
+    margin: 32px 0 0;
+    min-width: 0;
+}
+
+/* Une <legend> ignore margin-top : on la sort du flux pour l'aligner comme les autres rubriques */
+.choix-taille legend.fiche__rubrique {
+    float: left;
+    width: 100%;
+    margin-top: 0;
+}
+
+.choix-taille .tailles-fiche {
+    clear: both;
+}
+
+.tailles-fiche {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.taille-choix {
+    position: relative;
+    cursor: pointer;
+}
+
+.taille-choix input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.taille-choix span {
+    display: block;
+    padding: 12px 16px;
+    font-size: 14px;
+    border: 1px solid var(--sable);
+    background: #FFF;
+    color: var(--brun-bois);
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.taille-choix:hover span {
+    border-color: var(--or);
+}
+
+.taille-choix input:checked + span {
+    border-color: var(--terre-cuite);
+    background: var(--terre-cuite);
+    color: var(--texte-bouton);
+}
+
+.taille-choix input:focus-visible + span {
+    outline: 2px solid var(--or);
+    outline-offset: 2px;
+}
+
+.taille-choix--epuisee {
+    cursor: not-allowed;
+}
+
+.taille-choix--epuisee span,
+.taille-choix--epuisee:hover span {
+    border-color: var(--sable);
+    color: #C9B3A3;
+    text-decoration: line-through;
+}
+
+.btn--fiche {
+    margin-top: 30px;
+    width: min(380px, 100%);
+    padding: 16px;
+    text-align: center;
+}
+
+.btn--contour-fort {
+    border: 1px solid var(--terre-cuite);
+    color: var(--terre-cuite);
+    background: transparent;
+}
+
+.btn--contour-fort:hover {
+    background: var(--terre-cuite);
+    color: var(--texte-bouton);
+}
+
+.fiche__note {
+    font-size: 13px;
+    color: var(--terre-cuite);
+    line-height: 1.75;
+    margin: 16px 0 0;
+    max-width: 380px;
+}
+
+/* Autres modèles */
+
+.autres {
+    padding: 56px var(--gouttiere) 90px;
+    background: var(--fond-section);
+    border-top: 1px solid var(--sable);
+}
+
+.autres__inner {
+    max-width: 1160px;
+    margin: 0 auto;
+}
+
+.autres__titre {
+    letter-spacing: 0.3em;
+    margin-bottom: 24px;
+}
+
+.autres__liste {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.autre {
+    display: block;
+    width: 140px;
+}
+
+.autre__image {
+    width: 100%;
+    aspect-ratio: 140 / 272;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--sable);
+}
+
+.autre__nom {
+    font-family: var(--police-titre);
+    font-size: 17px;
+    margin-top: 9px;
 }
 
 /* ---------- Pied de page ---------- */
@@ -717,6 +1013,19 @@ textarea.champ {
     .titre-section { font-size: 40px; }
     .titre-section--moyen { font-size: 38px; }
     .titre-section--petit { font-size: 36px; }
+
+    .fiche__grille {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+
+    .fiche__visuel {
+        max-width: 480px;
+        margin: 0 auto;
+    }
+
+    .fiche__infos { position: static; }
+    .fiche__titre { font-size: 44px; }
 }
 
 @media (max-width: 560px) {
@@ -738,6 +1047,10 @@ textarea.champ {
 
     .grille-bientot { gap: 14px; }
     .vignette { width: calc(50% - 7px); }
+
+    .fiche__titre { font-size: 38px; }
+    .autres__liste { gap: 12px; }
+    .autre { width: calc(33.333% - 8px); }
 
     .footer__inner { justify-content: center; text-align: center; }
 }

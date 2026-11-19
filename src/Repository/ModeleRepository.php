@@ -35,4 +35,39 @@ class ModeleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Modèle visible sur le site (non archivé), avec ses variantes,
+     * sa palette et ses matériaux chargés en une seule requête.
+     */
+    public function findOneVisibleBySlug(string $slug): ?Modele
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin('m.variantes', 'v')->addSelect('v')
+            ->leftJoin('m.couleursPerle', 'c')->addSelect('c')
+            ->leftJoin('m.materiaux', 'mat')->addSelect('mat')
+            ->andWhere('m.slug = :slug')
+            ->andWhere('m.statut != :archive')
+            ->setParameter('slug', $slug)
+            ->setParameter('archive', StatutModele::Archive)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * Les autres modèles visibles, pour le bloc « Autres modèles » de la fiche.
+     *
+     * @return Modele[]
+     */
+    public function findAutres(Modele $modele): array
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m != :modele')
+            ->andWhere('m.statut != :archive')
+            ->setParameter('modele', $modele)
+            ->setParameter('archive', StatutModele::Archive)
+            ->orderBy('m.ordre', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }
