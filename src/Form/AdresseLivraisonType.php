@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Dto\AdresseLivraison;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -49,6 +50,11 @@ class AdresseLivraisonType extends AbstractType
                 'required' => false,
                 'help' => 'Facultatif — utile au transporteur.',
                 'attr' => ['autocomplete' => 'tel'],
+            ])
+            // Le libellé (avec le lien vers les CGV) est écrit dans le template commande/new.html.twig
+            ->add('accepteCgv', CheckboxType::class, [
+                'label' => false,
+                'required' => true,
             ]);
     }
 

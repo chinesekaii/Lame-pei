@@ -34,6 +34,7 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
             ->setUser($client)
             ->setStatut(StatutCommande::Payee)
             ->setCreatedAt(new \DateTimeImmutable('-3 days'))
+            ->setCgvAccepteesLe(new \DateTimeImmutable('-3 days'))
             ->setAdresseLivraison("Maëva Payet\n12 rue des Flamboyants\n97400 Saint-Denis\nLa Réunion");
         $commande->addLigne(
             (new LigneCommande())

@@ -37,8 +37,13 @@ class CommandeManager
         }
 
         $commande = $this->em->wrapInTransaction(function () use ($client, $adresse, $lignesPanier): Commande {
+            if (!$adresse->accepteCgv) {
+                throw new \LogicException('Les CGV doivent être acceptées avant de commander.');
+            }
+
             $commande = (new Commande())
-                ->setAdresseLivraison($adresse->enTexte());
+                ->setAdresseLivraison($adresse->enTexte())
+                ->setCgvAccepteesLe(new \DateTimeImmutable());
             $client->addCommande($commande);
 
             foreach ($lignesPanier as $lignePanier) {

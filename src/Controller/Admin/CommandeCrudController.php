@@ -77,6 +77,7 @@ class CommandeCrudController extends AbstractCrudController
         yield TextareaField::new('adresseLivraison', 'Adresse de livraison')
             ->onlyOnDetail()
             ->renderAsHtml(false);
+        yield DateTimeField::new('cgvAccepteesLe', 'CGV acceptées le')->onlyOnDetail();
     }
 
     /**

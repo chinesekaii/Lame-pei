@@ -92,6 +92,8 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
   - Les enums de statut implémentent `TranslatableInterface` (libellés français dans EasyAdmin et les formulaires)
   - Images des modèles et drops dans `public/uploads/` (et plus dans AssetMapper) pour pouvoir les envoyer depuis l'admin
   - `Modele::setMateriaux()` / `setCouleursPerle()` : nécessaires car l'inflecteur anglais de Symfony ne trouve pas `addMateriau()`
-- [ ] Paiement Stripe et mise en ligne
+- [x] CGV : page `/cgv` (`PageController`, `templates/page/cgv.html.twig`, texte fourni par la marque, ne pas le reformuler), lien dans le pied de page, case obligatoire à la commande (`AdresseLivraison::accepteCgv`), date enregistrée dans `Commande::cgvAccepteesLe`
+- [ ] À aligner sur les CGV (en attente de décision) : livraison Réunion uniquement, frais par secteur (Ouest 0 €, Nord 5 €, Sud/Est 8 €), téléphone obligatoire, délais 24–72 h, paiement CB / lien SumUp / espèces en main propre (au lieu de Stripe)
+- [ ] Paiement en ligne et mise en ligne
 
 Mettre à jour cette liste au fil du projet.

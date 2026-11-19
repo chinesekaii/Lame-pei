@@ -40,6 +40,10 @@ class AdresseLivraison
     #[Assert\Regex(pattern: '/^[0-9 +().-]{10,20}$/', message: 'Ce numéro de téléphone n\'est pas valide.')]
     public ?string $telephone = null;
 
+    /** Case « J'ai lu et j'accepte les CGV » (obligatoire avant de commander). */
+    #[Assert\IsTrue(message: 'Merci d\'accepter les conditions générales de vente pour commander.')]
+    public bool $accepteCgv = false;
+
     /**
      * Le code postal doit correspondre à la destination choisie.
      */

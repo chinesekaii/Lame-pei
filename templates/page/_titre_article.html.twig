@@ -1,0 +1,3 @@
+{# Titre d'article numéroté, avec ancre pour le sommaire (variables : articles, numero) #}
+{% set article = articles[numero - 1] %}
+<h2 id="{{ article.id }}"><span>Article {{ numero }}</span>{{ article.titre }}</h2>

@@ -22,6 +22,14 @@
                     </div>
                     {{ form_row(form.telephone) }}
 
+                    <div class="form-ligne{{ form.accepteCgv.vars.errors|length ? ' form-ligne--erreur' }}">
+                        <label class="case case--cgv">
+                            {{ form_widget(form.accepteCgv) }}
+                            <span>J'ai lu et j'accepte les <a href="{{ path('app_cgv') }}" target="_blank" rel="noopener">conditions générales de vente</a>.</span>
+                        </label>
+                        {{ form_errors(form.accepteCgv) }}
+                    </div>
+
                     <button type="submit" class="btn btn--plein btn--large">Valider ma commande · {{ panier.total|prix }}</button>
                 {{ form_end(form) }}
             </div>

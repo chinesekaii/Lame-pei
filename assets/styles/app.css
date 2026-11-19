@@ -1397,6 +1397,99 @@ textarea.champ {
     height: 16px;
 }
 
+.case--cgv {
+    align-items: flex-start;
+    margin: 6px 0 4px;
+    line-height: 1.5;
+}
+
+.case--cgv input {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.form-ligne--erreur .case--cgv {
+    color: var(--hibiscus);
+}
+
+/* ---------- Pages de texte (CGV…) ---------- */
+
+.page--texte {
+    max-width: 780px;
+}
+
+.sommaire {
+    background: #FFF;
+    border: 1px solid var(--sable);
+    padding: 22px 26px;
+    margin-bottom: 44px;
+}
+
+.sommaire ol {
+    margin: 0;
+    padding-left: 22px;
+    columns: 2;
+    column-gap: 32px;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.texte-legal {
+    color: var(--brun-bois);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.texte-legal h2 {
+    font-family: var(--police-titre);
+    font-weight: 500;
+    font-size: 27px;
+    color: var(--brun-volcan);
+    margin: 44px 0 12px;
+    padding-top: 8px;
+    border-top: 1px solid var(--sable);
+}
+
+.texte-legal h2 span {
+    display: block;
+    font-family: var(--police-texte);
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 4px;
+}
+
+.texte-legal p {
+    margin: 0 0 12px;
+}
+
+.texte-legal ul,
+.texte-legal ol {
+    margin: 0 0 14px;
+    padding-left: 22px;
+}
+
+.tableau-legal {
+    border-collapse: collapse;
+    margin: 4px 0 16px;
+    min-width: 280px;
+}
+
+.tableau-legal th,
+.tableau-legal td {
+    text-align: left;
+    padding: 9px 18px 9px 0;
+    border-bottom: 1px solid var(--sable);
+    font-weight: 400;
+}
+
+.tableau-legal td {
+    color: var(--brun-volcan);
+    font-family: var(--police-titre);
+    font-size: 18px;
+}
+
 .page__bas {
     text-align: center;
     margin-top: 24px;
@@ -1617,6 +1710,8 @@ textarea.champ {
     .fiche__titre { font-size: 38px; }
     .autres__liste { gap: 12px; }
     .autre { width: calc(33.333% - 8px); }
+
+    .sommaire ol { columns: 1; }
 
     .recap__ligne { grid-template-columns: 70px 1fr; gap: 14px; }
     .recap__droite { grid-column: 2; text-align: left; display: flex; gap: 16px; align-items: baseline; }

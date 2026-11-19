@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditions générales de vente · L'ÂME PEÏ{% endblock %}
+{% block meta_description %}Conditions générales de vente de la boutique en ligne L'ÂME PEÏ : produits, prix, commande, paiement, livraison, rétractation.{% endblock %}
+
+{% set articles = [
+    {id: 'presentation', titre: 'Présentation de la marque'},
+    {id: 'produits', titre: 'Produits'},
+    {id: 'prix', titre: 'Prix'},
+    {id: 'commande', titre: 'Commande'},
+    {id: 'paiement', titre: 'Modalités de paiement'},
+    {id: 'livraison', titre: 'Livraison'},
+    {id: 'retractation', titre: 'Droit de rétractation'},
+    {id: 'echanges', titre: 'Échanges'},
+    {id: 'defectueux', titre: 'Produits défectueux'},
+    {id: 'remboursements', titre: 'Remboursements'},
+    {id: 'responsabilite', titre: 'Responsabilité'},
+    {id: 'donnees', titre: 'Données personnelles'},
+    {id: 'reclamations', titre: 'Réclamations et médiation'},
+    {id: 'acceptation', titre: 'Acceptation des CGV'},
+] %}
+
+{% block body %}
+    <section class="page page--texte">
+        <div class="page__entete">
+            <div class="surtitre">L'ÂME PEÏ</div>
+            <h1 class="titre-section">Conditions générales de vente</h1>
+            <p>Dernière mise à jour : novembre 2026</p>
+        </div>
+
+        <nav class="sommaire" aria-label="Sommaire des CGV">
+            <div class="champ__label">Sommaire</div>
+            <ol>
+                {% for article in articles %}
+                    <li><a href="#{{ article.id }}">{{ article.titre }}</a></li>
+                {% endfor %}
+            </ol>
+        </nav>
+
+        <div class="texte-legal">
+
+            {{ include('page/_titre_article.html.twig', {numero: 1}) }}
+            <p>L'ÂME PEÏ est une marque spécialisée dans la vente de savates artisanales, inspirées de l'identité et de la culture réunionnaises.</p>
+            <p>Les présentes Conditions Générales de Vente encadrent les ventes réalisées sur la boutique en ligne L'ÂME PEÏ.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 2}) }}
+            <p>Les produits proposés sont des savates artisanales, ornées notamment de perles et d'accessoires décoratifs.</p>
+            <p>Chaque modèle dispose d'une fiche descriptive précisant :</p>
+            <ul>
+                <li>son nom ;</li>
+                <li>son prix ;</li>
+                <li>les pointures disponibles ;</li>
+                <li>les caractéristiques du modèle ;</li>
+                <li>les disponibilités en stock.</li>
+            </ul>
+            <p>Les créations artisanales peuvent présenter de légères différences de finition d'une paire à l'autre.</p>
+            <p>Les photographies sont présentées à titre illustratif. De légères variations de couleurs peuvent exister selon les écrans.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 3}) }}
+            <p>Les prix sont indiqués en euros (€), toutes taxes comprises lorsque la TVA est applicable.</p>
+            <p>Chaque modèle possède son propre prix de vente, affiché sur sa fiche produit.</p>
+            <p>Les frais de livraison sont ajoutés au montant de la commande avant validation.</p>
+            <p>L'ÂME PEÏ se réserve le droit de modifier ses tarifs. Le prix applicable reste celui affiché au moment de la commande.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 4}) }}
+            <p>Les commandes sont effectuées directement depuis la boutique en ligne.</p>
+            <p>Le client doit :</p>
+            <ol>
+                <li>sélectionner le modèle souhaité ;</li>
+                <li>choisir sa pointure ;</li>
+                <li>ajouter le produit au panier ;</li>
+                <li>renseigner ses coordonnées ;</li>
+                <li>choisir son mode de paiement et de livraison ;</li>
+                <li>valider sa commande.</li>
+            </ol>
+            <p>Une confirmation de commande est adressée au client.</p>
+            <p>Les commandes sont traitées sous réserve de disponibilité des produits et de validation du paiement.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 5}) }}
+            <p>Trois moyens de paiement sont proposés :</p>
+            <ul>
+                <li>carte bancaire (CB) ;</li>
+                <li>lien de paiement à distance sécurisé via SumUp ;</li>
+                <li>espèces, uniquement pour les remises en main propre.</li>
+            </ul>
+            <p>Pour les paiements par lien SumUp, la commande sera confirmée après réception de la confirmation du paiement.</p>
+            <p>Les espèces ne sont pas acceptées pour les livraisons à distance.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 6}) }}
+            <p>La livraison est actuellement proposée uniquement sur l'île de La Réunion.</p>
+            <p>Tarifs de livraison :</p>
+            <table class="tableau-legal">
+                <tbody>
+                    <tr><th scope="row">Secteur Ouest</th><td>Gratuit</td></tr>
+                    <tr><th scope="row">Secteur Nord</th><td>5 €</td></tr>
+                    <tr><th scope="row">Secteurs Sud et Est</th><td>8 €</td></tr>
+                </tbody>
+            </table>
+            <p>Délais annoncés : 24 h à 72 h, selon le secteur et les modalités de livraison.</p>
+            <p>Les frais de livraison sont indiqués avant la validation définitive de la commande.</p>
+            <p>Le client doit communiquer une adresse de livraison exacte et un numéro de téléphone permettant de le contacter.</p>
+            <p>En cas d'impossibilité de livraison liée à une erreur dans les coordonnées communiquées, des frais supplémentaires pourront être appliqués après accord du client.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 7}) }}
+            <p>Pour toute commande conclue à distance, le client particulier bénéficie d'un délai légal de rétractation de 14 jours calendaires à compter de la réception du produit.</p>
+            <p>Le client peut exercer ce droit sans avoir à justifier sa décision.</p>
+            <p>Les produits doivent être manipulés avec soin et ne pas avoir été portés ou utilisés au-delà de ce qui est nécessaire pour en vérifier la nature et les caractéristiques.</p>
+            <p>Les frais de retour sont à la charge du client en cas de rétractation, sauf disposition légale contraire.</p>
+            <p>Les éventuelles exceptions légales, notamment pour les produits personnalisés, restent applicables.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 8}) }}
+            <p>Les demandes d'échange peuvent être étudiées en cas d'erreur de pointure ou de souhait de changement de modèle, sous réserve des stocks disponibles.</p>
+            <p>Les produits doivent être retournés dans un état permettant leur remise en vente.</p>
+            <p>Les échanges commerciaux proposés par L'ÂME PEÏ ne remplacent pas le droit légal de rétractation.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 9}) }}
+            <p>En cas de défaut de fabrication, de produit endommagé ou de produit non conforme à la commande, le client est invité à contacter L'ÂME PEÏ en fournissant des photographies et son numéro de commande.</p>
+            <p>Les garanties légales de conformité et des vices cachés restent applicables.</p>
+            <p>Les frais liés à la mise en conformité sont pris en charge conformément à la réglementation.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 10}) }}
+            <p>En cas de rétractation valable ou de remboursement dû au titre des garanties légales, le remboursement sera effectué conformément aux délais et modalités prévus par la réglementation.</p>
+            <p>Le remboursement sera réalisé par le même moyen de paiement que celui utilisé lors de la commande, sauf accord exprès du client pour un autre moyen légalement autorisé.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 11}) }}
+            <p>L'ÂME PEÏ s'engage à apporter le plus grand soin à la préparation et à l'expédition des commandes.</p>
+            <p>La responsabilité de la marque ne saurait être engagée en cas de mauvaise utilisation ou d'usure normale des produits, sans préjudice des garanties légales applicables.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 12}) }}
+            <p>Les informations personnelles collectées lors des commandes sont utilisées pour leur traitement, leur suivi et la gestion de la relation client.</p>
+            <p>Conformément à la réglementation applicable sur la protection des données personnelles, chaque client dispose de droits d'accès, de rectification et d'effacement dans les conditions prévues par la loi.</p>
+            <p>Une politique de confidentialité distincte précise les modalités de traitement des données.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 13}) }}
+            <p>Pour toute question ou réclamation, le client peut contacter L'ÂME PEÏ via Instagram :</p>
+            <p><a href="https://www.instagram.com/ame.pei/" target="_blank" rel="noopener">Instagram : @ame.pei</a></p>
+            <p>En cas de litige non résolu directement avec la marque, le consommateur peut recourir gratuitement au médiateur de la consommation dont les coordonnées seront communiquées sur le site après désignation.</p>
+
+            {{ include('page/_titre_article.html.twig', {numero: 14}) }}
+            <p>Toute commande effectuée sur la boutique en ligne implique la prise de connaissance et l'acceptation des présentes Conditions Générales de Vente.</p>
+            <p>Les CGV doivent être accessibles avant la validation définitive de la commande.</p>
+        </div>
+
+        <p class="page__bas"><a href="#">↑ Haut de page</a></p>
+    </section>
+{% endblock %}

@@ -40,6 +40,10 @@ class Commande
     #[Assert\NotBlank(message: 'L\'adresse de livraison est obligatoire.')]
     private ?string $adresseLivraison = null;
 
+    /** Date à laquelle le client a accepté les CGV (preuve en cas de litige). */
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $cgvAccepteesLe = null;
+
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -134,6 +138,18 @@ class Commande
     public function setAdresseLivraison(string $adresseLivraison): static
     {
         $this->adresseLivraison = $adresseLivraison;
+
+        return $this;
+    }
+
+    public function getCgvAccepteesLe(): ?\DateTimeImmutable
+    {
+        return $this->cgvAccepteesLe;
+    }
+
+    public function setCgvAccepteesLe(?\DateTimeImmutable $cgvAccepteesLe): static
+    {
+        $this->cgvAccepteesLe = $cgvAccepteesLe;
 
         return $this;
     }
