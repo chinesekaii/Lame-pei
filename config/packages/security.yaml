@@ -45,6 +45,9 @@ security:
                 path: app_logout
                 target: app_home
 
+            # Client connecté sur une page admin : retour à la connexion avec un message
+            access_denied_handler: App\Security\AccesRefuseHandler
+
     # Un administrateur a aussi les droits d'un client
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER

@@ -182,6 +182,16 @@ img {
     color: #3F6A2E;
 }
 
+.carte-connecte {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 20px !important;
+}
+
+.carte-connecte small {
+    color: var(--brun-bois);
+}
+
 .flash--integre {
     margin: 0 0 20px;
     text-align: left;

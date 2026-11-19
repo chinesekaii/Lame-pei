@@ -9,6 +9,18 @@
             <h1 class="titre-section">Connexion</h1>
         </div>
 
+        {% if app.user %}
+            <div class="flash flash--integre carte-connecte">
+                Vous êtes connecté(e) avec <strong>{{ app.user.email }}</strong>.
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('admin') }}">Aller à l'administration</a> ·
+                {% endif %}
+                <a href="{{ path('app_compte') }}">Mon compte</a> ·
+                <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                <br><small>Pour utiliser un autre compte, connectez-vous ci-dessous.</small>
+            </div>
+        {% endif %}
+
         <div class="carte-formulaire">
             {% if erreur %}
                 <ul class="form-erreurs form-erreurs--bloc">

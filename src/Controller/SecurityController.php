@@ -12,10 +12,7 @@ final class SecurityController extends AbstractController
     #[Route('/connexion', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('app_home');
-        }
-
+        // Déjà connecté : la page propose de changer de compte (utile pour passer d'un compte client au compte admin)
         return $this->render('security/login.html.twig', [
             'dernier_email' => $authenticationUtils->getLastUsername(),
             'erreur' => $authenticationUtils->getLastAuthenticationError(),
