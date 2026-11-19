@@ -34,6 +34,11 @@ class LigneCommande
     #[ORM\JoinColumn(nullable: false)]
     private ?Variante $variante = null;
 
+    public function __toString(): string
+    {
+        return sprintf('%s × %d — %s €', $this->variante, $this->quantite, number_format($this->getSousTotal() / 100, 2, ',', ' '));
+    }
+
     public function getSousTotal(): int
     {
         return $this->quantite * $this->prixUnitaire;

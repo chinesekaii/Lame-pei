@@ -4,7 +4,7 @@
     <a href="{{ path('app_compte_profil') }}" class="{{ route == 'app_compte_profil' ? 'actif' }}">Mes informations</a>
     <a href="{{ path('app_compte_mot_de_passe') }}" class="{{ route == 'app_compte_mot_de_passe' ? 'actif' }}">Mot de passe</a>
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="/admin">Administration</a>
+        <a href="{{ path('admin') }}">Administration</a>
     {% endif %}
     <a href="{{ path('app_logout') }}" class="compte-menu__sortie">Déconnexion</a>
 </nav>

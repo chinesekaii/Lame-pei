@@ -20,7 +20,7 @@
                     {% set variante = ligne.variante %}
                     <article class="recap__ligne">
                         <a href="{{ path('app_modele_show', {slug: ligne.modele.slug}) }}" class="recap__image"
-                           style="background-image: url('{{ asset('images/modeles/' ~ ligne.modele.image) }}')"
+                           style="background-image: url('{{ asset('uploads/modeles/' ~ ligne.modele.image) }}')"
                            aria-label="Voir {{ ligne.modele.nom }}"></a>
 
                         <div class="recap__infos">

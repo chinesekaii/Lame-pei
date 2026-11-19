@@ -1,0 +1,121 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}Tableau de bord{% endblock %}
+
+{% block main %}
+    <style>
+        .lp-tuiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
+        .lp-tuile { display: block; padding: 18px 20px; border: 1px solid rgba(127, 127, 127, .25); border-radius: 8px; background: transparent; color: inherit; text-decoration: none; }
+        .lp-tuile:hover { border-color: #A9502E; }
+        .lp-tuile__nombre { font-family: 'Cormorant Garamond', serif; font-variant-numeric: lining-nums; font-size: 40px; line-height: 1; color: #8C3A1E; }
+        .lp-tuile__libelle { margin-top: 6px; font-size: 13px; opacity: .75; }
+        .lp-tuile--alerte .lp-tuile__nombre { color: #D8462A; }
+        .lp-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+        .lp-bloc h2 { font-size: 15px; font-weight: 600; margin: 0 0 10px; }
+        .lp-bloc table { width: 100%; }
+        .lp-vide { opacity: .6; font-size: 14px; }
+    </style>
+
+    {# Liens vers les listes filtrées : on passe par l'URL de chaque CRUD #}
+    {% set urlCommandes = ea_url().setController('App\\Controller\\Admin\\CommandeCrudController').setAction('index') %}
+    {% set urlDemandes = ea_url().setController('App\\Controller\\Admin\\DemandeSurMesureCrudController').setAction('index') %}
+    {% set urlAlertes = ea_url().setController('App\\Controller\\Admin\\AlerteCrudController').setAction('index') %}
+    {% set urlModeles = ea_url().setController('App\\Controller\\Admin\\ModeleCrudController').setAction('index') %}
+
+    <div class="lp-tuiles">
+        <a class="lp-tuile{{ aPreparer > 0 ? ' lp-tuile--alerte' }}" href="{{ urlCommandes }}">
+            <div class="lp-tuile__nombre">{{ aPreparer }}</div>
+            <div class="lp-tuile__libelle">Commande(s) payée(s) à préparer</div>
+        </a>
+        <a class="lp-tuile" href="{{ urlCommandes }}">
+            <div class="lp-tuile__nombre">{{ enAttente }}</div>
+            <div class="lp-tuile__libelle">Commande(s) en attente de paiement</div>
+        </a>
+        <a class="lp-tuile{{ nouvellesDemandes > 0 ? ' lp-tuile--alerte' }}" href="{{ urlDemandes }}">
+            <div class="lp-tuile__nombre">{{ nouvellesDemandes }}</div>
+            <div class="lp-tuile__libelle">Nouvelle(s) demande(s) sur-mesure</div>
+        </a>
+        <a class="lp-tuile" href="{{ urlAlertes }}">
+            <div class="lp-tuile__nombre">{{ alertesParModele|reduce((total, a) => total + a.nombre, 0) }}</div>
+            <div class="lp-tuile__libelle">Personne(s) à prévenir d'une sortie</div>
+        </a>
+    </div>
+
+    <div class="lp-grille">
+        <section class="lp-bloc">
+            <h2>Dernières commandes</h2>
+            {% if dernieresCommandes is empty %}
+                <p class="lp-vide">Aucune commande pour l'instant.</p>
+            {% else %}
+                <table class="table datagrid">
+                    <tbody>
+                        {% for commande in dernieresCommandes %}
+                            <tr>
+                                <td><a href="{{ ea_url().setController('App\\Controller\\Admin\\CommandeCrudController').setAction('detail').setEntityId(commande.id) }}">{{ commande.reference }}</a></td>
+                                <td>{{ commande.user }}</td>
+                                <td>{{ commande.total|prix }}</td>
+                                <td><span class="badge">{{ commande.statut.label }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </section>
+
+        <section class="lp-bloc">
+            <h2>Demandes sur-mesure à traiter</h2>
+            {% if dernieresDemandes is empty %}
+                <p class="lp-vide">Aucune demande en attente.</p>
+            {% else %}
+                <table class="table datagrid">
+                    <tbody>
+                        {% for demande in dernieresDemandes %}
+                            <tr>
+                                <td><a href="{{ ea_url().setController('App\\Controller\\Admin\\DemandeSurMesureCrudController').setAction('detail').setEntityId(demande.id) }}">{{ demande.nom }}</a></td>
+                                <td>{{ demande.coloris }} · {{ demande.taille }}</td>
+                                <td>{{ demande.createdAt|date('d/m') }}</td>
+                                <td><span class="badge">{{ demande.statut.label }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </section>
+
+        <section class="lp-bloc">
+            <h2>Stock faible (moins de {{ seuilStock }} paires)</h2>
+            {% if stockFaible is empty %}
+                <p class="lp-vide">Tous les modèles disponibles ont du stock.</p>
+            {% else %}
+                <table class="table datagrid">
+                    <tbody>
+                        {% for modele in stockFaible %}
+                            <tr>
+                                <td><a href="{{ ea_url().setController('App\\Controller\\Admin\\ModeleCrudController').setAction('edit').setEntityId(modele.id) }}">{{ modele.nom }}</a></td>
+                                <td>{{ modele.stockTotal }} paire(s)</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </section>
+
+        <section class="lp-bloc">
+            <h2>Alertes de sortie en attente</h2>
+            {% if alertesParModele is empty %}
+                <p class="lp-vide">Personne à prévenir.</p>
+            {% else %}
+                <table class="table datagrid">
+                    <tbody>
+                        {% for ligne in alertesParModele %}
+                            <tr>
+                                <td>{{ ligne.nom }}</td>
+                                <td>{{ ligne.nombre }} personne(s)</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

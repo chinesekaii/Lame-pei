@@ -87,7 +87,11 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
 - [x] Authentification : inscription (`/inscription`, connexion automatique via `Security::login()`), « Se souvenir de moi », limitation à 5 essais/minute (`symfony/rate-limiter`), `role_hierarchy` ROLE_ADMIN > ROLE_USER
 - [x] Espace client `/compte` (ROLE_USER) : mes commandes + détail (propriétaire uniquement), mes informations, changement de mot de passe (contrainte `UserPassword`)
 - [ ] Plus tard (avec Symfony Mailer) : mot de passe oublié, vérification de l'e-mail à l'inscription
-- [ ] Administration EasyAdmin
+- [x] Administration EasyAdmin **5.10** (`src/Controller/Admin/`, `/admin`, ROLE_ADMIN) : tableau de bord (commandes à préparer, demandes, stock faible, alertes), CRUD modèles (photo uploadée, stock par pointure, 7 pointures créées automatiquement), drops, couleurs, matériaux, commandes (statut seul modifiable ; annulation = remise en stock), clients (rôle admin), demandes sur-mesure, alertes
+  - EasyAdmin 5 : menu via `MenuItem::linkTo(XxxCrudController::class)`, dashboard via `#[AdminDashboard]`, méthode `configureMenuItems()`
+  - Les enums de statut implémentent `TranslatableInterface` (libellés français dans EasyAdmin et les formulaires)
+  - Images des modèles et drops dans `public/uploads/` (et plus dans AssetMapper) pour pouvoir les envoyer depuis l'admin
+  - `Modele::setMateriaux()` / `setCouleursPerle()` : nécessaires car l'inflecteur anglais de Symfony ne trouve pas `addMateriau()`
 - [ ] Paiement Stripe et mise en ligne
 
 Mettre à jour cette liste au fil du projet.

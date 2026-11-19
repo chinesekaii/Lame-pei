@@ -116,6 +116,27 @@ class Modele
         return $this->statut === StatutModele::Disponible;
     }
 
+    /** Nombre total de paires en stock, toutes pointures confondues. */
+    public function getStockTotal(): int
+    {
+        return array_sum($this->variantes->map(fn (Variante $v) => $v->getStock())->toArray());
+    }
+
+    /**
+     * Crée les variantes manquantes (une par pointure de 36 à 42, stock 0).
+     */
+    public function completerVariantes(): static
+    {
+        $existantes = $this->variantes->map(fn (Variante $v) => $v->getPointure())->toArray();
+        for ($pointure = Variante::POINTURE_MIN; $pointure <= Variante::POINTURE_MAX; ++$pointure) {
+            if (!\in_array($pointure, $existantes, true)) {
+                $this->addVariante((new Variante())->setPointure($pointure));
+            }
+        }
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -276,6 +297,21 @@ class Modele
         return $this;
     }
 
+    /**
+     * Remplace toute la palette (utilisé par les formulaires, ex. EasyAdmin).
+     *
+     * @param iterable<CouleurPerle> $couleursPerle
+     */
+    public function setCouleursPerle(iterable $couleursPerle): static
+    {
+        $this->couleursPerle->clear();
+        foreach ($couleursPerle as $couleurPerle) {
+            $this->addCouleursPerle($couleurPerle);
+        }
+
+        return $this;
+    }
+
     /** @return Collection<int, Materiau> */
     public function getMateriaux(): Collection
     {
@@ -294,6 +330,22 @@ class Modele
     public function removeMateriau(Materiau $materiau): static
     {
         $this->materiaux->removeElement($materiau);
+
+        return $this;
+    }
+
+    /**
+     * Remplace tous les matériaux. Nécessaire pour les formulaires : Symfony déduit
+     * le nom de l'« adder » avec des règles anglaises et ne trouve pas addMateriau().
+     *
+     * @param iterable<Materiau> $materiaux
+     */
+    public function setMateriaux(iterable $materiaux): static
+    {
+        $this->materiaux->clear();
+        foreach ($materiaux as $materiau) {
+            $this->addMateriau($materiau);
+        }
 
         return $this;
     }

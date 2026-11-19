@@ -2,7 +2,13 @@
 
 namespace App\Enum;
 
-enum StatutCommande: string
+use Symfony\Contracts\Translation\TranslatableInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+/**
+ * TranslatableInterface : les formulaires et EasyAdmin affichent label() au lieu du nom technique.
+ */
+enum StatutCommande: string implements TranslatableInterface
 {
     case EnAttente = 'en_attente';
     case Payee = 'payee';
@@ -21,5 +27,10 @@ enum StatutCommande: string
             self::Livree => 'Livrée',
             self::Annulee => 'Annulée',
         };
+    }
+
+    public function trans(TranslatorInterface $translator, ?string $locale = null): string
+    {
+        return $this->label();
     }
 }

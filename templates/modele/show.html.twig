@@ -13,7 +13,7 @@
 
         <section class="fiche__grille">
             <div class="fiche__visuel">
-                <img src="{{ asset('images/modeles/' ~ modele.image) }}" alt="Tongs {{ modele.nom }} brodées de perles">
+                <img src="{{ asset('uploads/modeles/' ~ modele.image) }}" alt="Tongs {{ modele.nom }} brodées de perles">
             </div>
 
             <div class="fiche__infos">
@@ -98,7 +98,7 @@
                     <div class="autres__liste">
                         {% for autre in autres %}
                             <a href="{{ path('app_modele_show', {slug: autre.slug}) }}" class="autre">
-                                <div class="autre__image" style="background-image: url('{{ asset('images/modeles/' ~ autre.image) }}')" role="img" aria-label="Tongs {{ autre.nom }}"></div>
+                                <div class="autre__image" style="background-image: url('{{ asset('uploads/modeles/' ~ autre.image) }}')" role="img" aria-label="Tongs {{ autre.nom }}"></div>
                                 <div class="autre__nom" style="color: {{ autre.couleur ?? '#8C3A1E' }}">{{ autre.nom }}</div>
                             </a>
                         {% endfor %}
