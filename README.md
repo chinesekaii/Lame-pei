@@ -47,8 +47,8 @@ Ce dépôt contient le **site de vente en ligne** de la marque, développé avec
 ## Installation en local
 
 ```bash
-git clone https://github.com/chinesekaii/L-me-pei.git
-cd L-me-pei
+git clone https://github.com/chinesekaii/Lame-pei.git
+cd Lame-pei
 composer install
 ```
 
