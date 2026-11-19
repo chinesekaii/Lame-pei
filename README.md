@@ -36,9 +36,9 @@ Ce dépôt contient le **site de vente en ligne** de la marque, développé avec
 
 | Élément | Technologie |
 |---|---|
-| Framework | Symfony 7 |
-| Langage | PHP 8.2+ |
-| Base de données | MySQL (Doctrine ORM) |
+| Framework | Symfony 8.1 |
+| Langage | PHP 8.4+ |
+| Base de données | MySQL 8.4, InnoDB (Doctrine ORM) |
 | Templates | Twig |
 | Front | AssetMapper, Stimulus |
 | Administration | EasyAdmin |
@@ -55,7 +55,7 @@ composer install
 Créer un fichier `.env.local` à la racine :
 
 ```env
-DATABASE_URL="mysql://root:@127.0.0.1:3306/lame_pei?serverVersion=8.0.31&charset=utf8mb4"
+DATABASE_URL="mysql://root:@127.0.0.1:3306/lame_pei?serverVersion=8.4.7&charset=utf8mb4"
 ```
 
 Puis :
@@ -63,7 +63,7 @@ Puis :
 ```bash
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
-php bin/console doctrine:fixtures:load
+php bin/console doctrine:fixtures:load   # (à venir)
 symfony serve
 ```
 
@@ -85,9 +85,13 @@ Le site est accessible sur `https://127.0.0.1:8000`.
 ## Avancement
 
 - [x] Maquette du site (Claude Design)
-- [ ] Modèle de données et entités Doctrine
+- [x] Projet Symfony et connexion à la base MySQL
+- [x] Modèle de données : 10 entités Doctrine, relations, validation, migration
+- [ ] Données de démonstration (fixtures)
+- [ ] Mise en page fidèle à la maquette (Twig)
 - [ ] Catalogue et fiches produits
 - [ ] Panier et commande
+- [ ] Formulaire sur-mesure et alertes de sortie
 - [ ] Authentification et espace client
 - [ ] Administration (EasyAdmin)
 - [ ] Paiement en ligne (Stripe)
