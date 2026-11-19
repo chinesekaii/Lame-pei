@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes informations · L'ÂME PEÏ{% endblock %}
+
+{% block body %}
+    <section class="page">
+        <div class="page__entete">
+            <div class="surtitre">Espace client</div>
+            <h1 class="titre-section">Mes informations</h1>
+        </div>
+
+        {{ include('compte/_menu.html.twig') }}
+
+        <div class="carte-formulaire carte-formulaire--etroite">
+            {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+                <div class="form-duo form-duo--egal">
+                    {{ form_row(form.prenom) }}
+                    {{ form_row(form.nom) }}
+                </div>
+                {{ form_row(form.email) }}
+                <button type="submit" class="btn btn--plein btn--large">Enregistrer</button>
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}

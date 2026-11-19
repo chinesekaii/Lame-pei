@@ -11,7 +11,7 @@
         <a href="{{ path('app_home') }}#bientot">Bientôt</a>
         <a href="{{ path('app_home') }}#commander">Commander</a>
         {% if app.user %}
-            <a href="{{ path('app_logout') }}" title="Connecté(e) : {{ app.user.email }}">Déconnexion</a>
+            <a href="{{ path('app_compte') }}" title="Connecté(e) : {{ app.user.email }}">Mon compte</a>
         {% else %}
             <a href="{{ path('app_login') }}">Connexion</a>
         {% endif %}

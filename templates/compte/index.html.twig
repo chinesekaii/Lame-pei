@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte · L'ÂME PEÏ{% endblock %}
+
+{% block body %}
+    <section class="page">
+        <div class="page__entete">
+            <div class="surtitre">Espace client</div>
+            <h1 class="titre-section">Bonjour {{ app.user.prenom }}</h1>
+        </div>
+
+        {{ include('compte/_menu.html.twig') }}
+
+        <h2 class="sous-titre">Mes commandes</h2>
+
+        {% if commandes is empty %}
+            <div class="page__vide">
+                <p>Vous n'avez pas encore passé de commande.</p>
+                <a href="{{ path('app_home') }}#collection" class="btn btn--plein">Découvrir les modèles</a>
+            </div>
+        {% else %}
+            <div class="tableau-commandes">
+                {% for commande in commandes %}
+                    <a href="{{ path('app_compte_commande', {reference: commande.reference}) }}" class="ligne-commande">
+                        <span class="ligne-commande__ref">{{ commande.reference }}</span>
+                        <span class="ligne-commande__date">{{ commande.createdAt|date('d/m/Y') }}</span>
+                        <span class="ligne-commande__articles">
+                            {% for ligne in commande.lignes %}{{ ligne.variante.modele.nom }} ({{ ligne.variante.pointure }}){{ not loop.last ? ', ' }}{% endfor %}
+                        </span>
+                        <span class="statut statut--{{ commande.statut.value }}">{{ commande.statut.label }}</span>
+                        <span class="ligne-commande__total">{{ commande.total|prix }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

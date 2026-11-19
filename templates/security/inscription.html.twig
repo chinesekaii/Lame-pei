@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte · L'ÂME PEÏ{% endblock %}
+
+{% block body %}
+    <section class="page page--etroite">
+        <div class="page__entete">
+            <div class="surtitre">Espace client</div>
+            <h1 class="titre-section">Créer un compte</h1>
+            <p>Pour commander et retrouver l'historique de vos paires.</p>
+        </div>
+
+        <div class="carte-formulaire">
+            {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+                <div class="form-duo form-duo--egal">
+                    {{ form_row(form.prenom) }}
+                    {{ form_row(form.nom) }}
+                </div>
+                {{ form_row(form.email) }}
+                {{ form_row(form.plainPassword.first) }}
+                {{ form_row(form.plainPassword.second) }}
+                <button type="submit" class="btn btn--plein btn--large">Créer mon compte</button>
+            {{ form_end(form) }}
+        </div>
+
+        <p class="page__bas">Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a></p>
+    </section>
+{% endblock %}

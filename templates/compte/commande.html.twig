@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande {{ commande.reference }} · L'ÂME PEÏ{% endblock %}
+
+{% block body %}
+    <section class="page">
+        <div class="page__entete">
+            <div class="surtitre">Espace client</div>
+            <h1 class="titre-section">Commande {{ commande.reference }}</h1>
+            <p>Passée le {{ commande.createdAt|date('d/m/Y à H:i') }}</p>
+        </div>
+
+        {{ include('compte/_menu.html.twig') }}
+
+        <div class="commande__grille">
+            <div class="carte-formulaire">
+                <div class="champ__label">Articles</div>
+                <ul class="mini-recap">
+                    {% for ligne in commande.lignes %}
+                        <li>
+                            <span>
+                                <a href="{{ path('app_modele_show', {slug: ligne.variante.modele.slug}) }}" class="mini-recap__nom" style="color: {{ ligne.variante.modele.couleur ?? '#8C3A1E' }}">{{ ligne.variante.modele.nom }}</a>
+                                Taille {{ ligne.variante.pointure }}{{ ligne.quantite > 1 ? ' × ' ~ ligne.quantite }} · {{ ligne.prixUnitaire|prix }}
+                            </span>
+                            <span>{{ ligne.sousTotal|prix }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="recap__total recap__total--petit">
+                    <span>Total</span><span>{{ commande.total|prix }}</span>
+                </div>
+            </div>
+
+            <aside class="carte-formulaire">
+                <div class="champ__label">Statut</div>
+                <p class="confirmation__texte"><span class="statut statut--{{ commande.statut.value }}">{{ commande.statut.label }}</span></p>
+
+                <div class="confirmation__bloc">
+                    <div class="champ__label">Livraison</div>
+                    <p class="confirmation__texte">{{ commande.adresseLivraison|nl2br }}</p>
+                </div>
+            </aside>
+        </div>
+
+        <p class="page__bas"><a href="{{ path('app_compte') }}">← Toutes mes commandes</a></p>
+    </section>
+{% endblock %}

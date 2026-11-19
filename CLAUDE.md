@@ -84,7 +84,9 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
 - [x] Alertes « Me prévenir de sa sortie » sur la fiche des modèles en production (`AlerteType`, traité par `ModeleController::show`, une inscription par e-mail et par modèle)
 - Flashes : `success` / `error` affichés en haut de page ; `sur_mesure`, `alerte` affichés dans leur section ; `ouvrir_panier` ouvre le tiroir
 - [ ] Plus tard : e-mail à la marque à chaque demande, e-mail aux inscrits à la sortie d'un modèle (Symfony Mailer)
-- [ ] Authentification et espace client
+- [x] Authentification : inscription (`/inscription`, connexion automatique via `Security::login()`), « Se souvenir de moi », limitation à 5 essais/minute (`symfony/rate-limiter`), `role_hierarchy` ROLE_ADMIN > ROLE_USER
+- [x] Espace client `/compte` (ROLE_USER) : mes commandes + détail (propriétaire uniquement), mes informations, changement de mot de passe (contrainte `UserPassword`)
+- [ ] Plus tard (avec Symfony Mailer) : mot de passe oublié, vérification de l'e-mail à l'inscription
 - [ ] Administration EasyAdmin
 - [ ] Paiement Stripe et mise en ligne
 

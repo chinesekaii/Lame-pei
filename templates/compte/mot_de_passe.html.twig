@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe · L'ÂME PEÏ{% endblock %}
+
+{% block body %}
+    <section class="page">
+        <div class="page__entete">
+            <div class="surtitre">Espace client</div>
+            <h1 class="titre-section">Mot de passe</h1>
+        </div>
+
+        {{ include('compte/_menu.html.twig') }}
+
+        <div class="carte-formulaire carte-formulaire--etroite">
+            {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+                {{ form_row(form.actuel) }}
+                {{ form_row(form.nouveau.first) }}
+                {{ form_row(form.nouveau.second) }}
+                <button type="submit" class="btn btn--plein btn--large">Changer mon mot de passe</button>
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}

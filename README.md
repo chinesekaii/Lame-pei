@@ -92,7 +92,7 @@ Le site est accessible sur `https://127.0.0.1:8000`.
 - [x] Fiches produits
 - [x] Panier et commande
 - [x] Formulaire sur-mesure et alertes de sortie
-- [ ] Authentification et espace client
+- [x] Authentification et espace client
 - [ ] Administration (EasyAdmin)
 - [ ] Paiement en ligne (Stripe)
 - [ ] Mise en ligne

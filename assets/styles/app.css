@@ -1370,6 +1370,144 @@ textarea.champ {
     color: var(--texte-bouton);
 }
 
+/* Case à cocher (« Se souvenir de moi ») */
+.case {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 22px;
+    font-size: 13px;
+    color: var(--brun-bois);
+    cursor: pointer;
+}
+
+.case input {
+    accent-color: var(--terre-cuite);
+    width: 16px;
+    height: 16px;
+}
+
+.page__bas {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--brun-bois);
+}
+
+/* ---------- Espace client ---------- */
+
+.compte-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 26px;
+    padding-bottom: 18px;
+    margin-bottom: 36px;
+    border-bottom: 1px solid var(--sable);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.compte-menu a {
+    color: var(--terre-cuite);
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+}
+
+.compte-menu a.actif {
+    color: var(--brun-volcan);
+    border-bottom-color: var(--or);
+}
+
+.compte-menu__sortie {
+    opacity: 0.7;
+}
+
+.sous-titre {
+    font-family: var(--police-titre);
+    font-weight: 500;
+    font-size: 28px;
+    color: var(--brun-volcan);
+    margin: 0 0 18px;
+}
+
+.carte-formulaire--etroite {
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.tableau-commandes {
+    border-top: 1px solid var(--sable);
+}
+
+.ligne-commande {
+    display: grid;
+    grid-template-columns: 170px 90px 1fr auto 70px;
+    gap: 18px;
+    align-items: center;
+    padding: 16px 6px;
+    border-bottom: 1px solid var(--sable);
+    font-size: 14px;
+    color: var(--brun-bois);
+    transition: background-color 0.2s;
+}
+
+.ligne-commande:hover {
+    background: var(--fond-section);
+    color: var(--brun-bois);
+}
+
+.ligne-commande__ref {
+    font-family: var(--police-titre);
+    font-size: 18px;
+    color: var(--brun-volcan);
+}
+
+.ligne-commande__total {
+    text-align: right;
+    font-family: var(--police-titre);
+    font-size: 19px;
+    color: var(--brun-volcan);
+}
+
+.statut {
+    display: inline-block;
+    padding: 4px 10px;
+    border: 1px solid var(--or);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--terre-cuite);
+    white-space: nowrap;
+}
+
+.statut--payee,
+.statut--en_fabrication,
+.statut--expediee {
+    border-color: #7FA36B;
+    color: #3F6A2E;
+}
+
+.statut--livree {
+    border-color: #3F6A2E;
+    background: #3F6A2E;
+    color: #FFF;
+}
+
+.statut--annulee {
+    border-color: #C9B3A3;
+    color: #9C8576;
+    text-decoration: line-through;
+}
+
+.confirmation__texte {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--brun-bois);
+}
+
 /* Tailles du formulaire sur-mesure : carrés comme dans la maquette */
 .choix-tailles {
     gap: 8px;
@@ -1436,6 +1574,13 @@ textarea.champ {
     .fiche__titre { font-size: 44px; }
 
     .commande__grille { grid-template-columns: 1fr; gap: 36px; }
+
+    .ligne-commande {
+        grid-template-columns: 1fr auto;
+        gap: 6px 14px;
+    }
+    .ligne-commande__date { text-align: right; }
+    .ligne-commande__articles { grid-column: 1 / -1; font-size: 13px; }
     .commande__recap { position: static; order: -1; }
 }
 
