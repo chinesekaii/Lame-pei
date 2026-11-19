@@ -20,7 +20,7 @@ Double objectif :
 
 ## Stack
 
-- Symfony 7 (`symfony new --webapp`), PHP 8.2+
+- Symfony 8.1 (`symfony new --webapp`), PHP 8.4+
 - MySQL via WAMP, Doctrine ORM
 - Twig, AssetMapper, Stimulus
 - EasyAdmin pour l'administration
@@ -71,8 +71,9 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
 
 - [x] Dépôt GitHub, README, logo
 - [x] Maquette (Claude Design)
-- [ ] Création du projet Symfony et connexion à la base
-- [ ] Entités, migrations, fixtures
+- [x] Création du projet Symfony et connexion à la base (MySQL 8.4 WAMP, InnoDB forcé dans `doctrine.yaml`)
+- [x] Entités, enums de statut (`src/Enum`), migration initiale
+- [ ] Fixtures
 - [ ] Layout Twig fidèle à la maquette
 - [ ] Accueil, catalogue, fiche produit
 - [ ] Panier persistant et commande
