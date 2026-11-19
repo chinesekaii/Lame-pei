@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\SecteurLivraison;
 use App\Enum\StatutCommande;
 use App\Repository\CommandeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,10 +32,18 @@ class Commande
     #[ORM\Column(length: 20, enumType: StatutCommande::class)]
     private StatutCommande $statut = StatutCommande::EnAttente;
 
-    /** Total en centimes. */
+    /** Total en centimes : articles + frais de livraison. */
     #[ORM\Column]
     #[Assert\PositiveOrZero]
     private int $total = 0;
+
+    /** Frais de livraison en centimes (selon le secteur, article 6 des CGV). */
+    #[ORM\Column(options: ['default' => 0])]
+    #[Assert\PositiveOrZero]
+    private int $fraisLivraison = 0;
+
+    #[ORM\Column(length: 10, nullable: true, enumType: SecteurLivraison::class)]
+    private ?SecteurLivraison $secteurLivraison = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank(message: 'L\'adresse de livraison est obligatoire.')]
@@ -66,15 +75,42 @@ class Commande
         return $this->reference;
     }
 
-    /** Recalcule le total à partir des lignes. */
+    /** Recalcule le total : somme des lignes + frais de livraison. */
     public function recalculerTotal(): static
     {
-        $this->total = 0;
-        foreach ($this->lignes as $ligne) {
-            $this->total += $ligne->getSousTotal();
-        }
+        $this->total = $this->getSousTotalArticles() + $this->fraisLivraison;
 
         return $this;
+    }
+
+    /** Montant des articles seuls, en centimes. */
+    public function getSousTotalArticles(): int
+    {
+        $sousTotal = 0;
+        foreach ($this->lignes as $ligne) {
+            $sousTotal += $ligne->getSousTotal();
+        }
+
+        return $sousTotal;
+    }
+
+    /** Fixe le secteur et les frais correspondants, puis recalcule le total. */
+    public function setSecteurLivraison(?SecteurLivraison $secteur): static
+    {
+        $this->secteurLivraison = $secteur;
+        $this->fraisLivraison = $secteur?->frais() ?? 0;
+
+        return $this->recalculerTotal();
+    }
+
+    public function getSecteurLivraison(): ?SecteurLivraison
+    {
+        return $this->secteurLivraison;
+    }
+
+    public function getFraisLivraison(): int
+    {
+        return $this->fraisLivraison;
     }
 
     public function getId(): ?int

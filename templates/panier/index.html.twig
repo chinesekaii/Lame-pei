@@ -54,14 +54,14 @@
                 {% endfor %}
 
                 <div class="recap__total">
-                    <span>Total</span><span>{{ panier.total|prix }}</span>
+                    <span>Sous-total</span><span>{{ panier.total|prix }}</span>
                 </div>
 
                 <div class="recap__actions">
                     <a href="{{ path('app_home') }}#collection" class="btn btn--contour">Continuer mes achats</a>
                     <a href="{{ path('app_commande_new') }}" class="btn btn--plein">Passer commande</a>
                 </div>
-                <p class="recap__note">Paires déjà brodées, prêtes à partir. Envoi suivi sous 48 h vers La Réunion et la France métropolitaine.</p>
+                <p class="recap__note">Paires déjà brodées, prêtes à partir. Livraison en main propre à La Réunion sous 24 à 72 h : offerte dans l'Ouest, 5 € dans le Nord, 8 € dans le Sud et l'Est (calculée à l'étape suivante).</p>
             </div>
         {% endif %}
     </section>

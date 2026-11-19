@@ -25,6 +25,7 @@
                             <span>{{ ligne.sousTotal|prix }}</span>
                         </li>
                     {% endfor %}
+                    {{ include('commande/_ligne_livraison.html.twig') }}
                 </ul>
                 <div class="recap__total recap__total--petit">
                     <span>Total</span><span>{{ commande.total|prix }}</span>

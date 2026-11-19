@@ -1289,6 +1289,45 @@ textarea.champ {
     margin-right: 6px;
 }
 
+.mini-recap__livraison {
+    font-style: italic;
+}
+
+.panier__info {
+    margin: 10px 0 0;
+    font-size: 12px;
+    color: var(--brun-bois);
+}
+
+.tarifs-livraison {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 26px;
+    font-size: 13px;
+    color: var(--brun-bois);
+}
+
+.tarifs-livraison caption {
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--or);
+    padding-bottom: 8px;
+}
+
+.tarifs-livraison th,
+.tarifs-livraison td {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--sable);
+    font-weight: 400;
+    text-align: left;
+}
+
+.tarifs-livraison td {
+    text-align: right;
+}
+
 .confirmation__bloc {
     margin-top: 26px;
 }

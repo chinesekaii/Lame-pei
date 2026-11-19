@@ -1,0 +1,5 @@
+{# Ligne « Livraison » d'un récapitulatif de commande (variable : commande) #}
+<li class="mini-recap__livraison">
+    <span>Livraison{{ commande.secteurLivraison ? ' (' ~ commande.secteurLivraison.label ~ ')' }}</span>
+    <span>{{ commande.fraisLivraison == 0 ? 'offerte' : commande.fraisLivraison|prix }}</span>
+</li>

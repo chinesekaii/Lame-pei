@@ -93,7 +93,9 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
   - Images des modèles et drops dans `public/uploads/` (et plus dans AssetMapper) pour pouvoir les envoyer depuis l'admin
   - `Modele::setMateriaux()` / `setCouleursPerle()` : nécessaires car l'inflecteur anglais de Symfony ne trouve pas `addMateriau()`
 - [x] CGV : page `/cgv` (`PageController`, `templates/page/cgv.html.twig`, texte fourni par la marque, ne pas le reformuler), lien dans le pied de page, case obligatoire à la commande (`AdresseLivraison::accepteCgv`), date enregistrée dans `Commande::cgvAccepteesLe`
-- [ ] À aligner sur les CGV (en attente de décision) : livraison Réunion uniquement, frais par secteur (Ouest 0 €, Nord 5 €, Sud/Est 8 €), téléphone obligatoire, délais 24–72 h, paiement CB / lien SumUp / espèces en main propre (au lieu de Stripe)
+- [x] Livraison alignée sur les CGV : **La Réunion uniquement, en main propre par la créatrice**, sous 24 à 72 h. Enum `SecteurLivraison` (communes → secteur → frais : Ouest 0 €, Nord 5 €, Sud/Est 8 €), choix de la commune au checkout, téléphone obligatoire, CP en 974. `Commande` : `secteurLivraison`, `fraisLivraison`, `total` = articles + livraison. Contrôleur Stimulus `livraison_controller.js` pour le total en direct
+- [ ] Mentions légales : identité du vendeur fournie (avis de situation INSEE) — EI Djemylla SINOPE, nom commercial L'AME PEI, SIRET 109 390 658 00010, 71 chemin Saint-Alme 97419 La Possession, APE 15.20Z. Manquent : e-mail/téléphone de contact, régime de TVA, hébergeur, médiateur
+- [ ] Paiement (CGV : CB, lien SumUp, espèces en main propre) à décider
 - [ ] Paiement en ligne et mise en ligne
 
 Mettre à jour cette liste au fil du projet.

@@ -9,6 +9,7 @@ use App\Entity\LigneCommande;
 use App\Entity\Modele;
 use App\Entity\User;
 use App\Entity\Variante;
+use App\Enum\SecteurLivraison;
 use App\Enum\StatutCommande;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -41,6 +42,7 @@ class DemoFixtures extends Fixture implements DependentFixtureInterface
                 ->setVariante($this->getReference('variante-capucine.png-38', Variante::class))
                 ->setQuantite(1)
         );
+        $commande->setSecteurLivraison(SecteurLivraison::Nord); // Saint-Denis : 5 €
         $manager->persist($commande);
 
         // Alertes « Me prévenir de sa sortie »

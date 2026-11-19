@@ -2,18 +2,15 @@
 
 namespace App\Dto;
 
+use App\Enum\SecteurLivraison;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * Données du formulaire d'adresse de livraison.
+ * Données du formulaire de livraison (La Réunion uniquement, voir l'article 6 des CGV).
  * Elles sont ensuite mises en forme dans Commande::adresseLivraison.
  */
 class AdresseLivraison
 {
-    public const REUNION = 'reunion';
-    public const METROPOLE = 'metropole';
-
     #[Assert\NotBlank(message: 'Merci d\'indiquer le nom du destinataire.')]
     #[Assert\Length(max: 100)]
     public ?string $nomComplet = null;
@@ -26,17 +23,15 @@ class AdresseLivraison
     public ?string $complement = null;
 
     #[Assert\NotBlank(message: 'Merci d\'indiquer le code postal.')]
-    #[Assert\Regex(pattern: '/^\d{5}$/', message: 'Le code postal doit contenir 5 chiffres.')]
+    #[Assert\Regex(pattern: '/^974\d{2}$/', message: 'Nous livrons uniquement à La Réunion : le code postal commence par 974.')]
     public ?string $codePostal = null;
 
-    #[Assert\NotBlank(message: 'Merci d\'indiquer la ville.')]
-    #[Assert\Length(max: 100)]
-    public ?string $ville = null;
+    #[Assert\NotBlank(message: 'Merci de choisir votre commune.')]
+    #[Assert\Choice(callback: [SecteurLivraison::class, 'toutesLesCommunes'], message: 'Nous livrons uniquement à La Réunion.')]
+    public ?string $commune = null;
 
-    #[Assert\NotBlank]
-    #[Assert\Choice(choices: [self::REUNION, self::METROPOLE], message: 'Nous livrons La Réunion et la France métropolitaine.')]
-    public ?string $destination = self::REUNION;
-
+    /** Obligatoire (article 6 des CGV) : la créatrice appelle pour convenir de la remise. */
+    #[Assert\NotBlank(message: 'Merci d\'indiquer un numéro de téléphone pour convenir de la livraison.')]
     #[Assert\Regex(pattern: '/^[0-9 +().-]{10,20}$/', message: 'Ce numéro de téléphone n\'est pas valide.')]
     public ?string $telephone = null;
 
@@ -44,40 +39,26 @@ class AdresseLivraison
     #[Assert\IsTrue(message: 'Merci d\'accepter les conditions générales de vente pour commander.')]
     public bool $accepteCgv = false;
 
-    /**
-     * Le code postal doit correspondre à la destination choisie.
-     */
-    #[Assert\Callback]
-    public function validerCodePostal(ExecutionContextInterface $context): void
+    public function getSecteur(): ?SecteurLivraison
     {
-        if ($this->codePostal === null || !preg_match('/^\d{5}$/', $this->codePostal)) {
-            return; // déjà signalé par la contrainte Regex
-        }
-
-        $estReunion = str_starts_with($this->codePostal, '974');
-
-        if ($this->destination === self::REUNION && !$estReunion) {
-            $context->buildViolation('Un code postal de La Réunion commence par 974.')
-                ->atPath('codePostal')
-                ->addViolation();
-        }
-
-        if ($this->destination === self::METROPOLE && str_starts_with($this->codePostal, '97')) {
-            $context->buildViolation('Ce code postal n\'est pas en France métropolitaine.')
-                ->atPath('codePostal')
-                ->addViolation();
-        }
+        return SecteurLivraison::pourCommune($this->commune);
     }
 
-    /** Adresse mise en forme pour l'étiquette d'envoi. */
+    /** Frais de livraison en centimes (0 tant que la commune n'est pas choisie). */
+    public function getFraisLivraison(): int
+    {
+        return $this->getSecteur()?->frais() ?? 0;
+    }
+
+    /** Adresse mise en forme pour la livraison. */
     public function enTexte(): string
     {
         $lignes = [
             $this->nomComplet,
             $this->adresse,
             $this->complement,
-            $this->codePostal.' '.mb_strtoupper((string) $this->ville),
-            $this->destination === self::REUNION ? 'La Réunion' : 'France métropolitaine',
+            $this->codePostal.' '.mb_strtoupper((string) $this->commune),
+            'La Réunion',
             $this->telephone ? 'Tél. '.$this->telephone : null,
         ];
 

@@ -74,6 +74,11 @@ class CommandeCrudController extends AbstractCrudController
                 StatutCommande::Annulee->name => 'secondary',
             ]);
         yield CollectionField::new('lignes', 'Articles')->onlyOnDetail();
+        yield ChoiceField::new('secteurLivraison', 'Secteur')->hideOnForm();
+        yield MoneyField::new('fraisLivraison', 'Livraison')
+            ->setCurrency('EUR')
+            ->setStoredAsCents()
+            ->onlyOnDetail();
         yield TextareaField::new('adresseLivraison', 'Adresse de livraison')
             ->onlyOnDetail()
             ->renderAsHtml(false);

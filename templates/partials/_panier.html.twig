@@ -27,9 +27,10 @@
         </ul>
 
         <div class="panier__total">
-            <span>Total</span><span>{{ panier.total|prix }}</span>
+            <span>Sous-total</span><span>{{ panier.total|prix }}</span>
         </div>
 
+        <p class="panier__info">Livraison à La Réunion, calculée selon votre commune.</p>
         <a href="{{ path('app_commande_new') }}" class="btn btn--plein btn--large panier__commander">Passer commande</a>
         <a href="{{ path('app_panier_index') }}" class="panier__voir">Voir le panier</a>
     {% endif %}

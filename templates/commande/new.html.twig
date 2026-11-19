@@ -7,18 +7,19 @@
         <div class="page__entete">
             <div class="surtitre">Dernière étape</div>
             <h1 class="titre-section">Livraison</h1>
+            <p>Livraison en main propre partout à La Réunion, sous {{ constant('App\\Enum\\SecteurLivraison::DELAI') }}.</p>
         </div>
 
-        <div class="commande__grille">
+        {# Le contrôleur Stimulus « livraison » met à jour les frais et le total quand on change de commune #}
+        <div class="commande__grille" data-controller="livraison" data-livraison-sous-total-value="{{ panier.total }}">
             <div class="carte-formulaire">
                 {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
-                    {{ form_row(form.destination) }}
                     {{ form_row(form.nomComplet) }}
                     {{ form_row(form.adresse) }}
                     {{ form_row(form.complement) }}
                     <div class="form-duo">
                         {{ form_row(form.codePostal) }}
-                        {{ form_row(form.ville) }}
+                        {{ form_row(form.commune) }}
                     </div>
                     {{ form_row(form.telephone) }}
 
@@ -30,7 +31,9 @@
                         {{ form_errors(form.accepteCgv) }}
                     </div>
 
-                    <button type="submit" class="btn btn--plein btn--large">Valider ma commande · {{ panier.total|prix }}</button>
+                    <button type="submit" class="btn btn--plein btn--large">
+                        Valider ma commande · <span data-livraison-target="totalBouton">{{ (panier.total + form.vars.value.fraisLivraison)|prix }}</span>
+                    </button>
                 {{ form_end(form) }}
             </div>
 
@@ -46,10 +49,32 @@
                             <span>{{ ligne.sousTotal|prix }}</span>
                         </li>
                     {% endfor %}
+                    <li class="mini-recap__livraison">
+                        <span>Livraison <span data-livraison-target="secteur">{{ form.vars.value.secteur ? '(' ~ form.vars.value.secteur.label ~ ')' }}</span></span>
+                        <span data-livraison-target="frais">
+                            {%- if form.vars.value.secteur is null -%}
+                                selon la commune
+                            {%- elseif form.vars.value.fraisLivraison == 0 -%}
+                                offerte
+                            {%- else -%}
+                                {{ form.vars.value.fraisLivraison|prix }}
+                            {%- endif -%}
+                        </span>
+                    </li>
                 </ul>
                 <div class="recap__total recap__total--petit">
-                    <span>Total</span><span>{{ panier.total|prix }}</span>
+                    <span>Total</span><span data-livraison-target="total">{{ (panier.total + form.vars.value.fraisLivraison)|prix }}</span>
                 </div>
+
+                <table class="tarifs-livraison">
+                    <caption>Tarifs de livraison</caption>
+                    <tbody>
+                        <tr><th scope="row">Ouest</th><td>offerte</td></tr>
+                        <tr><th scope="row">Nord</th><td>5 €</td></tr>
+                        <tr><th scope="row">Sud et Est</th><td>8 €</td></tr>
+                    </tbody>
+                </table>
+
                 <p class="recap__note">Commande au nom de {{ app.user }} ({{ app.user.email }}).</p>
                 <a href="{{ path('app_panier_index') }}" class="lien-discret">Modifier le panier</a>
             </aside>

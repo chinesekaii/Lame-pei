@@ -43,7 +43,8 @@ class CommandeManager
 
             $commande = (new Commande())
                 ->setAdresseLivraison($adresse->enTexte())
-                ->setCgvAccepteesLe(new \DateTimeImmutable());
+                ->setCgvAccepteesLe(new \DateTimeImmutable())
+                ->setSecteurLivraison($adresse->getSecteur());
             $client->addCommande($commande);
 
             foreach ($lignesPanier as $lignePanier) {
