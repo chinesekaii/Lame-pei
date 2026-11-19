@@ -1,5 +1,9 @@
 twig:
     file_name_pattern: '*.twig'
+    form_themes: ['form/theme.html.twig']
+    globals:
+        # Le panier est disponible dans tous les templates (en-tête, tiroir…)
+        panier: '@App\Service\Panier'
 
 when@test:
     twig:

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande {{ commande.reference }} · L'ÂME PEÏ{% endblock %}
+
+{% block body %}
+    <section class="page page--etroite">
+        <div class="page__entete">
+            <div class="fleur-titre">✿</div>
+            <div class="surtitre">Merci {{ app.user.prenom }}</div>
+            <h1 class="titre-section">Commande enregistrée</h1>
+            <p>Référence <strong>{{ commande.reference }}</strong> · {{ commande.createdAt|date('d/m/Y à H:i') }}</p>
+        </div>
+
+        <div class="carte-formulaire">
+            <ul class="mini-recap">
+                {% for ligne in commande.lignes %}
+                    <li>
+                        <span>
+                            <span class="mini-recap__nom" style="color: {{ ligne.variante.modele.couleur ?? '#8C3A1E' }}">{{ ligne.variante.modele.nom }}</span>
+                            Taille {{ ligne.variante.pointure }}{{ ligne.quantite > 1 ? ' × ' ~ ligne.quantite }}
+                        </span>
+                        <span>{{ ligne.sousTotal|prix }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="recap__total recap__total--petit">
+                <span>Total</span><span>{{ commande.total|prix }}</span>
+            </div>
+
+            <div class="confirmation__bloc">
+                <div class="champ__label">Livraison</div>
+                <p class="confirmation__adresse">{{ commande.adresseLivraison|nl2br }}</p>
+            </div>
+
+            <div class="confirmation__bloc">
+                <div class="champ__label">Statut</div>
+                <p>{{ commande.statut.label }}</p>
+            </div>
+        </div>
+
+        <div class="recap__actions recap__actions--centre">
+            <a href="{{ path('app_home') }}" class="btn btn--contour">Retour à la boutique</a>
+        </div>
+    </section>
+{% endblock %}

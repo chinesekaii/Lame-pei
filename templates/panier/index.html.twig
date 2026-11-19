@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier · L'ÂME PEÏ{% endblock %}
+
+{% block body %}
+    <section class="page">
+        <div class="page__entete">
+            <div class="surtitre">Votre sélection</div>
+            <h1 class="titre-section">Panier</h1>
+        </div>
+
+        {% if panier.estVide %}
+            <div class="page__vide">
+                <p>Votre panier est vide.</p>
+                <a href="{{ path('app_home') }}#collection" class="btn btn--plein">Voir les modèles disponibles</a>
+            </div>
+        {% else %}
+            <div class="recap">
+                {% for ligne in panier.lignes %}
+                    {% set variante = ligne.variante %}
+                    <article class="recap__ligne">
+                        <a href="{{ path('app_modele_show', {slug: ligne.modele.slug}) }}" class="recap__image"
+                           style="background-image: url('{{ asset('images/modeles/' ~ ligne.modele.image) }}')"
+                           aria-label="Voir {{ ligne.modele.nom }}"></a>
+
+                        <div class="recap__infos">
+                            <a href="{{ path('app_modele_show', {slug: ligne.modele.slug}) }}" class="recap__nom" style="color: {{ ligne.modele.couleur ?? '#8C3A1E' }}">{{ ligne.modele.nom }}</a>
+                            <div class="recap__detail">Taille {{ variante.pointure }} · {{ ligne.prixUnitaire|prix }}</div>
+
+                            <div class="quantite">
+                                <form method="post" action="{{ path('app_panier_modifier', {id: variante.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('panier') }}">
+                                    <input type="hidden" name="quantite" value="{{ ligne.quantite - 1 }}">
+                                    <button type="submit" class="quantite__btn" aria-label="Retirer une paire">−</button>
+                                </form>
+                                <span class="quantite__valeur" aria-label="Quantité">{{ ligne.quantite }}</span>
+                                <form method="post" action="{{ path('app_panier_modifier', {id: variante.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('panier') }}">
+                                    <input type="hidden" name="quantite" value="{{ ligne.quantite + 1 }}">
+                                    <button type="submit" class="quantite__btn" aria-label="Ajouter une paire"
+                                            {{ ligne.quantite >= variante.stock ? 'disabled title="Plus de stock dans cette taille"' }}>+</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="recap__droite">
+                            <div class="recap__prix">{{ ligne.sousTotal|prix }}</div>
+                            <form method="post" action="{{ path('app_panier_retirer', {id: variante.id}) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('panier') }}">
+                                <button type="submit" class="lien-discret">Retirer</button>
+                            </form>
+                        </div>
+                    </article>
+                {% endfor %}
+
+                <div class="recap__total">
+                    <span>Total</span><span>{{ panier.total|prix }}</span>
+                </div>
+
+                <div class="recap__actions">
+                    <a href="{{ path('app_home') }}#collection" class="btn btn--contour">Continuer mes achats</a>
+                    <a href="{{ path('app_commande_new') }}" class="btn btn--plein">Passer commande</a>
+                </div>
+                <p class="recap__note">Paires déjà brodées, prêtes à partir. Envoi suivi sous 48 h vers La Réunion et la France métropolitaine.</p>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

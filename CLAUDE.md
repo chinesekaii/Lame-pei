@@ -77,8 +77,10 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
 - [x] Layout Twig fidèle à la maquette (`base.html.twig` + `templates/partials/`, CSS dans `assets/styles/app.css`, images dans `assets/images/`, filtre Twig `|prix`, tiroir panier Stimulus `panier_controller.js`)
 - [x] Page d'accueil (`HomeController`, modèles chargés depuis la base, champ `Modele::couleur` pour la couleur du titre)
 - [x] Fiche produit (`ModeleController`, route `/modele/{slug}`, 404 si inconnu ou archivé, choix de pointure selon le stock, autres modèles) et liens depuis l'accueil
-- [ ] Brancher « Ajouter au panier » (formulaire présent sur la fiche, `onsubmit` bloqué en attendant) et « Me prévenir de sa sortie » (renvoie pour l'instant vers #commander)
-- [ ] Panier persistant et commande
+- [x] Panier en session (`App\Service\Panier`, global Twig `panier`, quantités limitées au stock, tiroir ouvert après ajout) et `PanierController` (ajouter / modifier / retirer, jetons CSRF `panier`)
+- [x] Commande (`CommandeController`, réservé à ROLE_USER) : formulaire d'adresse (`Dto\AdresseLivraison` + `AdresseLivraisonType`, code postal contrôlé selon Réunion/métropole), `CommandeManager` (transaction + verrou sur les variantes, stock décrémenté, prix figé), page de confirmation visible par son seul propriétaire. Statut `en_attente` jusqu'au paiement Stripe
+- [x] Connexion / déconnexion (`SecurityController`, `/connexion`, `/deconnexion`, form_login). Locale par défaut : `fr`. Thème de formulaire : `templates/form/theme.html.twig`
+- [ ] « Me prévenir de sa sortie » (renvoie pour l'instant vers #commander)
 - [ ] Formulaire sur-mesure et alertes de sortie
 - [ ] Authentification et espace client
 - [ ] Administration EasyAdmin

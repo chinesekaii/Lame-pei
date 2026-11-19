@@ -44,8 +44,8 @@
                 {% endif %}
 
                 {% if modele.disponible %}
-                    {# Le formulaire sera relié au panier à l'étape « Panier et commande ». #}
-                    <form class="fiche__achat" method="post" onsubmit="return false">
+                    <form class="fiche__achat" method="post" action="{{ path('app_panier_ajouter') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('panier') }}">
                         <fieldset class="choix-taille">
                             <legend class="fiche__rubrique">Taille</legend>
                             <div class="tailles-fiche">

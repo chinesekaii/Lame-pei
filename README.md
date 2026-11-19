@@ -90,7 +90,7 @@ Le site est accessible sur `https://127.0.0.1:8000`.
 - [x] Données de démonstration (fixtures)
 - [x] Mise en page fidèle à la maquette (Twig) et page d'accueil
 - [x] Fiches produits
-- [ ] Panier et commande
+- [x] Panier et commande
 - [ ] Formulaire sur-mesure et alertes de sortie
 - [ ] Authentification et espace client
 - [ ] Administration (EasyAdmin)

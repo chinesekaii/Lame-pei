@@ -10,8 +10,13 @@
         <a href="{{ path('app_home') }}#collection">Boutique</a>
         <a href="{{ path('app_home') }}#bientot">Bientôt</a>
         <a href="{{ path('app_home') }}#commander">Commander</a>
+        {% if app.user %}
+            <a href="{{ path('app_logout') }}" title="Connecté(e) : {{ app.user.email }}">Déconnexion</a>
+        {% else %}
+            <a href="{{ path('app_login') }}">Connexion</a>
+        {% endif %}
         <button type="button" class="btn-panier" data-action="panier#ouvrir">
-            Panier (<span data-panier-target="compteur">0</span>)
+            Panier ({{ panier.nombre }})
         </button>
     </nav>
 </header>

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion · L'ÂME PEÏ{% endblock %}
+
+{% block body %}
+    <section class="page page--etroite">
+        <div class="page__entete">
+            <div class="surtitre">Espace client</div>
+            <h1 class="titre-section">Connexion</h1>
+        </div>
+
+        <div class="carte-formulaire">
+            {% if erreur %}
+                <ul class="form-erreurs form-erreurs--bloc">
+                    <li>{{ erreur.messageKey|trans(erreur.messageData, 'security') }}</li>
+                </ul>
+            {% endif %}
+
+            <form method="post" action="{{ path('app_login') }}">
+                <div class="form-ligne">
+                    <label for="email" class="champ__label">Adresse e-mail</label>
+                    <input type="email" id="email" name="email" value="{{ dernier_email }}" class="champ" autocomplete="email" required autofocus>
+                </div>
+
+                <div class="form-ligne">
+                    <label for="password" class="champ__label">Mot de passe</label>
+                    <input type="password" id="password" name="password" class="champ" autocomplete="current-password" required>
+                </div>
+
+                <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+                <button type="submit" class="btn btn--plein btn--large">Se connecter</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

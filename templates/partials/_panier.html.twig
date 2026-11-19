@@ -1,4 +1,4 @@
-{# Tiroir latéral du panier. Le contenu réel sera branché à l'étape « Panier et commande ». #}
+{# Tiroir latéral du panier (ouvert par le bouton « Panier » de l'en-tête) #}
 <div class="panier-overlay" data-panier-target="overlay" data-action="click->panier#fermer" hidden></div>
 
 <aside class="panier" data-panier-target="tiroir" aria-label="Panier" aria-hidden="true">
@@ -7,5 +7,30 @@
         <button type="button" class="panier__fermer" data-action="panier#fermer" aria-label="Fermer le panier">×</button>
     </div>
 
-    <p class="panier__vide">Votre panier est vide.</p>
+    {% if panier.estVide %}
+        <p class="panier__vide">Votre panier est vide.</p>
+    {% else %}
+        <ul class="panier__lignes">
+            {% for ligne in panier.lignes %}
+                <li class="panier__ligne">
+                    <span class="panier__nom">
+                        {{ ligne.modele.nom }}
+                        <span class="panier__taille">Taille {{ ligne.variante.pointure }}{{ ligne.quantite > 1 ? ' × ' ~ ligne.quantite }}</span>
+                    </span>
+                    <span class="panier__prix">{{ ligne.sousTotal|prix }}</span>
+                    <form method="post" action="{{ path('app_panier_retirer', {id: ligne.variante.id}) }}" class="panier__retirer">
+                        <input type="hidden" name="_token" value="{{ csrf_token('panier') }}">
+                        <button type="submit" aria-label="Retirer {{ ligne.modele.nom }} taille {{ ligne.variante.pointure }}">Retirer</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="panier__total">
+            <span>Total</span><span>{{ panier.total|prix }}</span>
+        </div>
+
+        <a href="{{ path('app_commande_new') }}" class="btn btn--plein btn--large panier__commander">Passer commande</a>
+        <a href="{{ path('app_panier_index') }}" class="panier__voir">Voir le panier</a>
+    {% endif %}
 </aside>

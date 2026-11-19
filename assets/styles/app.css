@@ -992,6 +992,378 @@ textarea.champ {
     color: var(--brun-bois);
 }
 
+.panier__lignes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.panier__ligne {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    column-gap: 12px;
+    border-bottom: 1px solid var(--sable);
+    padding-bottom: 12px;
+}
+
+.panier__nom {
+    font-family: var(--police-titre);
+    font-size: 20px;
+    color: var(--brun-volcan);
+}
+
+.panier__taille {
+    font-family: var(--police-texte);
+    font-size: 12px;
+    color: var(--terre-cuite);
+}
+
+.panier__prix {
+    font-size: 14px;
+    color: var(--brun-bois);
+}
+
+.panier__retirer button,
+.lien-discret {
+    font-family: var(--police-texte);
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--or);
+    cursor: pointer;
+}
+
+.panier__retirer button:hover,
+.lien-discret:hover {
+    color: var(--terre-cuite);
+}
+
+.panier__total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 22px;
+    font-family: var(--police-titre);
+    font-size: 22px;
+    color: var(--brun-volcan);
+}
+
+.panier__commander {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.panier__voir {
+    display: block;
+    margin-top: 14px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+/* ---------- Pages simples (panier, commande, connexion) ---------- */
+
+.page {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px var(--gouttiere) 90px;
+    animation: fadeUp 0.5s ease both;
+}
+
+.page--etroite {
+    max-width: 560px;
+}
+
+.page__entete {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.page__entete p {
+    color: var(--brun-bois);
+    font-size: 15px;
+    margin: 0;
+}
+
+.page__vide {
+    text-align: center;
+    color: var(--brun-bois);
+}
+
+.page__vide p {
+    margin: 0 0 24px;
+}
+
+.fleur-titre {
+    font-family: var(--police-titre);
+    font-size: 32px;
+    color: var(--hibiscus);
+    margin-bottom: 8px;
+}
+
+/* Récapitulatif du panier */
+
+.recap__ligne {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 22px;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--sable);
+}
+
+.recap__ligne:first-child {
+    border-top: 1px solid var(--sable);
+}
+
+.recap__image {
+    display: block;
+    aspect-ratio: 90 / 150;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--sable);
+}
+
+.recap__nom {
+    font-family: var(--police-titre);
+    font-size: 26px;
+}
+
+.recap__detail {
+    font-size: 13px;
+    color: var(--brun-bois);
+    margin: 4px 0 12px;
+}
+
+.recap__droite {
+    text-align: right;
+}
+
+.recap__prix {
+    font-family: var(--police-titre);
+    font-size: 22px;
+    color: var(--brun-volcan);
+    margin-bottom: 8px;
+}
+
+.quantite {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--sable);
+    background: #FFF;
+}
+
+.quantite form {
+    margin: 0;
+}
+
+.quantite__btn {
+    width: 34px;
+    height: 34px;
+    border: 0;
+    background: none;
+    color: var(--terre-cuite);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.quantite__btn:hover:not(:disabled) {
+    background: var(--fond-section);
+}
+
+.quantite__btn:disabled {
+    color: #D8C6B8;
+    cursor: not-allowed;
+}
+
+.quantite__valeur {
+    min-width: 28px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--brun-bois);
+}
+
+.recap__total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 26px;
+    font-family: var(--police-titre);
+    font-size: 28px;
+    color: var(--brun-volcan);
+}
+
+.recap__total--petit {
+    font-size: 22px;
+    margin-top: 18px;
+}
+
+.recap__actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 28px;
+}
+
+.recap__actions--centre {
+    justify-content: center;
+}
+
+.recap__note {
+    font-size: 13px;
+    color: var(--terre-cuite);
+    line-height: 1.75;
+    margin: 16px 0 0;
+}
+
+.recap > .recap__note {
+    text-align: right;
+}
+
+/* Page commande */
+
+.commande__grille {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 48px;
+    align-items: start;
+}
+
+.commande__recap {
+    position: sticky;
+    top: 110px;
+}
+
+.mini-recap {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--brun-bois);
+}
+
+.mini-recap li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    border-bottom: 1px solid var(--sable);
+    padding-bottom: 10px;
+}
+
+.mini-recap__nom {
+    font-family: var(--police-titre);
+    font-size: 19px;
+    margin-right: 6px;
+}
+
+.confirmation__bloc {
+    margin-top: 26px;
+}
+
+.confirmation__bloc p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--brun-bois);
+}
+
+/* Formulaires Symfony (voir templates/form/theme.html.twig) */
+
+.form-ligne {
+    margin-bottom: 20px;
+}
+
+.form-ligne .champ {
+    margin-bottom: 0;
+}
+
+.form-ligne--erreur .champ {
+    border-color: var(--hibiscus);
+}
+
+.form-duo {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 14px;
+}
+
+.champ__aide {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: var(--brun-bois);
+    opacity: 0.8;
+}
+
+.form-erreurs {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: var(--hibiscus);
+}
+
+.form-erreurs--bloc {
+    margin: 0 0 20px;
+    padding: 12px 14px;
+    border: 1px solid var(--hibiscus);
+    background: #FDF0EC;
+}
+
+.choix-pastilles {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.pastille-choix {
+    position: relative;
+    cursor: pointer;
+}
+
+.pastille-choix input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.pastille-choix span {
+    display: block;
+    padding: 10px 18px;
+    border: 1px solid var(--sable);
+    border-radius: 999px;
+    background: var(--creme);
+    font-size: 13px;
+    color: var(--brun-bois);
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.pastille-choix:hover span {
+    border-color: var(--or);
+}
+
+.pastille-choix input:checked + span {
+    background: var(--terre-cuite);
+    border-color: var(--terre-cuite);
+    color: var(--texte-bouton);
+}
+
+.pastille-choix input:focus-visible + span {
+    outline: 2px solid var(--or);
+    outline-offset: 2px;
+}
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 900px) {
@@ -1026,6 +1398,9 @@ textarea.champ {
 
     .fiche__infos { position: static; }
     .fiche__titre { font-size: 44px; }
+
+    .commande__grille { grid-template-columns: 1fr; gap: 36px; }
+    .commande__recap { position: static; order: -1; }
 }
 
 @media (max-width: 560px) {
@@ -1051,6 +1426,13 @@ textarea.champ {
     .fiche__titre { font-size: 38px; }
     .autres__liste { gap: 12px; }
     .autre { width: calc(33.333% - 8px); }
+
+    .recap__ligne { grid-template-columns: 70px 1fr; gap: 14px; }
+    .recap__droite { grid-column: 2; text-align: left; display: flex; gap: 16px; align-items: baseline; }
+    .recap__actions { justify-content: stretch; }
+    .recap__actions .btn { flex: 1; text-align: center; }
+    .form-duo { grid-template-columns: 1fr; gap: 0; }
+    .carte-formulaire { padding: 22px; }
 
     .footer__inner { justify-content: center; text-align: center; }
 }

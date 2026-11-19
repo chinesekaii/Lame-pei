@@ -1,0 +1,62 @@
+{# Thème de formulaire aux couleurs du site (utilisé par tous les formulaires Symfony) #}
+{% use 'form_div_layout.html.twig' %}
+
+{% block form_row %}
+    {%- set row_attr = row_attr|merge({class: ('form-ligne' ~ (errors|length ? ' form-ligne--erreur') ~ ' ' ~ row_attr.class|default(''))|trim}) -%}
+    <div {% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_help(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{% endblock %}
+
+{% block form_label %}
+    {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' champ__label')|trim}) -%}
+    {{- parent() -}}
+{% endblock %}
+
+{% block form_widget_simple %}
+    {%- if type is not defined or type not in ['radio', 'checkbox', 'hidden'] -%}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' champ')|trim}) -%}
+    {%- endif -%}
+    {{- parent() -}}
+{% endblock %}
+
+{% block textarea_widget %}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' champ')|trim}) -%}
+    {{- parent() -}}
+{% endblock %}
+
+{% block choice_widget_collapsed %}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' champ')|trim}) -%}
+    {{- parent() -}}
+{% endblock %}
+
+{# Boutons radio affichés comme des pastilles #}
+{% block choice_widget_expanded %}
+    <div {{ block('widget_container_attributes') }} class="choix-pastilles">
+        {%- for child in form %}
+            <label class="pastille-choix">
+                {{- form_widget(child) -}}
+                <span>{{ child.vars.label|trans({}, translation_domain) }}</span>
+            </label>
+        {% endfor -%}
+    </div>
+{% endblock %}
+
+{% block form_help %}
+    {%- if help is not empty -%}
+        <p id="{{ id }}_help" class="champ__aide">{{ help|trans(help_translation_parameters, translation_domain) }}</p>
+    {%- endif -%}
+{% endblock %}
+
+{% block form_errors %}
+    {%- if errors|length > 0 -%}
+        <ul class="form-erreurs">
+            {%- for error in errors -%}
+                <li>{{ error.message }}</li>
+            {%- endfor -%}
+        </ul>
+    {%- endif -%}
+{% endblock %}

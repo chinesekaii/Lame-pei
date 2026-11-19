@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande · L'ÂME PEÏ{% endblock %}
+
+{% block body %}
+    <section class="page">
+        <div class="page__entete">
+            <div class="surtitre">Dernière étape</div>
+            <h1 class="titre-section">Livraison</h1>
+        </div>
+
+        <div class="commande__grille">
+            <div class="carte-formulaire">
+                {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+                    {{ form_row(form.destination) }}
+                    {{ form_row(form.nomComplet) }}
+                    {{ form_row(form.adresse) }}
+                    {{ form_row(form.complement) }}
+                    <div class="form-duo">
+                        {{ form_row(form.codePostal) }}
+                        {{ form_row(form.ville) }}
+                    </div>
+                    {{ form_row(form.telephone) }}
+
+                    <button type="submit" class="btn btn--plein btn--large">Valider ma commande · {{ panier.total|prix }}</button>
+                {{ form_end(form) }}
+            </div>
+
+            <aside class="commande__recap">
+                <div class="surtitre">Récapitulatif</div>
+                <ul class="mini-recap">
+                    {% for ligne in panier.lignes %}
+                        <li>
+                            <span>
+                                <span class="mini-recap__nom" style="color: {{ ligne.modele.couleur ?? '#8C3A1E' }}">{{ ligne.modele.nom }}</span>
+                                Taille {{ ligne.variante.pointure }}{{ ligne.quantite > 1 ? ' × ' ~ ligne.quantite }}
+                            </span>
+                            <span>{{ ligne.sousTotal|prix }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="recap__total recap__total--petit">
+                    <span>Total</span><span>{{ panier.total|prix }}</span>
+                </div>
+                <p class="recap__note">Commande au nom de {{ app.user }} ({{ app.user.email }}).</p>
+                <a href="{{ path('app_panier_index') }}" class="lien-discret">Modifier le panier</a>
+            </aside>
+        </div>
+    </section>
+{% endblock %}
