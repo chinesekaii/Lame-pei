@@ -80,8 +80,10 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
 - [x] Panier en session (`App\Service\Panier`, global Twig `panier`, quantités limitées au stock, tiroir ouvert après ajout) et `PanierController` (ajouter / modifier / retirer, jetons CSRF `panier`)
 - [x] Commande (`CommandeController`, réservé à ROLE_USER) : formulaire d'adresse (`Dto\AdresseLivraison` + `AdresseLivraisonType`, code postal contrôlé selon Réunion/métropole), `CommandeManager` (transaction + verrou sur les variantes, stock décrémenté, prix figé), page de confirmation visible par son seul propriétaire. Statut `en_attente` jusqu'au paiement Stripe
 - [x] Connexion / déconnexion (`SecurityController`, `/connexion`, `/deconnexion`, form_login). Locale par défaut : `fr`. Thème de formulaire : `templates/form/theme.html.twig`
-- [ ] « Me prévenir de sa sortie » (renvoie pour l'instant vers #commander)
-- [ ] Formulaire sur-mesure et alertes de sortie
+- [x] Formulaire sur-mesure sur l'accueil (`DemandeSurMesureType`, traité par `HomeController` en GET|POST, coloris déduit du modèle par un écouteur `FormEvents::SUBMIT`, préremplissage `?modele=slug` et client connecté)
+- [x] Alertes « Me prévenir de sa sortie » sur la fiche des modèles en production (`AlerteType`, traité par `ModeleController::show`, une inscription par e-mail et par modèle)
+- Flashes : `success` / `error` affichés en haut de page ; `sur_mesure`, `alerte` affichés dans leur section ; `ouvrir_panier` ouvre le tiroir
+- [ ] Plus tard : e-mail à la marque à chaque demande, e-mail aux inscrits à la sortie d'un modèle (Symfony Mailer)
 - [ ] Authentification et espace client
 - [ ] Administration EasyAdmin
 - [ ] Paiement Stripe et mise en ligne

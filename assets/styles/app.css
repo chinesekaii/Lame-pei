@@ -176,6 +176,17 @@ img {
     text-align: center;
 }
 
+.flash--success {
+    border-color: #7FA36B;
+    background: #F3F8EE;
+    color: #3F6A2E;
+}
+
+.flash--integre {
+    margin: 0 0 20px;
+    text-align: left;
+}
+
 .flash--error {
     border-color: var(--hibiscus);
     color: var(--hibiscus);
@@ -1357,6 +1368,31 @@ textarea.champ {
     background: var(--terre-cuite);
     border-color: var(--terre-cuite);
     color: var(--texte-bouton);
+}
+
+/* Tailles du formulaire sur-mesure : carrés comme dans la maquette */
+.choix-tailles {
+    gap: 8px;
+}
+
+.choix-tailles .pastille-choix span {
+    padding: 8px 13px;
+    border-radius: 0;
+    background: #FFF;
+}
+
+.form-duo--egal {
+    grid-template-columns: 1fr 1fr;
+}
+
+/* Formulaire « Me prévenir de sa sortie » */
+.alerte {
+    margin-top: 30px;
+    max-width: 380px;
+}
+
+.alerte .btn--fiche {
+    margin-top: 4px;
 }
 
 .pastille-choix input:focus-visible + span {

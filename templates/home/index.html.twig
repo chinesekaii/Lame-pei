@@ -118,24 +118,20 @@
                 </ul>
             </div>
 
-            {# Formulaire visuel : il sera remplacé par un vrai formulaire Symfony à l'étape « Sur-mesure ». #}
             <div class="carte-formulaire">
-                <label class="champ__label" for="sm-coloris">Coloris souhaité</label>
-                <select id="sm-coloris" class="champ">
-                    {% for modele in disponibles %}<option>{{ modele.nom }} (disponible)</option>{% endfor %}
-                    {% for modele in enProduction %}<option>{{ modele.nom }}</option>{% endfor %}
-                    <option>Sur-mesure</option>
-                </select>
-
-                <span class="champ__label">Taille</span>
-                <div class="tailles">
-                    {% for taille in 36..42 %}<span class="taille">{{ taille }}</span>{% endfor %}
-                </div>
-
-                <label class="champ__label" for="sm-message">Votre message</label>
-                <textarea id="sm-message" rows="3" class="champ" placeholder="Occasion, couleurs, date souhaitée…"></textarea>
-
-                <button type="button" class="btn btn--plein btn--large">Envoyer ma demande</button>
+                {% for message in app.flashes('sur_mesure') %}
+                    <div class="flash flash--success flash--integre" role="status">{{ message }}</div>
+                {% endfor %}
+                {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+                    {{ form_row(form.modele) }}
+                    {{ form_row(form.taille) }}
+                    {{ form_row(form.message) }}
+                    <div class="form-duo form-duo--egal">
+                        {{ form_row(form.nom) }}
+                        {{ form_row(form.email) }}
+                    </div>
+                    <button type="submit" class="btn btn--plein btn--large">Envoyer ma demande</button>
+                {{ form_end(form) }}
             </div>
         </div>
     </section>

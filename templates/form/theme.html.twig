@@ -35,7 +35,8 @@
 
 {# Boutons radio affichés comme des pastilles #}
 {% block choice_widget_expanded %}
-    <div {{ block('widget_container_attributes') }} class="choix-pastilles">
+    {%- set attr = attr|merge({class: ('choix-pastilles ' ~ attr.class|default(''))|trim}) -%}
+    <div {{ block('widget_container_attributes') }}>
         {%- for child in form %}
             <label class="pastille-choix">
                 {{- form_widget(child) -}}

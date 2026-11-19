@@ -112,7 +112,7 @@ class DemandeSurMesure
         return $this->taille;
     }
 
-    public function setTaille(int $taille): static
+    public function setTaille(?int $taille): static
     {
         $this->taille = $taille;
 

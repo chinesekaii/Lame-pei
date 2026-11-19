@@ -65,7 +65,7 @@
                             <button type="submit" class="btn btn--plein btn--fiche">Ajouter au panier</button>
                             <p class="fiche__note">Paire déjà brodée, prête à partir. Envoi suivi sous 48 h.</p>
                         {% else %}
-                            <p class="fiche__note">Toutes les paires de ce modèle sont parties. Demandez-la en <a href="{{ path('app_home') }}#commander">sur-mesure</a>.</p>
+                            <p class="fiche__note">Toutes les paires de ce modèle sont parties. Demandez-la en <a href="{{ path('app_home', {modele: modele.slug}) }}#commander">sur-mesure</a>.</p>
                         {% endif %}
                     </form>
                 {% else %}
@@ -76,8 +76,17 @@
                         {% endfor %}
                     </div>
 
-                    <a href="{{ path('app_home') }}#commander" class="btn btn--contour-fort btn--fiche">Me prévenir de sa sortie</a>
+                    <div id="alerte" class="alerte">
+                        {% for message in app.flashes('alerte') %}
+                            <div class="flash flash--success flash--integre" role="status">{{ message }}</div>
+                        {% endfor %}
+                        {{ form_start(formAlerte, {attr: {novalidate: 'novalidate'}}) }}
+                            {{ form_row(formAlerte.email) }}
+                            <button type="submit" class="btn btn--contour-fort btn--fiche">Me prévenir de sa sortie</button>
+                        {{ form_end(formAlerte) }}
+                    </div>
                     <p class="fiche__note">Modèle en cours de broderie — visuel de la planche de collection. Comptez 8 à 10 jours après lancement.</p>
+                    <p class="fiche__note">Vous le voulez sans attendre ? <a href="{{ path('app_home', {modele: modele.slug}) }}#commander">Demandez-le en sur-mesure</a>.</p>
                 {% endif %}
             </div>
         </section>
