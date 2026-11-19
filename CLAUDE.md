@@ -73,7 +73,7 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
 - [x] Maquette (Claude Design)
 - [x] Création du projet Symfony et connexion à la base (MySQL 8.4 WAMP, InnoDB forcé dans `doctrine.yaml`)
 - [x] Entités, enums de statut (`src/Enum`), migration initiale
-- [ ] Fixtures
+- [x] Fixtures (`src/DataFixtures` : catalogue de la maquette, comptes admin@lamepei.re / admin1234 et client@lamepei.re / client1234, données de démo)
 - [ ] Layout Twig fidèle à la maquette
 - [ ] Accueil, catalogue, fiche produit
 - [ ] Panier persistant et commande

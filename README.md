@@ -63,7 +63,7 @@ Puis :
 ```bash
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
-php bin/console doctrine:fixtures:load   # (à venir)
+php bin/console doctrine:fixtures:load
 symfony serve
 ```
 
@@ -87,7 +87,7 @@ Le site est accessible sur `https://127.0.0.1:8000`.
 - [x] Maquette du site (Claude Design)
 - [x] Projet Symfony et connexion à la base MySQL
 - [x] Modèle de données : 10 entités Doctrine, relations, validation, migration
-- [ ] Données de démonstration (fixtures)
+- [x] Données de démonstration (fixtures)
 - [ ] Mise en page fidèle à la maquette (Twig)
 - [ ] Catalogue et fiches produits
 - [ ] Panier et commande
