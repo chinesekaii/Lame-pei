@@ -63,7 +63,7 @@ class CatalogueFixtures extends Fixture
         $manager->flush();
 
         // 2. Catalogue actuel : collections, modèles, palettes et stock
-        $this->synchroniseur->synchroniser();
+        $this->synchroniseur->synchroniser(imposerStock: true);
 
         foreach (array_keys(CatalogueReference::MODELES) as $slug) {
             $modele = $manager->getRepository(Modele::class)->findOneBy(['slug' => $slug]);

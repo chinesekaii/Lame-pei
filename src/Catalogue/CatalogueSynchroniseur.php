@@ -4,9 +4,11 @@ namespace App\Catalogue;
 
 use App\Entity\CouleurPerle;
 use App\Entity\Drop;
+use App\Entity\LigneCommande;
 use App\Entity\Materiau;
 use App\Entity\Modele;
 use App\Entity\Variante;
+use App\Enum\StatutCommande;
 use App\Enum\StatutModele;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -25,13 +27,24 @@ class CatalogueSynchroniseur
     {
     }
 
-    /** @return list<string> */
-    public function synchroniser(): array
+    /** @var array<int, int> paires réservées par des commandes en attente de paiement, par variante */
+    private array $reservations = [];
+
+    /**
+     * @param bool $imposerStock false (par défaut) : seul le stock des nouvelles tailles est fixé,
+     *                           le stock existant (géré dans l'admin et par les commandes) est conservé.
+     *                           true : le stock de référence est imposé, moins les paires réservées
+     *                           par les commandes en attente de paiement.
+     *
+     * @return list<string>
+     */
+    public function synchroniser(bool $imposerStock = false): array
     {
         $this->journal = [];
+        $this->reservations = $imposerStock ? $this->reservationsEnCours() : [];
 
         $materiaux = $this->materiaux();
-        $modeles = $this->modeles($materiaux);
+        $modeles = $this->modeles($materiaux, $imposerStock);
         $this->collections($modeles);
         $this->archiver();
 
@@ -65,7 +78,7 @@ class CatalogueSynchroniseur
      *
      * @return array<string, Modele> modèles indexés par slug
      */
-    private function modeles(array $materiaux): array
+    private function modeles(array $materiaux, bool $imposerStock): array
     {
         $repo = $this->em->getRepository(Modele::class);
         $modeles = [];
@@ -92,13 +105,22 @@ class CatalogueSynchroniseur
                 ->setCouleursPerle($this->palette($data['perles']))
                 ->setMateriaux($materiaux);
 
-            // Tailles Havaianas : on crée celles qui manquent, puis on fixe le stock
+            // Tailles Havaianas : on crée celles qui manquent (stock de référence),
+            // et on ne touche au stock existant que si on le demande explicitement
             $modele->completerVariantes();
             $stockTotal = 0;
             foreach ($modele->getVariantes() as $variante) {
-                $stock = $data['stock'][$variante->getTaille()] ?? 0;
-                $variante->setStock($stock);
-                $stockTotal += $stock;
+                $reference = $data['stock'][$variante->getTaille()] ?? 0;
+                if ($variante->getId() === null) {
+                    $variante->setStock($reference);
+                } elseif ($imposerStock) {
+                    $reserve = $this->reservations[$variante->getId()] ?? 0;
+                    $variante->setStock(max(0, $reference - $reserve));
+                    if ($reserve > 0) {
+                        $this->journal[] = sprintf('%s %s : %d paire(s) déduite(s), réservée(s) par une commande en attente', $data['nom'], $variante->getTaille(), $reserve);
+                    }
+                }
+                $stockTotal += $variante->getStock();
             }
 
             $this->journal[] = sprintf('%s %s : %d paire(s) en stock', $nouveau ? 'Modèle créé' : 'Modèle mis à jour', $data['nom'], $stockTotal);
@@ -106,6 +128,22 @@ class CatalogueSynchroniseur
         }
 
         return $modeles;
+    }
+
+    /** @return array<int, int> quantité réservée par identifiant de variante */
+    private function reservationsEnCours(): array
+    {
+        $lignes = $this->em->createQueryBuilder()
+            ->select('IDENTITY(l.variante) AS variante', 'SUM(l.quantite) AS quantite')
+            ->from(LigneCommande::class, 'l')
+            ->join('l.commande', 'c')
+            ->where('c.statut = :attente')
+            ->setParameter('attente', StatutCommande::EnAttente)
+            ->groupBy('l.variante')
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_column(array_map(fn ($l) => [(int) $l['variante'], (int) $l['quantite']], $lignes), 1, 0);
     }
 
     /**

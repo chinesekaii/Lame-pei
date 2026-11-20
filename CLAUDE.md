@@ -51,7 +51,7 @@ Polices (Google Fonts) : **Cormorant Garamond** pour les titres, **Jost** pour l
 - Prix : 45 € pour tous les modèles.
 - **Tailles Havaianas doubles** : 33/34, 35/36, 37/38, 39/40, 41/42 (`Variante::TAILLES`).
 - Livraison en main propre à La Réunion uniquement, 24 à 72 h (voir CGV). Sur-mesure : réponse sous 48 h.
-- **Catalogue de référence** : `src/Catalogue/CatalogueReference.php` (collections, modèles, palettes, stock). Pour mettre à jour : modifier ce fichier puis `php bin/console app:catalogue:synchroniser` (ne touche ni aux clients, ni aux commandes, ni aux alertes). Les fixtures utilisent la même référence.
+- **Catalogue de référence** : `src/Catalogue/CatalogueReference.php` (collections, modèles, palettes, stock). Pour mettre à jour : modifier ce fichier puis `php bin/console app:catalogue:synchroniser` (ne touche ni aux clients, ni aux commandes, ni aux alertes, **ni au stock existant**). `--stock` impose le stock de référence **moins les paires réservées par des commandes en attente** (sinon une paire réservée pourrait être vendue deux fois). Les fixtures utilisent la même référence.
 - Photos sources dans `docs/nouveautes/`, versions web (JPEG ≤ 900 px) dans `public/uploads/modeles/`.
 
 ## Modèle de données prévu
