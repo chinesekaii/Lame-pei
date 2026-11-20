@@ -11,7 +11,7 @@ import { Controller } from '@hotwired/stimulus';
  */
 export default class extends Controller {
     static targets = ['piste', 'precedent', 'suivant', 'point', 'lecture'];
-    static values = { delai: { type: Number, default: 4000 } };
+    static values = { delai: { type: Number, default: 2500 } };
 
     connect() {
         this.majEtat = this.majEtat.bind(this);
