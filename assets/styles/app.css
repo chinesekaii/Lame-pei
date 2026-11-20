@@ -2381,3 +2381,57 @@ textarea.champ {
     border-color: var(--terre-cuite);
     color: var(--texte-bouton);
 }
+
+/* ---------- Curseur fleur et traînée (souris uniquement) ---------- */
+
+@media (hover: hover) and (pointer: fine) {
+    body {
+        cursor: url('../images/curseur-fleur.svg') 16 16, auto;
+    }
+
+    /* Liens, boutons, choix cliquables : la fleur terre cuite signale qu'on peut cliquer */
+    a,
+    button:not(:disabled),
+    summary,
+    select,
+    label,
+    [role="button"],
+    .carte,
+    .vignette,
+    .autre,
+    .carrousel__photo,
+    .galerie-clients__photo {
+        cursor: url('../images/curseur-fleur-lien.svg') 16 16, pointer;
+    }
+
+    /* Zones de saisie : on garde le curseur texte, plus pratique pour écrire */
+    input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]),
+    textarea {
+        cursor: text;
+    }
+}
+
+.fleur-trainee {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;   /* ne gêne jamais les clics */
+    line-height: 1;
+    transform: translate(-50%, -50%);
+    animation: fleur-trainee 0.9s ease-out forwards;
+    will-change: transform, opacity;
+}
+
+@keyframes fleur-trainee {
+    from {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    }
+    to {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--derive, 0px)), calc(-50% + 26px)) scale(0.4) rotate(var(--rotation, 90deg));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fleur-trainee { display: none; }
+}

@@ -127,6 +127,7 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
   - **règle de la marque : aucune photo où l'on voit un visage**, ni pseudo ou photo de profil Instagram (recadrer les stories) ;
   - 7 photos issues de `docs/avis/`, listées dans `RetoursClients::PHOTOS`, fichiers dans `public/uploads/clients/` (sans métadonnées), importées par `app:avis:importer` ;
   - `App\Service\ImageWeb` : toute photo envoyée depuis l'admin est redressée, réduite à 900 px et **débarrassée de ses métadonnées (position GPS)**.
+- [x] Curseur fleur (`assets/images/curseur-fleur.svg`, variante terre cuite `curseur-fleur-lien.svg` sur les éléments cliquables, curseur texte conservé dans les champs) et traînée de fleurs ✿ qui suit la souris (`trainee_controller.js` sur `<body>`, max 24 fleurs, animation CSS 0,9 s). Uniquement avec une souris (`hover: hover` et `pointer: fine`), désactivé si « réduire les animations ».
 - [ ] Tester un vrai paiement Stripe en mode test (clés à créer sur dashboard.stripe.com), puis configurer le webhook (Stripe CLI en local : `stripe listen --forward-to 127.0.0.1:8000/stripe/webhook`)
 - [ ] Mise en ligne
 

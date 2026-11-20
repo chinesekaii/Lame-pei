@@ -18,7 +18,7 @@
         {% endblock %}
     </head>
     {# Le tiroir s'ouvre tout seul juste après un ajout au panier #}
-    <body data-controller="panier" data-panier-ouvert-value="{{ app.flashes('ouvrir_panier') is not empty ? 'true' : 'false' }}">
+    <body data-controller="panier trainee" data-panier-ouvert-value="{{ app.flashes('ouvrir_panier') is not empty ? 'true' : 'false' }}">
         <div class="site">
             {{ include('partials/_header.html.twig') }}
 
