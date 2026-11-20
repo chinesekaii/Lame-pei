@@ -1,0 +1,16 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block contenu %}
+    <h1 style="font-family:Georgia, serif; font-weight:normal; font-size:24px; color:#8C3A1E; text-align:center; margin:8px 0 18px;">Nouvel avis à valider</h1>
+
+    <p style="margin:0 0 6px; text-align:center; font-size:22px; color:#C79A3E; letter-spacing:3px;">{% for i in 1..5 %}{{ i <= (avis.note ?? 0) ? '★' : '☆' }}{% endfor %}</p>
+    <p style="margin:0 0 16px; text-align:center;"><strong>{{ avis.auteur }}</strong>{{ avis.modele ? ' · ' ~ avis.modele.nom }}{{ avis.achatVerifie ? ' · achat vérifié' }}</p>
+
+    <p style="margin:0 0 8px; font-style:italic;">« {{ avis.texte|nl2br }} »</p>
+
+    <p style="margin:16px 0 0; font-size:13px;">L'avis n'est pas visible sur le site tant qu'il n'est pas publié dans l'admin.</p>
+
+    {{ include('emails/_bouton.html.twig', {lien: url('admin_avis_edit', {entityId: avis.id}), texte: 'Publier ou refuser'}) }}
+{% endblock %}
+
+{% block pied %}Notification automatique du site.{% endblock %}

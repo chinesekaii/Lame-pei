@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre avis sur {{ modele.nom }} · L'ÂME PEÏ{% endblock %}
+
+{% block body %}
+    <section class="page page--etroite">
+        <div class="page__entete">
+            <div class="surtitre">Espace client</div>
+            <h1 class="titre-section">Votre avis sur <span style="color: {{ modele.couleur ?? '#8C3A1E' }}">{{ modele.nom }}</span></h1>
+            <p>Merci de prendre un moment pour nous dire ce que vous en pensez.</p>
+        </div>
+
+        <div class="carte-formulaire">
+            {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+                {{ form_row(form.note) }}
+                {{ form_row(form.texte) }}
+                {{ form_row(form.auteur) }}
+                <button type="submit" class="btn btn--plein btn--large">Envoyer mon avis</button>
+                <p class="recap__note recap__note--centre">Votre avis sera publié après une rapide vérification.</p>
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}

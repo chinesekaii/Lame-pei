@@ -22,4 +22,6 @@
 ###> L'ÂME PEÏ ###
 # Photos d'origine (lourdes) : les versions web sont dans public/uploads/modeles/
 /docs/nouveautes/
+# Captures des retours clients (pseudos et photos Instagram) : données personnelles, à ne pas publier
+/docs/avis/
 ###< L'ÂME PEÏ ###

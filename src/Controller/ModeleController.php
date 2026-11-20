@@ -6,6 +6,7 @@ use App\Entity\Alerte;
 use App\Entity\User;
 use App\Entity\Variante;
 use App\Form\AlerteType;
+use App\Repository\AvisRepository;
 use App\Repository\ModeleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ModeleController extends AbstractController
 {
     #[Route('/modele/{slug}', name: 'app_modele_show', requirements: ['slug' => '[a-z0-9-]+'], methods: ['GET', 'POST'])]
-    public function show(string $slug, Request $request, ModeleRepository $modeleRepository, EntityManagerInterface $em): Response
+    public function show(string $slug, Request $request, ModeleRepository $modeleRepository, AvisRepository $avisRepository, EntityManagerInterface $em): Response
     {
         $modele = $modeleRepository->findOneVisibleBySlug($slug);
 
@@ -61,6 +62,8 @@ final class ModeleController extends AbstractController
             'tailleSelectionnee' => $tailleSelectionnee,
             'autres' => $modeleRepository->findAutres($modele),
             'formAlerte' => $formAlerte,
+            'avis' => $avisRepository->findPublies($modele),
+            'statsAvis' => $avisRepository->statistiques($modele),
         ]);
     }
 }

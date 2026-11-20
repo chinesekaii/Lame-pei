@@ -1,0 +1,7 @@
+{# Étoiles de 0 à 5, demi-étoiles comprises (variable : note, nombre décimal) #}
+{% set note = note ?? 0 %}
+<span class="etoiles" role="img" aria-label="{{ note|number_format(1, ',') }} sur 5">
+    {%- for i in 1..5 -%}
+        <span class="etoile{{ note >= i ? ' etoile--pleine' : (note >= i - 0.5 ? ' etoile--demi') }}">★</span>
+    {%- endfor -%}
+</span>

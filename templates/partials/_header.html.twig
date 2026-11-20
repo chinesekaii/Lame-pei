@@ -9,6 +9,7 @@
     <nav class="header__nav" aria-label="Navigation principale">
         <a href="{{ path('app_home') }}#collections">Collections</a>
         <a href="{{ path('app_home') }}#commander">Sur-mesure</a>
+        <a href="{{ path('app_avis') }}">Avis</a>
         {% if app.user %}
             <a href="{{ path('app_compte') }}" title="Connecté(e) : {{ app.user.email }}">Mon compte</a>
         {% else %}

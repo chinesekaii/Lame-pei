@@ -117,6 +117,12 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
   - sans `STRIPE_SECRET_KEY` (sk_test_…) dans `.env.local`, la commande reste en attente avec un message ;
   - `Commande` : `stripeSessionId`, `stripePaiementId`, `payeeLe`.
 - Dates affichées à l'heure de La Réunion (`twig.date.timezone` et `Crud::setTimezone`), enregistrées en UTC (PHP en UTC).
+- [x] Avis clients (20/11/2026) — entité `Avis` (auteur affiché, note 1–5 **ou null**, texte, modèle, `SourceAvis` site/instagram/message/marché, `StatutAvis` en attente/publié/refusé, `achatVerifie`) :
+  - client : « Donner mon avis » sur une commande **livrée** (`/compte/avis/{slug}`, un avis par modèle), en attente de validation, e-mail à la marque ;
+  - admin « Avis clients » : ajout des retours reçus ailleurs, boutons Publier / Refuser, badge + tuile « Avis à valider » ;
+  - affichage : section sur l'accueil (si au moins un avis publié), avis et note sur la fiche produit, page `/avis` avec l'encadré légal sur la modération (Code conso L111-7-2) ;
+  - **les retours sans note n'ont pas d'étoiles et ne comptent pas dans la moyenne** (ne jamais inventer de note) ;
+  - retours reçus avant le site : `src/Catalogue/RetoursClients.php`, importés **en attente** par `php bin/console app:avis:importer` (sans doublon). Captures sources dans `docs/avis/` (ignoré par Git : données personnelles). À publier par la marque après accord des clientes.
 - [ ] Tester un vrai paiement Stripe en mode test (clés à créer sur dashboard.stripe.com), puis configurer le webhook (Stripe CLI en local : `stripe listen --forward-to 127.0.0.1:8000/stripe/webhook`)
 - [ ] Mise en ligne
 

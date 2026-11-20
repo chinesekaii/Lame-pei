@@ -72,6 +72,28 @@
         </section>
     {% endif %}
 
+    {# ───────── Avis clients (affiché dès qu'un avis est publié) ───────── #}
+    {% if avis is not empty %}
+        <section id="avis" class="section section--avis">
+            <div class="section__entete">
+                <div class="surtitre">Vos retours</div>
+                <h2 class="titre-section titre-section--moyen">Elles portent L'ÂME PEÏ</h2>
+                {% if statsAvis.nombre > 0 %}
+                    <p class="avis-resume">
+                        {{ include('avis/_etoiles.html.twig', {note: statsAvis.moyenne}) }}
+                        <strong>{{ statsAvis.moyenne|number_format(1, ',') }}/5</strong> · {{ statsAvis.nombre }} avis noté{{ statsAvis.nombre > 1 ? 's' }}
+                    </p>
+                {% endif %}
+            </div>
+            <div class="avis-grille">
+                {% for a in avis %}
+                    {{ include('avis/_carte.html.twig', {avis: a}) }}
+                {% endfor %}
+            </div>
+            <p class="collection__lien"><a href="{{ path('app_avis') }}" class="btn btn--contour">Lire tous les avis</a></p>
+        </section>
+    {% endif %}
+
     {# ───────── Savoir-faire ───────── #}
     <section id="savoirfaire" class="section savoir-faire">
         <div class="savoir-faire__grille">

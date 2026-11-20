@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avis clients · L'ÂME PEÏ{% endblock %}
+{% block meta_description %}Les avis de nos clientes sur leurs savates brodées L'ÂME PEÏ.{% endblock %}
+
+{% block body %}
+    <section class="page page--texte">
+        <div class="page__entete">
+            <div class="surtitre">Vos retours</div>
+            <h1 class="titre-section">Avis clients</h1>
+            {% if stats.nombre > 0 %}
+                <p class="avis-resume">
+                    {{ include('avis/_etoiles.html.twig', {note: stats.moyenne}) }}
+                    <strong>{{ stats.moyenne|number_format(1, ',') }}/5</strong> · {{ stats.nombre }} avis noté{{ stats.nombre > 1 ? 's' }}
+                </p>
+            {% endif %}
+        </div>
+
+        {% if avis is empty %}
+            <p class="page__vide">Aucun avis pour le moment.</p>
+        {% else %}
+            <div class="avis-liste">
+                {% for a in avis %}
+                    {{ include('avis/_carte.html.twig', {avis: a}) }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {# Information obligatoire sur la façon dont les avis sont recueillis (Code de la consommation, art. L111-7-2) #}
+        <aside class="avis-moderation">
+            <div class="champ__label">Comment sont recueillis ces avis ?</div>
+            <p>Les avis marqués « Achat vérifié » ont été laissés sur ce site par des clientes ayant reçu leur commande. Les autres sont des retours reçus directement par L'ÂME PEÏ (Instagram, messages), publiés avec l'accord de leur autrice ; ils n'ont pas de note et ne comptent pas dans la moyenne.</p>
+            <p>Chaque avis est relu avant publication. Les avis ne sont ni rémunérés ni modifiés : seuls les contenus injurieux ou hors sujet sont refusés. Ils sont classés du plus récent au plus ancien.</p>
+        </aside>
+    </section>
+{% endblock %}

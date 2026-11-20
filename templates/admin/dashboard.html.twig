@@ -35,6 +35,10 @@
             <div class="lp-tuile__nombre">{{ nouvellesDemandes }}</div>
             <div class="lp-tuile__libelle">Nouvelle(s) demande(s) sur-mesure</div>
         </a>
+        <a class="lp-tuile{{ avisEnAttente > 0 ? ' lp-tuile--alerte' }}" href="{{ ea_url().setController('App\\Controller\\Admin\\AvisCrudController').setAction('index') }}">
+            <div class="lp-tuile__nombre">{{ avisEnAttente }}</div>
+            <div class="lp-tuile__libelle">Avis à valider</div>
+        </a>
         <a class="lp-tuile" href="{{ urlAlertes }}">
             <div class="lp-tuile__nombre">{{ alertesParModele|reduce((total, a) => total + a.nombre, 0) }}</div>
             <div class="lp-tuile__libelle">Personne(s) à prévenir d'une sortie</div>

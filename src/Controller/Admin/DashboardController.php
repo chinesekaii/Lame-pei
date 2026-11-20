@@ -3,9 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Alerte;
+use App\Entity\Avis;
 use App\Entity\Commande;
 use App\Entity\DemandeSurMesure;
 use App\Entity\Modele;
+use App\Enum\StatutAvis;
 use App\Enum\StatutCommande;
 use App\Enum\StatutDemande;
 use App\Enum\StatutModele;
@@ -61,6 +63,7 @@ class DashboardController extends AbstractDashboardController
             'aPreparer' => $commandes->count(['statut' => [StatutCommande::Payee, StatutCommande::EnFabrication]]),
             'enAttente' => $commandes->count(['statut' => StatutCommande::EnAttente]),
             'nouvellesDemandes' => $demandes->count(['statut' => StatutDemande::Nouvelle]),
+            'avisEnAttente' => $this->em->getRepository(Avis::class)->count(['statut' => StatutAvis::EnAttente]),
             'dernieresCommandes' => $commandes->findBy([], ['createdAt' => 'DESC'], 5),
             'dernieresDemandes' => $demandes->findBy(['statut' => [StatutDemande::Nouvelle, StatutDemande::EnCours]], ['createdAt' => 'DESC'], 5),
             'stockFaible' => $stockFaible,
@@ -111,6 +114,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Demandes');
         yield MenuItem::linkTo(DemandeSurMesureCrudController::class, 'Sur-mesure', 'fa fa-envelope-open-text');
         yield MenuItem::linkTo(AlerteCrudController::class, 'Alertes de sortie', 'fa fa-bell');
+        yield MenuItem::linkTo(AvisCrudController::class, 'Avis clients', 'fa fa-star')
+            ->setBadge($this->em->getRepository(Avis::class)->count(['statut' => StatutAvis::EnAttente]) ?: false, 'warning');
 
         yield MenuItem::section();
         yield MenuItem::linkToRoute('Voir le site', 'fa fa-store', 'app_home');

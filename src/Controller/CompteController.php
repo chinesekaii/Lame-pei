@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Avis;
 use App\Entity\User;
 use App\Form\MotDePasseType;
 use App\Form\ProfilType;
+use App\Repository\AvisRepository;
 use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +33,7 @@ final class CompteController extends AbstractController
     }
 
     #[Route('/commandes/{reference}', name: 'app_compte_commande', methods: ['GET'])]
-    public function commande(string $reference, #[CurrentUser] User $user, CommandeRepository $commandeRepository): Response
+    public function commande(string $reference, #[CurrentUser] User $user, CommandeRepository $commandeRepository, AvisRepository $avisRepository): Response
     {
         // Un client ne voit que ses propres commandes
         $commande = $commandeRepository->findOneBy(['reference' => $reference, 'user' => $user]);
@@ -40,8 +42,15 @@ final class CompteController extends AbstractController
             throw $this->createNotFoundException('Commande introuvable.');
         }
 
+        // Modèles sur lesquels le client a déjà laissé un avis (pour ne pas lui reproposer)
+        $avisLaisses = array_map(
+            fn (Avis $a) => $a->getModele()?->getId(),
+            $avisRepository->findBy(['user' => $user]),
+        );
+
         return $this->render('compte/commande.html.twig', [
             'commande' => $commande,
+            'avisLaisses' => $avisLaisses,
         ]);
     }
 

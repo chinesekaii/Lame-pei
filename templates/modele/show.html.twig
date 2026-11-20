@@ -47,6 +47,9 @@
                 {% endif %}
 
                 <h1 class="fiche__titre" style="color: {{ modele.couleur ?? '#8C3A1E' }}">{{ modele.nom|upper }}</h1>
+                {% if statsAvis.nombre > 0 %}
+                    <a href="#avis" class="fiche__note-avis">{{ include('avis/_etoiles.html.twig', {note: statsAvis.moyenne}) }} {{ statsAvis.nombre }} avis</a>
+                {% endif %}
                 <p class="fiche__poeme">{{ modele.description ?? modele.accroche }}</p>
                 <div class="fiche__prix">{{ modele.prix|prix }}</div>
 
@@ -115,6 +118,25 @@
                 {% endif %}
             </div>
         </section>
+
+        {% if avis is not empty %}
+            <section id="avis" class="avis-modele">
+                <div class="avis-modele__inner">
+                    <div class="surtitre">Avis sur {{ modele.nom }}</div>
+                    {% if statsAvis.nombre > 0 %}
+                        <p class="avis-resume">
+                            {{ include('avis/_etoiles.html.twig', {note: statsAvis.moyenne}) }}
+                            <strong>{{ statsAvis.moyenne|number_format(1, ',') }}/5</strong> · {{ statsAvis.nombre }} avis noté{{ statsAvis.nombre > 1 ? 's' }}
+                        </p>
+                    {% endif %}
+                    <div class="avis-grille">
+                        {% for a in avis %}
+                            {{ include('avis/_carte.html.twig', {avis: a, afficherModele: false}) }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
 
         {% if autres is not empty %}
             <section class="autres">

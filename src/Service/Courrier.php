@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Alerte;
+use App\Entity\Avis;
 use App\Entity\Commande;
 use App\Entity\DemandeSurMesure;
 use App\Entity\User;
@@ -104,6 +105,16 @@ class Courrier
                 ->subject(sprintf('Nouvelle demande sur-mesure de %s', $demande->getNom()))
                 ->htmlTemplate('emails/sur_mesure_marque.html.twig')
                 ->context(['demande' => $demande]),
+        );
+    }
+
+    public function nouvelAvisPourMarque(Avis $avis): bool
+    {
+        return $this->envoyer(
+            $this->pourMarque()
+                ->subject(sprintf('Nouvel avis à valider : %s (%d/5)', $avis->getModele()?->getNom() ?? 'avis général', (int) $avis->getNote()))
+                ->htmlTemplate('emails/avis_marque.html.twig')
+                ->context(['avis' => $avis]),
         );
     }
 

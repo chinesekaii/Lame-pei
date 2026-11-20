@@ -1997,3 +1997,152 @@ textarea.champ {
     text-align: center;
     margin-top: 12px;
 }
+
+/* ---------- Avis clients ---------- */
+
+.etoiles {
+    display: inline-flex;
+    gap: 2px;
+    font-size: 16px;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.etoile {
+    color: #E4D3C1;
+}
+
+.etoile--pleine {
+    color: var(--or);
+}
+
+/* Demi-étoile : moitié gauche dorée */
+.etoile--demi {
+    background: linear-gradient(90deg, var(--or) 50%, #E4D3C1 50%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.avis-resume {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px !important;
+    font-size: 14px !important;
+    color: var(--brun-bois);
+}
+
+.avis-resume strong {
+    font-family: var(--police-titre);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--brun-volcan);
+}
+
+.section--avis {
+    background: var(--fond-section);
+    border-block: 1px solid var(--sable);
+}
+
+.avis-grille {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 22px;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.avis-liste {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.avis {
+    margin: 0;
+    padding: 24px 26px;
+    background: #FFF;
+    border: 1px solid var(--sable);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.avis__texte {
+    margin: 0;
+    font-family: var(--police-titre);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--brun-volcan);
+}
+
+.avis__auteur {
+    font-size: 13px;
+    color: var(--brun-bois);
+}
+
+.avis__origine {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: #9C8576;
+}
+
+.avis-moderation {
+    margin-top: 40px;
+    padding-top: 22px;
+    border-top: 1px solid var(--sable);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--brun-bois);
+}
+
+.avis-moderation p {
+    margin: 0 0 8px;
+}
+
+.avis-modele {
+    padding: 56px var(--gouttiere);
+    border-top: 1px solid var(--sable);
+}
+
+.avis-modele__inner {
+    max-width: 1160px;
+    margin: 0 auto;
+}
+
+.avis-modele .avis-resume {
+    justify-content: flex-start;
+    margin-bottom: 20px !important;
+}
+
+.fiche__note-avis {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--brun-bois);
+}
+
+.mini-recap__avis {
+    border-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: -6px;
+}
+
+/* Choix de la note dans le formulaire d'avis : une ligne par niveau */
+.choix-etoiles {
+    flex-direction: column;
+    gap: 8px;
+}
+
+.choix-etoiles .pastille-choix span {
+    border-radius: 6px;
+    letter-spacing: 0.04em;
+}

@@ -6,6 +6,7 @@ use App\Entity\DemandeSurMesure;
 use App\Entity\User;
 use App\Enum\StatutModele;
 use App\Form\DemandeSurMesureType;
+use App\Repository\AvisRepository;
 use App\Repository\DropRepository;
 use App\Repository\ModeleRepository;
 use App\Service\Courrier;
@@ -18,7 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home', methods: ['GET', 'POST'])]
-    public function index(Request $request, ModeleRepository $modeleRepository, DropRepository $dropRepository, EntityManagerInterface $em, Courrier $courrier): Response
+    public function index(Request $request, ModeleRepository $modeleRepository, DropRepository $dropRepository, AvisRepository $avisRepository, EntityManagerInterface $em, Courrier $courrier): Response
     {
         // Formulaire sur-mesure (section #commander)
         $demande = new DemandeSurMesure();
@@ -59,6 +60,8 @@ final class HomeController extends AbstractController
                 fn ($m) => $m->getDrop() === null,
             ),
             'enProduction' => $modeleRepository->findByStatut(StatutModele::EnProduction),
+            'avis' => $avisRepository->findPublies(limite: 3),
+            'statsAvis' => $avisRepository->statistiques(),
             'form' => $form,
         ]);
     }

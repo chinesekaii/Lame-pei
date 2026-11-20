@@ -1,0 +1,16 @@
+{# Un avis (variable : avis ; afficherModele : bool) #}
+<figure class="avis">
+    {% if avis.note %}
+        {{ include('avis/_etoiles.html.twig', {note: avis.note}) }}
+    {% endif %}
+    <blockquote class="avis__texte">« {{ avis.texte }} »</blockquote>
+    <figcaption class="avis__auteur">
+        <strong>{{ avis.auteur }}</strong>
+        {% if afficherModele ?? true and avis.modele %}
+            · <a href="{{ path('app_modele_show', {slug: avis.modele.slug}) }}">{{ avis.modele.nom }}</a>
+        {% endif %}
+        <span class="avis__origine">
+            {{ avis.achatVerifie ? 'Achat vérifié' : avis.source.label }} · {{ avis.createdAt|date('m/Y') }}
+        </span>
+    </figcaption>
+</figure>

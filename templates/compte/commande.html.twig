@@ -24,6 +24,9 @@
                             </span>
                             <span>{{ ligne.sousTotal|prix }}</span>
                         </li>
+                        {% if commande.statut.value == 'livree' and ligne.variante.modele.id not in avisLaisses %}
+                            <li class="mini-recap__avis"><a href="{{ path('app_avis_nouveau', {slug: ligne.variante.modele.slug}) }}" class="lien-discret">★ Donner mon avis sur {{ ligne.variante.modele.nom }}</a></li>
+                        {% endif %}
                     {% endfor %}
                     {{ include('commande/_ligne_livraison.html.twig') }}
                 </ul>
