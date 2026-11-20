@@ -8,6 +8,7 @@ use App\Enum\StatutModele;
 use App\Form\DemandeSurMesureType;
 use App\Repository\DropRepository;
 use App\Repository\ModeleRepository;
+use App\Service\Courrier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home', methods: ['GET', 'POST'])]
-    public function index(Request $request, ModeleRepository $modeleRepository, DropRepository $dropRepository, EntityManagerInterface $em): Response
+    public function index(Request $request, ModeleRepository $modeleRepository, DropRepository $dropRepository, EntityManagerInterface $em, Courrier $courrier): Response
     {
         // Formulaire sur-mesure (section #commander)
         $demande = new DemandeSurMesure();
@@ -40,6 +41,10 @@ final class HomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($demande);
             $em->flush();
+
+            // E-mails : accusé de réception au client, notification à la marque
+            $courrier->accuseDemandeSurMesure($demande);
+            $courrier->nouvelleDemandePourMarque($demande);
 
             $this->addFlash('sur_mesure', 'Merci ! Votre demande est bien partie : nous vous répondons sous 48 h.');
 

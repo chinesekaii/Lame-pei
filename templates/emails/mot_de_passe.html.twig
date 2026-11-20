@@ -1,0 +1,15 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block contenu %}
+    <h1 style="font-family:Georgia, serif; font-weight:normal; font-size:24px; color:#8C3A1E; text-align:center; margin:8px 0 18px;">Nouveau mot de passe</h1>
+
+    <p style="margin:0 0 12px;">Bonjour {{ user.prenom }},</p>
+    <p style="margin:0 0 12px;">Vous avez demandé à changer le mot de passe de votre compte L'ÂME PEÏ. Cliquez sur le bouton ci-dessous pour en choisir un nouveau.</p>
+
+    {{ include('emails/_bouton.html.twig', {lien: lien, texte: 'Choisir un nouveau mot de passe'}) }}
+
+    <p style="margin:0 0 12px; font-size:13px;">Ce lien est valable {{ minutes }} minutes et ne fonctionne qu'une seule fois.</p>
+    <p style="margin:0; font-size:13px;">Si vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail : votre mot de passe actuel reste valable.</p>
+{% endblock %}
+
+{% block pied %}Pour votre sécurité, ne transférez pas cet e-mail.{% endblock %}

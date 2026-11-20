@@ -39,10 +39,13 @@
                     <input type="password" id="password" name="password" class="champ" autocomplete="current-password" required>
                 </div>
 
-                <label class="case">
-                    <input type="checkbox" name="se_souvenir" value="1">
-                    <span>Se souvenir de moi</span>
-                </label>
+                <div class="connexion__options">
+                    <label class="case">
+                        <input type="checkbox" name="se_souvenir" value="1">
+                        <span>Se souvenir de moi</span>
+                    </label>
+                    <a href="{{ path('app_mot_de_passe_oublie') }}" class="lien-discret">Mot de passe oublié ?</a>
+                </div>
 
                 <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 

@@ -1,0 +1,22 @@
+{% extends 'emails/base.html.twig' %}
+
+{% set messages = {
+    payee: 'Votre paiement est bien reçu. Merci !',
+    en_fabrication: 'Votre paire est entre nos mains : nous la préparons avec soin.',
+    expediee: 'Votre paire est en route : nous vous appelons pour convenir de la remise.',
+    livree: 'Votre paire vous a été remise. Nous espérons qu\'elle vous accompagnera longtemps — dans chaque pas, nana un bout nout île.',
+    annulee: 'Votre commande a été annulée. Si vous n\'êtes pas à l\'origine de cette annulation, répondez à cet e-mail.',
+    en_attente: 'Votre commande est en attente de paiement.',
+} %}
+
+{% block contenu %}
+    <h1 style="font-family:Georgia, serif; font-weight:normal; font-size:24px; color:#8C3A1E; text-align:center; margin:8px 0 18px;">{{ commande.statut.label }}</h1>
+
+    <p style="margin:0 0 12px;">Bonjour {{ commande.user.prenom }},</p>
+    <p style="margin:0 0 12px;">{{ messages[commande.statut.value] ?? '' }}</p>
+    <p style="margin:0 0 12px;">Commande <strong>{{ commande.reference }}</strong> du {{ commande.createdAt|date('d/m/Y') }}.</p>
+
+    {{ include('emails/_recap_commande.html.twig') }}
+
+    {{ include('emails/_bouton.html.twig', {lien: url('app_compte_commande', {reference: commande.reference}), texte: 'Voir ma commande'}) }}
+{% endblock %}

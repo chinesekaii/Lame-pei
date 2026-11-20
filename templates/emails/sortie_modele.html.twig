@@ -1,0 +1,13 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block contenu %}
+    <h1 style="font-family:Georgia, serif; font-weight:normal; font-size:26px; color:{{ modele.couleur ?? '#8C3A1E' }}; text-align:center; margin:8px 0 18px;">{{ modele.nom }} est disponible !</h1>
+
+    <p style="margin:0 0 12px;">Vous nous aviez demandé de vous prévenir : <strong>{{ modele.nom }}</strong> est maintenant disponible sur la boutique.</p>
+    <p style="margin:0 0 12px; font-style:italic;">{{ modele.accroche }}</p>
+    <p style="margin:0 0 12px;">Chaque paire est unique et les quantités sont limitées : ne tardez pas trop.</p>
+
+    {{ include('emails/_bouton.html.twig', {lien: url('app_modele_show', {slug: modele.slug}), texte: 'Découvrir ' ~ modele.nom}) }}
+{% endblock %}
+
+{% block pied %}Vous recevez cet e-mail car vous vous êtes inscrit(e) pour être prévenu(e) de la sortie de ce modèle. Ce message est unique : vous ne serez pas recontacté(e) pour ce modèle.{% endblock %}

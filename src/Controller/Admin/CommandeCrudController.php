@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Commande;
 use App\Enum\StatutCommande;
+use App\Service\Courrier;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -25,6 +26,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\DateTimeFilter;
  */
 class CommandeCrudController extends AbstractCrudController
 {
+    public function __construct(private readonly Courrier $courrier)
+    {
+    }
+
     public static function getEntityFqcn(): string
     {
         return Commande::class;
@@ -90,6 +95,7 @@ class CommandeCrudController extends AbstractCrudController
      */
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
+        $ancien = null;
         if ($entityInstance instanceof Commande) {
             $ancien = $entityManager->getUnitOfWork()->getOriginalEntityData($entityInstance)['statut'] ?? null;
             $nouveau = $entityInstance->getStatut();
@@ -104,6 +110,15 @@ class CommandeCrudController extends AbstractCrudController
         }
 
         parent::updateEntity($entityManager, $entityInstance);
+
+        // Le client est prévenu par e-mail de chaque changement de statut (une fois enregistré)
+        if ($entityInstance instanceof Commande && $ancien !== $entityInstance->getStatut()) {
+            if ($this->courrier->changementStatutCommande($entityInstance)) {
+                $this->addFlash('info', sprintf('Le client a été prévenu par e-mail (%s).', $entityInstance->getUser()->getEmail()));
+            } else {
+                $this->addFlash('danger', 'Le statut est enregistré, mais l\'e-mail au client n\'a pas pu partir.');
+            }
+        }
     }
 
     private function ajusterStock(Commande $commande, int $sens): void

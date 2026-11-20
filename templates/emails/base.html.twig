@@ -1,0 +1,46 @@
+{#
+    Gabarit commun des e-mails.
+    Les styles sont écrits directement sur les balises : les logiciels de messagerie
+    (Gmail, Outlook…) ignorent souvent les feuilles de style.
+#}
+{% set terre = '#A9502E' %}
+{% set volcan = '#8C3A1E' %}
+{% set bois = '#6B4634' %}
+{% set or = '#C79A3E' %}
+{% set sable = '#EFD9C0' %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ email.subject }}</title>
+</head>
+<body style="margin:0; padding:0; background:#FDF4EA;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FDF4EA; padding:28px 12px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px; background:#FFFFFF; border:1px solid {{ sable }};">
+                    <tr>
+                        <td align="center" style="padding:28px 24px 8px;">
+                            <img src="{{ email.image('@images/logo-email.png') }}" alt="L'ÂME PEÏ" width="90" style="display:block; width:90px; height:auto;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:8px 36px 32px; font-family:Georgia, 'Times New Roman', serif; color:{{ bois }}; font-size:15px; line-height:1.7;">
+                            {% block contenu %}{% endblock %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding:18px 24px; background:{{ volcan }}; font-family:Arial, sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#F8E2CE;">
+                            L'ÂME PEÏ · Savates perlées fait main · La Réunion
+                        </td>
+                    </tr>
+                </table>
+                <p style="max-width:560px; margin:14px auto 0; font-family:Arial, sans-serif; font-size:11px; color:#9C8576; line-height:1.6;">
+                    {% block pied %}Une question ? Répondez simplement à cet e-mail ou écrivez-nous sur Instagram <a href="https://www.instagram.com/ame.pei/" style="color:{{ terre }};">@ame.pei</a>.{% endblock %}
+                </p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

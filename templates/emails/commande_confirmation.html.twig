@@ -1,0 +1,17 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block contenu %}
+    <h1 style="font-family:Georgia, serif; font-weight:normal; font-size:26px; color:#8C3A1E; text-align:center; margin:8px 0 18px;">Merci {{ commande.user.prenom }} !</h1>
+
+    <p style="margin:0 0 12px;">Votre commande <strong>{{ commande.reference }}</strong> du {{ commande.createdAt|date('d/m/Y à H:i') }} est bien enregistrée.</p>
+
+    {{ include('emails/_recap_commande.html.twig') }}
+
+    <p style="margin:0 0 6px; font-family:Arial, sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#C79A3E;">Livraison</p>
+    <p style="margin:0 0 16px; font-family:Arial, sans-serif; font-size:14px;">{{ commande.adresseLivraison|nl2br }}</p>
+
+    <p style="margin:0 0 12px;">Nous vous appelons pour convenir du moment de la remise en main propre, sous 24 à 72 h selon votre secteur.</p>
+    <p style="margin:0;">Statut actuel : <strong>{{ commande.statut.label }}</strong>.</p>
+
+    {{ include('emails/_bouton.html.twig', {lien: url('app_compte_commande', {reference: commande.reference}), texte: 'Suivre ma commande'}) }}
+{% endblock %}

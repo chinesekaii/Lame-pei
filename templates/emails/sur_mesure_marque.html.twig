@@ -1,0 +1,19 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block contenu %}
+    <h1 style="font-family:Georgia, serif; font-weight:normal; font-size:24px; color:#8C3A1E; text-align:center; margin:8px 0 18px;">Nouvelle demande sur-mesure</h1>
+
+    <p style="margin:0 0 12px;"><strong>{{ demande.nom }}</strong> &lt;{{ demande.email }}&gt; — {{ demande.createdAt|date('d/m/Y à H:i') }}</p>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0; border-top:1px solid #EFD9C0; font-family:Arial, sans-serif; font-size:14px;">
+        <tr><td style="padding:8px 0; border-bottom:1px solid #EFD9C0; color:#C79A3E;">Coloris</td><td align="right" style="padding:8px 0; border-bottom:1px solid #EFD9C0;">{{ demande.coloris }}</td></tr>
+        <tr><td style="padding:8px 0; border-bottom:1px solid #EFD9C0; color:#C79A3E;">Taille</td><td align="right" style="padding:8px 0; border-bottom:1px solid #EFD9C0;">{{ demande.taille }}</td></tr>
+    </table>
+
+    <p style="margin:0 0 6px; font-family:Arial, sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#C79A3E;">Message</p>
+    <p style="margin:0 0 8px; font-style:italic;">« {{ demande.message|nl2br }} »</p>
+
+    {{ include('emails/_bouton.html.twig', {lien: url('admin_demande_sur_mesure_detail', {entityId: demande.id}), texte: 'Ouvrir dans l\'admin'}) }}
+{% endblock %}
+
+{% block pied %}Notification automatique du site. Répondre à cet e-mail écrit directement au client (réponse promise sous 48 h).{% endblock %}

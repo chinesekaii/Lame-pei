@@ -1619,6 +1619,19 @@ textarea.champ {
     height: 16px;
 }
 
+.connexion__options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.connexion__options .case {
+    margin: 0;
+}
+
 .case--cgv {
     align-items: flex-start;
     margin: 6px 0 4px;

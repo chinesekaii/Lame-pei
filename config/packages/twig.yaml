@@ -1,6 +1,9 @@
 twig:
     file_name_pattern: '*.twig'
     form_themes: ['form/theme.html.twig']
+    paths:
+        # Permet d'intégrer le logo dans les e-mails : email.image('@images/logo.png')
+        '%kernel.project_dir%/assets/images': images
     globals:
         # Le panier est disponible dans tous les templates (en-tête, tiroir…)
         panier: '@App\Service\Panier'

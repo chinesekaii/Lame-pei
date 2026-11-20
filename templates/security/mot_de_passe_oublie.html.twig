@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié · L'ÂME PEÏ{% endblock %}
+
+{% block body %}
+    <section class="page page--etroite">
+        <div class="page__entete">
+            <div class="surtitre">Espace client</div>
+            <h1 class="titre-section">Mot de passe oublié</h1>
+            <p>Indiquez l'adresse e-mail de votre compte : nous vous envoyons un lien pour choisir un nouveau mot de passe.</p>
+        </div>
+
+        <div class="carte-formulaire">
+            <form method="post" action="{{ path('app_mot_de_passe_oublie') }}">
+                <div class="form-ligne">
+                    <label for="email" class="champ__label">Adresse e-mail</label>
+                    <input type="email" id="email" name="email" class="champ" autocomplete="email" required autofocus>
+                </div>
+                <input type="hidden" name="_token" value="{{ csrf_token('mot-de-passe-oublie') }}">
+                <button type="submit" class="btn btn--plein btn--large">Recevoir le lien</button>
+            </form>
+        </div>
+
+        <p class="page__bas"><a href="{{ path('app_login') }}">← Retour à la connexion</a></p>
+    </section>
+{% endblock %}

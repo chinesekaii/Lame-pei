@@ -65,10 +65,20 @@ php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load   # base de démonstration (efface les données !)
 # ou, sur une base existante : php bin/console app:catalogue:synchroniser
-symfony serve
+symfony server:start --no-tls
 ```
 
-Le site est accessible sur `https://127.0.0.1:8000`.
+Le site est accessible sur `http://127.0.0.1:8000`.
+
+### E-mails en développement
+
+Les e-mails du site sont interceptés par [Mailpit](https://mailpit.axllent.org/) (fausse boîte mail) :
+
+```bash
+docker run -d --name lamepei-mailpit --restart unless-stopped -p 1025:1025 -p 8025:8025 axllent/mailpit
+```
+
+Dans `.env.local` : `MAILER_DSN=smtp://127.0.0.1:1025`. Les e-mails sont visibles sur `http://localhost:8025`.
 
 ## Identité visuelle
 
@@ -94,6 +104,7 @@ Le site est accessible sur `https://127.0.0.1:8000`.
 - [x] Panier et commande
 - [x] Formulaire sur-mesure et alertes de sortie
 - [x] Authentification et espace client
+- [x] E-mails : confirmation de commande, suivi, sur-mesure, alertes de sortie, mot de passe oublié
 - [x] Administration (EasyAdmin)
 - [ ] Paiement en ligne (Stripe)
 - [ ] Mise en ligne

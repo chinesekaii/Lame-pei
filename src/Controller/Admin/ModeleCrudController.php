@@ -4,7 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Modele;
 use App\Enum\StatutModele;
+use App\Service\AlertesSortie;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminRoute;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
@@ -27,6 +31,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ModeleCrudController extends AbstractCrudController
 {
+    public function __construct(private readonly AlertesSortie $alertesSortie)
+    {
+    }
+
     public static function getEntityFqcn(): string
     {
         return Modele::class;
@@ -49,10 +57,42 @@ class ModeleCrudController extends AbstractCrudController
             ->linkToRoute('app_modele_show', fn (Modele $modele) => ['slug' => $modele->getSlug()])
             ->displayIf(fn (Modele $modele) => $modele->getStatut() !== StatutModele::Archive);
 
+        // Visible seulement quand le modèle est en vente ET que des personnes attendent sa sortie
+        $prevenir = Action::new('prevenirInscrits', 'Prévenir les inscrits', 'fa fa-paper-plane')
+            ->linkToCrudAction('prevenirInscrits')
+            ->renderAsForm()
+            ->askConfirmation(fn (Modele $modele) => sprintf(
+                'Envoyer l\'e-mail « %s est disponible » aux %d personne(s) inscrite(s) ?',
+                $modele->getNom(),
+                $this->alertesSortie->nombreEnAttente($modele),
+            ), 'Envoyer')
+            ->displayIf(fn (Modele $modele) => $modele->isDisponible() && $this->alertesSortie->nombreEnAttente($modele) > 0);
+
         return $actions
             ->add(Crud::PAGE_INDEX, $voir)
             ->add(Crud::PAGE_EDIT, $voir)
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->add(Crud::PAGE_DETAIL, $prevenir)
+            ->add(Crud::PAGE_INDEX, $prevenir);
+    }
+
+    /**
+     * Envoie l'e-mail de sortie aux personnes inscrites à « Me prévenir de sa sortie ».
+     */
+    #[AdminRoute('/{id}/prevenir-inscrits', name: 'prevenir_inscrits', options: ['methods' => ['POST']])]
+    public function prevenirInscrits(Modele $modele, AdminUrlGenerator $urlGenerator): RedirectResponse
+    {
+        if (!$modele->isDisponible()) {
+            $this->addFlash('warning', sprintf('%s n\'est pas encore en vente : passez-le en « Disponible » avant de prévenir les inscrits.', $modele->getNom()));
+        } else {
+            $resultat = $this->alertesSortie->prevenir($modele);
+            $this->addFlash('success', sprintf('%d e-mail(s) envoyé(s) pour %s.', $resultat['envoyes'], $modele->getNom()));
+            if ($resultat['echecs'] > 0) {
+                $this->addFlash('danger', sprintf('%d e-mail(s) n\'ont pas pu partir : réessayez plus tard.', $resultat['echecs']));
+            }
+        }
+
+        return $this->redirect($urlGenerator->setController(self::class)->setAction(Action::INDEX)->generateUrl());
     }
 
     public function configureFilters(Filters $filters): Filters

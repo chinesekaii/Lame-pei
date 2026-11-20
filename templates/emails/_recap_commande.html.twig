@@ -1,0 +1,20 @@
+{# Tableau récapitulatif d'une commande (variable : commande) #}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:18px 0; border-top:1px solid #EFD9C0; font-family:Arial, sans-serif; font-size:14px; color:#6B4634;">
+    {% for ligne in commande.lignes %}
+        <tr>
+            <td style="padding:10px 0; border-bottom:1px solid #EFD9C0;">
+                <strong style="font-family:Georgia, serif; font-size:16px; color:{{ ligne.variante.modele.couleur ?? '#8C3A1E' }};">{{ ligne.variante.modele.nom }}</strong><br>
+                Taille {{ ligne.variante.taille }}{{ ligne.quantite > 1 ? ' × ' ~ ligne.quantite }}
+            </td>
+            <td align="right" style="padding:10px 0; border-bottom:1px solid #EFD9C0; white-space:nowrap;">{{ ligne.sousTotal|prix }}</td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td style="padding:10px 0; border-bottom:1px solid #EFD9C0; font-style:italic;">Livraison{{ commande.secteurLivraison ? ' (' ~ commande.secteurLivraison.label ~ ')' }}</td>
+        <td align="right" style="padding:10px 0; border-bottom:1px solid #EFD9C0;">{{ commande.fraisLivraison == 0 ? 'offerte' : commande.fraisLivraison|prix }}</td>
+    </tr>
+    <tr>
+        <td style="padding:12px 0; font-family:Georgia, serif; font-size:18px; color:#8C3A1E;">Total</td>
+        <td align="right" style="padding:12px 0; font-family:Georgia, serif; font-size:18px; color:#8C3A1E;">{{ commande.total|prix }}</td>
+    </tr>
+</table>

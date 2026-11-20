@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\AdresseLivraisonType;
 use App\Repository\CommandeRepository;
 use App\Service\CommandeManager;
+use App\Service\Courrier;
 use App\Service\Panier;
 use App\Service\StockInsuffisantException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +26,7 @@ final class CommandeController extends AbstractController
         Request $request,
         Panier $panier,
         CommandeManager $commandeManager,
+        Courrier $courrier,
         #[CurrentUser] User $client,
     ): Response {
         if ($panier->estVide()) {
@@ -47,6 +49,10 @@ final class CommandeController extends AbstractController
 
                 return $this->redirectToRoute('app_panier_index', status: Response::HTTP_SEE_OTHER);
             }
+
+            // E-mails : confirmation au client, notification à la marque
+            $courrier->confirmationCommande($commande);
+            $courrier->nouvelleCommandePourMarque($commande);
 
             return $this->redirectToRoute('app_commande_confirmation', [
                 'reference' => $commande->getReference(),

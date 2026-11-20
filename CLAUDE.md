@@ -87,10 +87,19 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
 - [x] Formulaire sur-mesure sur l'accueil (`DemandeSurMesureType`, traité par `HomeController` en GET|POST, coloris déduit du modèle par un écouteur `FormEvents::SUBMIT`, préremplissage `?modele=slug` et client connecté)
 - [x] Alertes « Me prévenir de sa sortie » sur la fiche des modèles en production (`AlerteType`, traité par `ModeleController::show`, une inscription par e-mail et par modèle)
 - Flashes : `success` / `error` affichés en haut de page ; `sur_mesure`, `alerte` affichés dans leur section ; `ouvrir_panier` ouvre le tiroir
-- [ ] Plus tard : e-mail à la marque à chaque demande, e-mail aux inscrits à la sortie d'un modèle (Symfony Mailer)
+- [x] E-mails (Symfony Mailer, 20/11/2026) — service `App\Service\Courrier`, templates `templates/emails/` (styles en ligne, logo `assets/images/logo-email.png` via `email.image('@images/…')`) :
+  - commande : confirmation au client + notification à la marque ; e-mail au client à chaque changement de statut dans l'admin ;
+  - sur-mesure : accusé de réception au client + notification à la marque ;
+  - alertes de sortie : action admin « Prévenir les inscrits » sur un modèle disponible (`App\Service\AlertesSortie`, `#[AdminRoute]` POST), alertes marquées envoyées ;
+  - mot de passe oublié : `/mot-de-passe-oublie` → lien signé (`UriSigner`, 1 h, usage unique grâce à une empreinte du mot de passe, `App\Security\LienReinitialisation`), sans table en base.
+  - Envoi **synchrone** (routage Messenger async commenté dans `messenger.yaml`). Un échec d'envoi est journalisé et ne bloque jamais le client.
+  - Variables : `MAILER_DSN`, `MAILER_FROM`, `EMAIL_MARQUE` (valeurs provisoires `@lamepei.example` dans `.env`, **à remplacer**).
+  - Dev : **Mailpit** dans Docker (conteneur `lamepei-mailpit`, SMTP 1025, interface http://localhost:8025), `MAILER_DSN=smtp://127.0.0.1:1025` dans `.env.local`.
+- Serveur local : `C:\symfony\symfony.exe server:start -d --no-tls` → http://127.0.0.1:8000 (le https local n'est pas reconnu par Windows).
+- `cache:clear` dépasse la mémoire CLI par défaut (128 Mo) : utiliser `php -d memory_limit=512M bin/console cache:clear`.
 - [x] Authentification : inscription (`/inscription`, connexion automatique via `Security::login()`), « Se souvenir de moi », limitation à 5 essais/minute (`symfony/rate-limiter`), `role_hierarchy` ROLE_ADMIN > ROLE_USER
 - [x] Espace client `/compte` (ROLE_USER) : mes commandes + détail (propriétaire uniquement), mes informations, changement de mot de passe (contrainte `UserPassword`)
-- [ ] Plus tard (avec Symfony Mailer) : mot de passe oublié, vérification de l'e-mail à l'inscription
+- [ ] Plus tard : vérification de l'adresse e-mail à l'inscription (mot de passe oublié : fait)
 - [x] Administration EasyAdmin **5.10** (`src/Controller/Admin/`, `/admin`, ROLE_ADMIN) : tableau de bord (commandes à préparer, demandes, stock faible, alertes), CRUD modèles (photo uploadée, stock par pointure, 7 pointures créées automatiquement), drops, couleurs, matériaux, commandes (statut seul modifiable ; annulation = remise en stock), clients (rôle admin), demandes sur-mesure, alertes
   - EasyAdmin 5 : menu via `MenuItem::linkTo(XxxCrudController::class)`, dashboard via `#[AdminDashboard]`, méthode `configureMenuItems()`
   - Les enums de statut implémentent `TranslatableInterface` (libellés français dans EasyAdmin et les formulaires)

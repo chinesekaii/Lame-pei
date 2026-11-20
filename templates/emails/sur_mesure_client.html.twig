@@ -1,0 +1,15 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block contenu %}
+    <h1 style="font-family:Georgia, serif; font-weight:normal; font-size:24px; color:#8C3A1E; text-align:center; margin:8px 0 18px;">Merci {{ demande.nom }} !</h1>
+
+    <p style="margin:0 0 12px;">Votre demande sur-mesure est bien arrivée à l'atelier. Nous vous répondons sous 48 h pour confirmer le délai.</p>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0; border-top:1px solid #EFD9C0; font-family:Arial, sans-serif; font-size:14px;">
+        <tr><td style="padding:8px 0; border-bottom:1px solid #EFD9C0; color:#C79A3E;">Coloris</td><td align="right" style="padding:8px 0; border-bottom:1px solid #EFD9C0;">{{ demande.coloris }}</td></tr>
+        <tr><td style="padding:8px 0; border-bottom:1px solid #EFD9C0; color:#C79A3E;">Taille</td><td align="right" style="padding:8px 0; border-bottom:1px solid #EFD9C0;">{{ demande.taille }}</td></tr>
+    </table>
+
+    <p style="margin:0 0 6px; font-family:Arial, sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#C79A3E;">Votre message</p>
+    <p style="margin:0; font-style:italic;">« {{ demande.message|nl2br }} »</p>
+{% endblock %}

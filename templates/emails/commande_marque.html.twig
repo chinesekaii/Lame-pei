@@ -1,0 +1,17 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block contenu %}
+    <h1 style="font-family:Georgia, serif; font-weight:normal; font-size:24px; color:#8C3A1E; text-align:center; margin:8px 0 18px;">Nouvelle commande</h1>
+
+    <p style="margin:0 0 12px;"><strong>{{ commande.reference }}</strong> — {{ commande.createdAt|date('d/m/Y à H:i') }}</p>
+    <p style="margin:0 0 12px;">Client : <strong>{{ commande.user }}</strong> &lt;{{ commande.user.email }}&gt;</p>
+
+    {{ include('emails/_recap_commande.html.twig') }}
+
+    <p style="margin:0 0 6px; font-family:Arial, sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#C79A3E;">À livrer à</p>
+    <p style="margin:0 0 16px; font-family:Arial, sans-serif; font-size:14px;">{{ commande.adresseLivraison|nl2br }}</p>
+
+    {{ include('emails/_bouton.html.twig', {lien: url('admin_commande_detail', {entityId: commande.id}), texte: 'Ouvrir dans l\'admin'}) }}
+{% endblock %}
+
+{% block pied %}Notification automatique du site. Répondre à cet e-mail écrit directement au client.{% endblock %}
