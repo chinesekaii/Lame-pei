@@ -88,6 +88,10 @@ class CommandeCrudController extends AbstractCrudController
             ->onlyOnDetail()
             ->renderAsHtml(false);
         yield DateTimeField::new('cgvAccepteesLe', 'CGV acceptées le')->onlyOnDetail();
+        yield DateTimeField::new('payeeLe', 'Payée le')->onlyOnDetail();
+        yield TextField::new('stripePaiementId', 'Paiement Stripe')
+            ->setHelp('Identifiant à rechercher dans le tableau de bord Stripe (remboursement…).')
+            ->onlyOnDetail();
     }
 
     /**

@@ -37,7 +37,7 @@ class Courrier
     {
         return $this->envoyer(
             $this->pourClient($commande->getUser()->getEmail())
-                ->subject(sprintf('Votre commande %s est enregistrée', $commande->getReference()))
+                ->subject(sprintf('Votre commande %s est confirmée', $commande->getReference()))
                 ->htmlTemplate('emails/commande_confirmation.html.twig')
                 ->context(['commande' => $commande]),
         );

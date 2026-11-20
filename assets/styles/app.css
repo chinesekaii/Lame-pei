@@ -1472,6 +1472,31 @@ textarea.champ {
     margin-right: 6px;
 }
 
+.paiement-attente {
+    margin-bottom: 26px;
+    padding: 22px 24px;
+    border: 1px solid var(--or);
+    background: #FFF;
+    text-align: center;
+}
+
+.paiement-attente p {
+    margin: 0 0 16px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--brun-bois);
+}
+
+.paiement-ok {
+    margin: 0 0 26px;
+    padding: 14px 18px;
+    border: 1px solid #7FA36B;
+    background: #F3F8EE;
+    color: #3F6A2E;
+    font-size: 14px;
+    text-align: center;
+}
+
 .mini-recap__livraison {
     font-style: italic;
 }
@@ -1966,4 +1991,9 @@ textarea.champ {
     html { scroll-behavior: auto; }
     .hero__contenu { animation: none; }
     .panier { transition: none; }
+}
+
+.recap__note--centre {
+    text-align: center;
+    margin-top: 12px;
 }

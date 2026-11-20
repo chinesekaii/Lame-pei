@@ -106,7 +106,7 @@ Dans `.env.local` : `MAILER_DSN=smtp://127.0.0.1:1025`. Les e-mails sont visible
 - [x] Authentification et espace client
 - [x] E-mails : confirmation de commande, suivi, sur-mesure, alertes de sortie, mot de passe oublié
 - [x] Administration (EasyAdmin)
-- [ ] Paiement en ligne (Stripe)
+- [x] Paiement en ligne par carte (Stripe Checkout)
 - [ ] Mise en ligne
 
 ## Auteur

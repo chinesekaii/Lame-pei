@@ -109,7 +109,15 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
 - [x] Livraison alignée sur les CGV : **La Réunion uniquement, en main propre par la créatrice**, sous 24 à 72 h. Enum `SecteurLivraison` (communes → secteur → frais : Ouest 0 €, Nord 5 €, Sud/Est 8 €), choix de la commune au checkout, téléphone obligatoire, CP en 974. `Commande` : `secteurLivraison`, `fraisLivraison`, `total` = articles + livraison. Contrôleur Stimulus `livraison_controller.js` pour le total en direct
 - [x] Nouveau catalogue (19/11/2026) : collections Fleur Peï et Éclat Peï, pages `/collection/{slug}`, tailles Havaianas (migration `Version20261119122103` qui convertit et fusionne les anciennes pointures sans perdre les commandes), galerie photo, slogan et texte d'identité, anciens modèles archivés. Sauvegarde de la base avant migration dans `var/sauvegardes/`
 - [ ] Mentions légales : identité du vendeur fournie (avis de situation INSEE) — EI Djemylla SINOPE, nom commercial L'AME PEI, SIRET 109 390 658 00010, 71 chemin Saint-Alme 97419 La Possession, APE 15.20Z. Manquent : e-mail/téléphone de contact, régime de TVA, hébergeur, médiateur
-- [ ] Paiement (CGV : CB, lien SumUp, espèces en main propre) à décider
-- [ ] Paiement en ligne et mise en ligne
+- [x] Paiement par carte avec **Stripe Checkout** (20/11/2026) — `App\Service\PaiementStripe` :
+  - commande créée « en attente » (stock réservé) → redirection vers la page Stripe (`expires_at` 1 h) → retour sur `/commande/{ref}/confirmation?session_id=…` qui vérifie le paiement auprès de Stripe → « Payée » + e-mails de confirmation (client et marque), une seule fois même si Stripe prévient plusieurs fois ;
+  - webhook `POST /stripe/webhook` (signature vérifiée) : `checkout.session.completed` / `async_payment_succeeded` → payée, `checkout.session.expired` → annulée + stock libéré (`CommandeManager::annulerCommandeImpayee()`) ;
+  - bouton « Payer » sur la confirmation et dans l'espace client tant que la commande est en attente ; `/commande/{ref}/paiement-annule` si le client quitte Stripe ;
+  - filet de sécurité : `php bin/console app:commandes:expirer` (annule les commandes impayées depuis plus de 70 min) — à planifier toutes les 15 min en production ;
+  - sans `STRIPE_SECRET_KEY` (sk_test_…) dans `.env.local`, la commande reste en attente avec un message ;
+  - `Commande` : `stripeSessionId`, `stripePaiementId`, `payeeLe`.
+- Dates affichées à l'heure de La Réunion (`twig.date.timezone` et `Crud::setTimezone`), enregistrées en UTC (PHP en UTC).
+- [ ] Tester un vrai paiement Stripe en mode test (clés à créer sur dashboard.stripe.com), puis configurer le webhook (Stripe CLI en local : `stripe listen --forward-to 127.0.0.1:8000/stripe/webhook`)
+- [ ] Mise en ligne
 
 Mettre à jour cette liste au fil du projet.

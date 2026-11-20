@@ -32,8 +32,9 @@
                     </div>
 
                     <button type="submit" class="btn btn--plein btn--large">
-                        Valider ma commande · <span data-livraison-target="totalBouton">{{ (panier.total + form.vars.value.fraisLivraison)|prix }}</span>
+                        Valider et payer par carte · <span data-livraison-target="totalBouton">{{ (panier.total + form.vars.value.fraisLivraison)|prix }}</span>
                     </button>
+                    <p class="recap__note recap__note--centre">Paiement sécurisé par Stripe. Vous serez redirigé(e) vers sa page de paiement.</p>
                 {{ form_end(form) }}
             </div>
 

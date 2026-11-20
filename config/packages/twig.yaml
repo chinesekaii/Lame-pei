@@ -1,6 +1,9 @@
 twig:
     file_name_pattern: '*.twig'
     form_themes: ['form/theme.html.twig']
+    # Dates affichées à l'heure de La Réunion (elles sont enregistrées en UTC)
+    date:
+        timezone: 'Indian/Reunion'
     paths:
         # Permet d'intégrer le logo dans les e-mails : email.image('@images/logo.png')
         '%kernel.project_dir%/assets/images': images

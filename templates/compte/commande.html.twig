@@ -35,6 +35,14 @@
             <aside class="carte-formulaire">
                 <div class="champ__label">Statut</div>
                 <p class="confirmation__texte"><span class="statut statut--{{ commande.statut.value }}">{{ commande.statut.label }}</span></p>
+                {% if commande.enAttenteDePaiement %}
+                    <form method="post" action="{{ path('app_commande_payer', {reference: commande.reference}) }}" class="confirmation__bloc">
+                        <input type="hidden" name="_token" value="{{ csrf_token('payer-' ~ commande.reference) }}">
+                        <button type="submit" class="btn btn--plein btn--large">Payer {{ commande.total|prix }}</button>
+                    </form>
+                {% elseif commande.payeeLe %}
+                    <p class="confirmation__texte">Payée le {{ commande.payeeLe|date('d/m/Y à H:i') }}</p>
+                {% endif %}
 
                 <div class="confirmation__bloc">
                     <div class="champ__label">Livraison</div>

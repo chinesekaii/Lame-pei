@@ -3,7 +3,7 @@
 {% block contenu %}
     <h1 style="font-family:Georgia, serif; font-weight:normal; font-size:26px; color:#8C3A1E; text-align:center; margin:8px 0 18px;">Merci {{ commande.user.prenom }} !</h1>
 
-    <p style="margin:0 0 12px;">Votre commande <strong>{{ commande.reference }}</strong> du {{ commande.createdAt|date('d/m/Y à H:i') }} est bien enregistrée.</p>
+    <p style="margin:0 0 12px;">Votre commande <strong>{{ commande.reference }}</strong> du {{ commande.createdAt|date('d/m/Y à H:i') }} est confirmée : nous avons bien reçu votre paiement.</p>
 
     {{ include('emails/_recap_commande.html.twig') }}
 

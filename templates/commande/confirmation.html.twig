@@ -2,14 +2,36 @@
 
 {% block title %}Commande {{ commande.reference }} · L'ÂME PEÏ{% endblock %}
 
+{% set enAttente = commande.enAttenteDePaiement %}
+
 {% block body %}
     <section class="page page--etroite">
         <div class="page__entete">
             <div class="fleur-titre">✿</div>
             <div class="surtitre">Merci {{ app.user.prenom }}</div>
-            <h1 class="titre-section">Commande enregistrée</h1>
-            <p>Référence <strong>{{ commande.reference }}</strong> · {{ commande.createdAt|date('d/m/Y à H:i') }}</p>
+            {% if enAttente %}
+                <h1 class="titre-section">Paiement en attente</h1>
+                <p>Votre commande <strong>{{ commande.reference }}</strong> est enregistrée, mais pas encore payée.</p>
+            {% elseif commande.statut.value == 'annulee' %}
+                <h1 class="titre-section">Commande annulée</h1>
+                <p>Référence <strong>{{ commande.reference }}</strong> · le paiement n'a pas été effectué à temps.</p>
+            {% else %}
+                <h1 class="titre-section">Commande confirmée</h1>
+                <p>Référence <strong>{{ commande.reference }}</strong> · {{ commande.createdAt|date('d/m/Y à H:i') }}</p>
+            {% endif %}
         </div>
+
+        {% if enAttente %}
+            <div class="paiement-attente">
+                <p>Vos paires vous sont réservées pendant une heure. Réglez par carte bancaire sur la page sécurisée de notre prestataire Stripe.</p>
+                <form method="post" action="{{ path('app_commande_payer', {reference: commande.reference}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('payer-' ~ commande.reference) }}">
+                    <button type="submit" class="btn btn--plein btn--large">Payer {{ commande.total|prix }} par carte</button>
+                </form>
+            </div>
+        {% elseif commande.payeeLe %}
+            <p class="paiement-ok">✓ Paiement reçu le {{ commande.payeeLe|date('d/m/Y à H:i') }}. Un e-mail de confirmation vous a été envoyé.</p>
+        {% endif %}
 
         <div class="carte-formulaire">
             <ul class="mini-recap">
@@ -31,11 +53,14 @@
             <div class="confirmation__bloc">
                 <div class="champ__label">Livraison</div>
                 <p class="confirmation__adresse">{{ commande.adresseLivraison|nl2br }}</p>
+                {% if not enAttente and commande.statut.value != 'annulee' %}
+                    <p class="confirmation__adresse">Nous vous appelons pour convenir de la remise en main propre, sous 24 à 72 h.</p>
+                {% endif %}
             </div>
 
             <div class="confirmation__bloc">
                 <div class="champ__label">Statut</div>
-                <p>{{ commande.statut.label }}</p>
+                <p><span class="statut statut--{{ commande.statut.value }}">{{ commande.statut.label }}</span></p>
             </div>
         </div>
 

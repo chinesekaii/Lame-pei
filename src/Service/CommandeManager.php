@@ -6,6 +6,7 @@ use App\Dto\AdresseLivraison;
 use App\Entity\Commande;
 use App\Entity\LigneCommande;
 use App\Entity\User;
+use App\Enum\StatutCommande;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -72,5 +73,31 @@ class CommandeManager
         $this->panier->vider();
 
         return $commande;
+    }
+
+    /**
+     * Annule une commande impayée et remet ses paires en stock.
+     * Sans effet si la commande n'est plus en attente de paiement (déjà payée ou annulée).
+     *
+     * @return bool true si la commande a été annulée
+     */
+    public function annulerCommandeImpayee(Commande $commande): bool
+    {
+        return $this->em->wrapInTransaction(function () use ($commande): bool {
+            // Relecture verrouillée : le paiement a pu arriver entre-temps (webhook)
+            $this->em->refresh($commande, LockMode::PESSIMISTIC_WRITE);
+            if (!$commande->isEnAttenteDePaiement()) {
+                return false;
+            }
+
+            foreach ($commande->getLignes() as $ligne) {
+                $variante = $ligne->getVariante();
+                $this->em->refresh($variante, LockMode::PESSIMISTIC_WRITE);
+                $variante->setStock($variante->getStock() + $ligne->getQuantite());
+            }
+            $commande->setStatut(StatutCommande::Annulee);
+
+            return true;
+        });
     }
 }

@@ -49,6 +49,17 @@ class Commande
     #[Assert\NotBlank(message: 'L\'adresse de livraison est obligatoire.')]
     private ?string $adresseLivraison = null;
 
+    /** Identifiant de la dernière session de paiement Stripe Checkout (cs_…). */
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripeSessionId = null;
+
+    /** Identifiant du paiement Stripe (pi_…), utile pour un remboursement. */
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripePaiementId = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $payeeLe = null;
+
     /** Date à laquelle le client a accepté les CGV (preuve en cas de litige). */
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $cgvAccepteesLe = null;
@@ -174,6 +185,48 @@ class Commande
     public function setAdresseLivraison(string $adresseLivraison): static
     {
         $this->adresseLivraison = $adresseLivraison;
+
+        return $this;
+    }
+
+    /** Le client peut encore payer cette commande en ligne. */
+    public function isEnAttenteDePaiement(): bool
+    {
+        return $this->statut === StatutCommande::EnAttente;
+    }
+
+    public function getStripeSessionId(): ?string
+    {
+        return $this->stripeSessionId;
+    }
+
+    public function setStripeSessionId(?string $stripeSessionId): static
+    {
+        $this->stripeSessionId = $stripeSessionId;
+
+        return $this;
+    }
+
+    public function getStripePaiementId(): ?string
+    {
+        return $this->stripePaiementId;
+    }
+
+    public function setStripePaiementId(?string $stripePaiementId): static
+    {
+        $this->stripePaiementId = $stripePaiementId;
+
+        return $this;
+    }
+
+    public function getPayeeLe(): ?\DateTimeImmutable
+    {
+        return $this->payeeLe;
+    }
+
+    public function setPayeeLe(?\DateTimeImmutable $payeeLe): static
+    {
+        $this->payeeLe = $payeeLe;
 
         return $this;
     }

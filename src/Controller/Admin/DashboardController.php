@@ -88,6 +88,7 @@ class DashboardController extends AbstractDashboardController
     public function configureCrud(): Crud
     {
         return Crud::new()
+            ->setTimezone('Indian/Reunion')
             ->setDateFormat('dd/MM/yyyy')
             ->setDateTimeFormat('dd/MM/yyyy HH:mm')
             ->setPaginatorPageSize(25);
