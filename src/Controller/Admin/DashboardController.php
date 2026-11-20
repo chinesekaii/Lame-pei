@@ -114,6 +114,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Demandes');
         yield MenuItem::linkTo(DemandeSurMesureCrudController::class, 'Sur-mesure', 'fa fa-envelope-open-text');
         yield MenuItem::linkTo(AlerteCrudController::class, 'Alertes de sortie', 'fa fa-bell');
+        yield MenuItem::linkTo(PhotoClientCrudController::class, 'Photos clients', 'fa fa-images');
         yield MenuItem::linkTo(AvisCrudController::class, 'Avis clients', 'fa fa-star')
             ->setBadge($this->em->getRepository(Avis::class)->count(['statut' => StatutAvis::EnAttente]) ?: false, 'warning');
 

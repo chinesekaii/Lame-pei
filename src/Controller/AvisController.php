@@ -8,6 +8,7 @@ use App\Enum\SourceAvis;
 use App\Form\AvisType;
 use App\Repository\AvisRepository;
 use App\Repository\ModeleRepository;
+use App\Repository\PhotoClientRepository;
 use App\Service\Courrier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,9 +22,10 @@ final class AvisController extends AbstractController
 {
     /** Tous les avis publiés. */
     #[Route('/avis', name: 'app_avis', methods: ['GET'])]
-    public function index(AvisRepository $avisRepository): Response
+    public function index(AvisRepository $avisRepository, PhotoClientRepository $photoClientRepository): Response
     {
         return $this->render('avis/index.html.twig', [
+            'photosClients' => $photoClientRepository->findVisibles(),
             'avis' => $avisRepository->findPublies(),
             'stats' => $avisRepository->statistiques(),
         ]);

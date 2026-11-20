@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Catalogue\RetoursClients;
 use App\Entity\Avis;
 use App\Entity\Modele;
+use App\Entity\PhotoClient;
 use App\Enum\SourceAvis;
 use App\Enum\StatutAvis;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -32,6 +33,16 @@ class AvisFixtures extends Fixture implements DependentFixtureInterface
                     ->setSource(SourceAvis::from($retour['source']))
                     ->setModele($retour['modele'] ? $this->getReference('modele-'.$retour['modele'], Modele::class) : null)
                     ->setStatut(StatutAvis::Publie)
+            );
+        }
+
+        foreach (RetoursClients::PHOTOS as $i => $photo) {
+            $manager->persist(
+                (new PhotoClient())
+                    ->setImage($photo['image'])
+                    ->setLegende($photo['legende'])
+                    ->setOrdre(($i + 1) * 10)
+                    ->setModele($photo['modele'] ? $this->getReference('modele-'.$photo['modele'], Modele::class) : null)
             );
         }
 

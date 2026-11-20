@@ -16,6 +16,13 @@
             {% endif %}
         </div>
 
+        {% if photosClients is not empty %}
+            <section id="galerie" class="avis-galerie">
+                <div class="champ__label">Elles l'ont adoptée</div>
+                {{ include('avis/_galerie.html.twig', {photos: photosClients}) }}
+            </section>
+        {% endif %}
+
         {% if avis is empty %}
             <p class="page__vide">Aucun avis pour le moment.</p>
         {% else %}

@@ -1,0 +1,19 @@
+{# Galerie « Elles l'ont adoptée » (variable : photos). Clic = agrandissement (contrôleur Stimulus « visionneuse »). #}
+<div class="galerie-clients" data-controller="visionneuse">
+    {% for photo in photos %}
+        <button type="button" class="galerie-clients__photo"
+                data-action="visionneuse#ouvrir"
+                data-visionneuse-src-param="{{ asset('uploads/clients/' ~ photo.image) }}"
+                data-visionneuse-legende-param="{{ photo.legende ?? (photo.modele ? photo.modele.nom : '') }}"
+                aria-label="Agrandir la photo{{ photo.legende ? ' : ' ~ photo.legende }}">
+            <img src="{{ asset('uploads/clients/' ~ photo.image) }}" alt="Photo envoyée par une cliente{{ photo.legende ? ' — ' ~ photo.legende }}" loading="lazy">
+            {% if photo.legende %}<span class="galerie-clients__legende">{{ photo.legende }}</span>{% endif %}
+        </button>
+    {% endfor %}
+
+    <dialog class="visionneuse" data-visionneuse-target="fenetre" data-action="click->visionneuse#fermerSiFond">
+        <button type="button" class="visionneuse__fermer" data-action="visionneuse#fermer" aria-label="Fermer">×</button>
+        <img src="" alt="" data-visionneuse-target="image">
+        <p class="visionneuse__legende" data-visionneuse-target="legende"></p>
+    </dialog>
+</div>

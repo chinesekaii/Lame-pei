@@ -2146,3 +2146,95 @@ textarea.champ {
     border-radius: 6px;
     letter-spacing: 0.04em;
 }
+
+/* ---------- Galerie photos clients ---------- */
+
+.galerie-clients {
+    position: relative;
+    max-width: 1120px;
+    margin: 0 auto;
+    columns: 3 240px;
+    column-gap: 14px;
+}
+
+.galerie-clients__photo {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 0 0 14px;
+    padding: 0;
+    border: 1px solid var(--sable);
+    background: #FFF;
+    cursor: zoom-in;
+    break-inside: avoid;
+    overflow: hidden;
+}
+
+.galerie-clients__photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.4s ease;
+}
+
+.galerie-clients__photo:hover img {
+    transform: scale(1.03);
+}
+
+.galerie-clients__legende {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    padding: 5px 10px;
+    background: rgba(253, 244, 234, 0.92);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terre-cuite);
+}
+
+.avis-galerie {
+    margin-bottom: 40px;
+}
+
+.avis-galerie .galerie-clients {
+    columns: 3 180px;
+}
+
+.visionneuse {
+    max-width: min(92vw, 720px);
+    max-height: 92vh;
+    padding: 12px;
+    border: 0;
+    background: #FFF;
+}
+
+.visionneuse::backdrop {
+    background: rgba(40, 20, 10, 0.75);
+}
+
+.visionneuse img {
+    display: block;
+    max-width: 100%;
+    max-height: calc(92vh - 80px);
+    margin: 0 auto;
+}
+
+.visionneuse__legende {
+    margin: 10px 0 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--brun-bois);
+}
+
+.visionneuse__fermer {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    border: 0;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 26px;
+    line-height: 1;
+    color: var(--terre-cuite);
+    cursor: pointer;
+}

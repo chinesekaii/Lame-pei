@@ -72,6 +72,19 @@
         </section>
     {% endif %}
 
+    {# ───────── Galerie photos clients ───────── #}
+    {% if photosClients is not empty %}
+        <section id="galerie" class="section section--galerie">
+            <div class="section__entete">
+                <div class="surtitre">Vos photos</div>
+                <h2 class="titre-section titre-section--moyen">Elles l'ont adoptée</h2>
+                <p>Merci à toutes celles qui partagent leurs savates et leurs sacs L'ÂME PEÏ.</p>
+            </div>
+            {{ include('avis/_galerie.html.twig', {photos: photosClients}) }}
+            <p class="collection__lien"><a href="{{ path('app_avis') }}#galerie" class="btn btn--contour">Voir toutes les photos</a></p>
+        </section>
+    {% endif %}
+
     {# ───────── Avis clients (affiché dès qu'un avis est publié) ───────── #}
     {% if avis is not empty %}
         <section id="avis" class="section section--avis">
