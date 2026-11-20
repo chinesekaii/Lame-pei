@@ -108,7 +108,7 @@ Dans `.env.local` : `MAILER_DSN=smtp://127.0.0.1:1025`. Les e-mails sont visible
 - [x] E-mails : confirmation de commande, suivi, sur-mesure, alertes de sortie, mot de passe oublié
 - [x] Administration (EasyAdmin)
 - [x] Paiement en ligne par carte (Stripe Checkout)
-- [x] Mise en ligne de démonstration (Render + Aiven MySQL, voir docs/DEPLOIEMENT.md)
+- [x] Mise en ligne de démonstration (Render + TiDB Cloud, voir docs/DEPLOIEMENT.md)
 
 ## Auteur
 

@@ -15,11 +15,9 @@ services:
         value: prod
       - key: APP_SECRET
         generateValue: true
-      # Base MySQL Aiven, ex. mysql://avnadmin:MOT_DE_PASSE@xxx.aivencloud.com:12345/defaultdb?serverVersion=8.0.35&charset=utf8mb4
+      # Base TiDB Cloud (compatible MySQL), ex.
+      # mysql://xxxx.root:MOT_DE_PASSE@gateway01.eu-central-1.prod.aws.tidbcloud.com:4000/lame_pei?serverVersion=8.0.11&charset=utf8mb4
       - key: DATABASE_URL
-        sync: false
-      # Contenu du « CA certificate » téléchargé depuis Aiven (-----BEGIN CERTIFICATE----- …)
-      - key: MYSQL_SSL_CA
         sync: false
       - key: MYSQL_SSL_VERIFY
         value: "1"

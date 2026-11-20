@@ -36,7 +36,7 @@ when@test:
 when@prod:
     doctrine:
         dbal:
-            # Connexion chiffrée à MySQL (Aiven exige SSL) : le certificat de l'autorité
+            # Connexion chiffrée à MySQL (TiDB Cloud exige TLS) : le certificat de l'autorité
             # est écrit dans /tmp/mysql-ca.pem par docker/entrypoint.sh
             options:
                 !php/const Pdo\Mysql::ATTR_SSL_CA: '%env(MYSQL_SSL_CA_PATH)%'

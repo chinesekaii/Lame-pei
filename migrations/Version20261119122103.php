@@ -58,15 +58,17 @@ final class Version20261119122103 extends AbstractMigration
         $this->addSql('UPDATE variante SET taille = '.sprintf(self::CONVERSION, 'pointure'));
 
         // Table temporaire : pour chaque (modèle, taille), la variante gardée et le stock cumulé.
-        // Clé primaire obligatoire : certains hébergeurs MySQL (Aiven…) imposent sql_require_primary_key.
+        // Clé primaire obligatoire : certains hébergeurs MySQL imposent sql_require_primary_key.
+        // Création puis INSERT … SELECT (TiDB n'accepte pas CREATE TABLE … SELECT).
         $this->addSql('CREATE TEMPORARY TABLE variante_fusion (
                 modele_id INT NOT NULL,
                 taille VARCHAR(5) NOT NULL,
                 garde INT NOT NULL,
                 total INT NOT NULL,
                 PRIMARY KEY (modele_id, taille)
-            ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
-            SELECT modele_id, taille, MIN(id) AS garde, SUM(stock) AS total
+            ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
+        $this->addSql('INSERT INTO variante_fusion (modele_id, taille, garde, total)
+            SELECT modele_id, taille, MIN(id), SUM(stock)
             FROM variante GROUP BY modele_id, taille');
         $this->addSql('UPDATE variante v JOIN variante_fusion f ON f.garde = v.id SET v.stock = f.total');
         $this->addSql('UPDATE ligne_commande l
