@@ -2435,3 +2435,7 @@ textarea.champ {
 @media (prefers-reduced-motion: reduce) {
     .fleur-trainee { display: none; }
 }
+
+.page-erreur {
+    min-height: 50vh;
+}

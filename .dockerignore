@@ -1,0 +1,16 @@
+# Fichiers exclus de l'image Docker
+.git
+.gitignore
+.env.local
+.env.*.local
+.idea
+.vscode
+var/
+vendor/
+public/assets/
+public/bundles/
+assets/vendor/
+docs/
+tests/
+compose*.yaml
+*.md

@@ -1,0 +1,29 @@
+{#
+    Page d'erreur générique (production). Volontairement simple et sans requête en base :
+    si l'erreur vient justement de la base de données, cette page doit pouvoir s'afficher quand même.
+#}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Petit souci · L'ÂME PEÏ</title>
+    <style>
+        body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #FDF4EA; color: #6B4634; font-family: Georgia, 'Times New Roman', serif; text-align: center; padding: 24px; }
+        .fleur { font-size: 36px; color: #D8462A; }
+        h1 { font-weight: normal; font-size: 34px; color: #8C3A1E; margin: 10px 0; }
+        p { font-family: Arial, sans-serif; font-size: 15px; line-height: 1.7; max-width: 420px; margin: 0 auto 24px; }
+        a { display: inline-block; padding: 13px 26px; border-radius: 999px; background: #A9502E; color: #FFF7EE; text-decoration: none; font-family: Arial, sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+        small { display: block; margin-top: 28px; font-family: Arial, sans-serif; font-size: 11px; color: #9C8576; }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="fleur">✿</div>
+        <h1>Oups, un petit souci</h1>
+        <p>La page n'a pas pu s'afficher. Réessayez dans quelques instants : si le site était en veille, il met parfois une minute à se réveiller.</p>
+        <a href="/">Retour à l'accueil</a>
+        <small>L'ÂME PEÏ · erreur {{ status_code }}</small>
+    </main>
+</body>
+</html>

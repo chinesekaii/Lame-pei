@@ -129,6 +129,13 @@ Les prix sont stockés **en centimes** (`integer`) : 2500 = 25,00 €.
   - `App\Service\ImageWeb` : toute photo envoyée depuis l'admin est redressée, réduite à 900 px et **débarrassée de ses métadonnées (position GPS)**.
 - [x] Curseur fleur (`assets/images/curseur-fleur.svg`, variante terre cuite `curseur-fleur-lien.svg` sur les éléments cliquables, curseur texte conservé dans les champs) et traînée de fleurs ✿ qui suit la souris (`trainee_controller.js` sur `<body>`, max 24 fleurs, animation CSS 0,9 s). Uniquement avec une souris (`hover: hover` et `pointer: fine`), désactivé si « réduire les animations ».
 - [ ] Tester un vrai paiement Stripe en mode test (clés à créer sur dashboard.stripe.com), puis configurer le webhook (Stripe CLI en local : `stripe listen --forward-to 127.0.0.1:8000/stripe/webhook`)
-- [ ] Mise en ligne
+- [x] Mise en ligne de **démonstration** (TP) prête — guide : `docs/DEPLOIEMENT.md` :
+  - **Render** (offre gratuite, `render.yaml` en Blueprint) + base **Aiven MySQL** gratuite (connexion SSL : `MYSQL_SSL_CA`, options PDO `Pdo\Mysql::ATTR_SSL_*` dans `doctrine.yaml` when@prod) ;
+  - `Dockerfile` (php:8.4-apache, extensions pdo_mysql/intl/gd/exif/zip/opcache, `composer install --no-dev`, `asset-map:compile`), `docker/apache.conf`, `docker/php.ini`, `docker/entrypoint.sh` (port Render, certificat MySQL, migrations, `app:installer`) ;
+  - `app:installer` : sur base vide, catalogue + galerie + avis en attente ; compte admin depuis `ADMIN_EMAIL` / `ADMIN_PASSWORD` (12 car. min., jamais modifié ensuite) ;
+  - `trusted_proxies` via `TRUSTED_PROXIES=REMOTE_ADDR` (liens en https derrière Render), pages d'erreur en français (`templates/bundles/TwigBundle/Exception/`) ;
+  - testé en local avec Docker + MySQL 8.4 `--sql-require-primary-key=ON` (comme Aiven) : la migration des tailles a dû être corrigée (table temporaire avec clé primaire et collation explicite) ;
+  - limites gratuites : veille après 15 min, disque non permanent (photos envoyées depuis l'admin perdues au redémarrage), pas d'e-mails, pas de paiement.
+- [ ] Vrai lancement : mentions légales, confidentialité, médiateur, domaine, hébergement avec disque permanent, e-mails, Stripe réel, cron `app:commandes:expirer`
 
 Mettre à jour cette liste au fil du projet.

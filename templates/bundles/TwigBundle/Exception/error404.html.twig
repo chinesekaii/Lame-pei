@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page introuvable · L'ÂME PEÏ{% endblock %}
+
+{% block body %}
+    <section class="page page--etroite page-erreur">
+        <div class="page__entete">
+            <div class="fleur-titre">✿</div>
+            <div class="surtitre">Erreur 404</div>
+            <h1 class="titre-section">Page introuvable</h1>
+            <p>Cette page n'existe pas ou n'est plus en ligne : le modèle a peut-être été retiré de la boutique.</p>
+        </div>
+        <div class="recap__actions recap__actions--centre">
+            <a href="{{ path('app_home') }}#collections" class="btn btn--plein">Voir les collections</a>
+            <a href="{{ path('app_home') }}" class="btn btn--contour">Retour à l'accueil</a>
+        </div>
+    </section>
+{% endblock %}

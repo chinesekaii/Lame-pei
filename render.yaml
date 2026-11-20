@@ -1,0 +1,39 @@
+# Déploiement sur Render (Blueprint) — guide complet : docs/DEPLOIEMENT.md
+# Les valeurs « sync: false » sont demandées par Render à la création et ne sont jamais écrites ici.
+services:
+  - type: web
+    name: lame-pei
+    runtime: docker
+    plan: free
+    region: frankfurt
+    branch: main
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: prod
+      - key: APP_SECRET
+        generateValue: true
+      # Base MySQL Aiven, ex. mysql://avnadmin:MOT_DE_PASSE@xxx.aivencloud.com:12345/defaultdb?serverVersion=8.0.35&charset=utf8mb4
+      - key: DATABASE_URL
+        sync: false
+      # Contenu du « CA certificate » téléchargé depuis Aiven (-----BEGIN CERTIFICATE----- …)
+      - key: MYSQL_SSL_CA
+        sync: false
+      - key: MYSQL_SSL_VERIFY
+        value: "1"
+      # Render reçoit le HTTPS et transmet la requête : on fait confiance à son proxy
+      - key: TRUSTED_PROXIES
+        value: REMOTE_ADDR
+      # Adresse publique du site, ex. https://lame-pei.onrender.com
+      - key: DEFAULT_URI
+        sync: false
+      # Compte administrateur créé au premier démarrage (mot de passe : 12 caractères minimum)
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      # Pas d'envoi d'e-mails pour la démo (ils sont simplement ignorés)
+      - key: MAILER_DSN
+        value: null://null

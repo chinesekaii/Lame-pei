@@ -1,0 +1,4 @@
+# Scripts exécutés sous Linux (Docker, Render) : toujours des fins de ligne Unix
+*.sh text eol=lf
+Dockerfile text eol=lf
+docker/* text eol=lf
