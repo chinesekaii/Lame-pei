@@ -1,0 +1,35 @@
+{#
+    Carrousel des photos clients (variable : photos).
+    3 photos visibles sur ordinateur, 1 sur téléphone ; flèches, points et glissement au doigt.
+    Un clic sur une photo l'agrandit (contrôleur « visionneuse »).
+#}
+<div class="carrousel" data-controller="carrousel visionneuse" role="region" aria-roledescription="carrousel" aria-label="Photos de nos clientes">
+    <button type="button" class="carrousel__fleche carrousel__fleche--precedent" data-carrousel-target="precedent" data-action="carrousel#precedent" aria-label="Photo précédente">‹</button>
+
+    <div class="carrousel__piste" data-carrousel-target="piste">
+        {% for photo in photos %}
+            <button type="button" class="carrousel__photo"
+                    data-action="visionneuse#ouvrir"
+                    data-visionneuse-src-param="{{ asset('uploads/clients/' ~ photo.image) }}"
+                    data-visionneuse-legende-param="{{ photo.legende ?? (photo.modele ? photo.modele.nom : '') }}"
+                    aria-label="Photo {{ loop.index }} sur {{ loop.length }}{{ photo.legende ? ' : ' ~ photo.legende }}, agrandir">
+                <img src="{{ asset('uploads/clients/' ~ photo.image) }}" alt="Photo envoyée par une cliente{{ photo.legende ? ' — ' ~ photo.legende }}" loading="lazy">
+                {% if photo.legende %}<span class="galerie-clients__legende">{{ photo.legende }}</span>{% endif %}
+            </button>
+        {% endfor %}
+    </div>
+
+    <button type="button" class="carrousel__fleche carrousel__fleche--suivant" data-carrousel-target="suivant" data-action="carrousel#suivant" aria-label="Photo suivante">›</button>
+
+    <div class="carrousel__points">
+        {% for photo in photos %}
+            <button type="button" class="carrousel__point" data-carrousel-target="point" data-action="carrousel#aller" data-carrousel-index-param="{{ loop.index0 }}" aria-label="Aller à la photo {{ loop.index }}"></button>
+        {% endfor %}
+    </div>
+
+    <dialog class="visionneuse" data-visionneuse-target="fenetre" data-action="click->visionneuse#fermerSiFond">
+        <button type="button" class="visionneuse__fermer" data-action="visionneuse#fermer" aria-label="Fermer">×</button>
+        <img src="" alt="" data-visionneuse-target="image">
+        <p class="visionneuse__legende" data-visionneuse-target="legende"></p>
+    </dialog>
+</div>

@@ -63,7 +63,7 @@ final class HomeController extends AbstractController
             'enProduction' => $modeleRepository->findByStatut(StatutModele::EnProduction),
             'avis' => $avisRepository->findPublies(limite: 3),
             'statsAvis' => $avisRepository->statistiques(),
-            'photosClients' => $photoClientRepository->findVisibles(6),
+            'photosClients' => $photoClientRepository->findVisibles(),
             'form' => $form,
         ]);
     }

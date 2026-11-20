@@ -2238,3 +2238,121 @@ textarea.champ {
     color: var(--terre-cuite);
     cursor: pointer;
 }
+
+/* ---------- Carrousel (photos clients sur l'accueil) ---------- */
+
+.carrousel {
+    position: relative;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 52px;
+}
+
+.carrousel__piste {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;          /* Firefox */
+    -webkit-overflow-scrolling: touch;
+}
+
+.carrousel__piste::-webkit-scrollbar {
+    display: none;                  /* Chrome, Safari */
+}
+
+/* 3 photos visibles : (100 % - 2 espaces) / 3 */
+.carrousel__photo {
+    position: relative;
+    flex: 0 0 calc((100% - 32px) / 3);
+    aspect-ratio: 4 / 5;
+    padding: 0;
+    border: 1px solid var(--sable);
+    background: #FFF;
+    cursor: zoom-in;
+    overflow: hidden;
+    scroll-snap-align: start;
+}
+
+.carrousel__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.carrousel__photo:hover img {
+    transform: scale(1.04);
+}
+
+.carrousel__fleche {
+    position: absolute;
+    top: calc(50% - 22px);
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--or);
+    border-radius: 50%;
+    background: #FFF;
+    color: var(--terre-cuite);
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, opacity 0.2s;
+}
+
+.carrousel__fleche:hover:not(:disabled) {
+    background: var(--terre-cuite);
+    border-color: var(--terre-cuite);
+    color: var(--texte-bouton);
+}
+
+.carrousel__fleche:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.carrousel__fleche--precedent { left: 0; }
+.carrousel__fleche--suivant { right: 0; }
+
+.carrousel__points {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.carrousel__point {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 1px solid var(--or);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.carrousel__point--actif {
+    background: var(--or);
+}
+
+@media (max-width: 700px) {
+    .carrousel {
+        padding: 0;
+    }
+
+    /* Une photo et le début de la suivante : on comprend qu'on peut faire glisser */
+    .carrousel__photo {
+        flex-basis: 78%;
+    }
+
+    .carrousel__fleche {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carrousel__piste { scroll-behavior: auto; }
+}
