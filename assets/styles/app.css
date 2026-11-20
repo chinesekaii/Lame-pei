@@ -2356,3 +2356,28 @@ textarea.champ {
 @media (prefers-reduced-motion: reduce) {
     .carrousel__piste { scroll-behavior: auto; }
 }
+
+.carrousel__points {
+    align-items: center;
+}
+
+.carrousel__lecture {
+    width: 26px;
+    height: 26px;
+    margin-right: 6px;
+    padding: 0;
+    border: 1px solid var(--or);
+    border-radius: 50%;
+    background: #FFF;
+    color: var(--terre-cuite);
+    font-size: 9px;
+    letter-spacing: -1px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.carrousel__lecture:hover {
+    background: var(--terre-cuite);
+    border-color: var(--terre-cuite);
+    color: var(--texte-bouton);
+}

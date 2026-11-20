@@ -1,6 +1,7 @@
 {#
     Carrousel des photos clients (variable : photos).
-    3 photos visibles sur ordinateur, 1 sur téléphone ; flèches, points et glissement au doigt.
+    3 photos visibles sur ordinateur, 1 sur téléphone ; défilement automatique (toutes les 4 s,
+    pause au survol et bouton ❚❚ / ▶), flèches, points et glissement au doigt.
     Un clic sur une photo l'agrandit (contrôleur « visionneuse »).
 #}
 <div class="carrousel" data-controller="carrousel visionneuse" role="region" aria-roledescription="carrousel" aria-label="Photos de nos clientes">
@@ -22,6 +23,7 @@
     <button type="button" class="carrousel__fleche carrousel__fleche--suivant" data-carrousel-target="suivant" data-action="carrousel#suivant" aria-label="Photo suivante">›</button>
 
     <div class="carrousel__points">
+        <button type="button" class="carrousel__lecture" data-carrousel-target="lecture" data-action="carrousel#basculerLecture" aria-label="Arrêter le défilement automatique" aria-pressed="false">❚❚</button>
         {% for photo in photos %}
             <button type="button" class="carrousel__point" data-carrousel-target="point" data-action="carrousel#aller" data-carrousel-index-param="{{ loop.index0 }}" aria-label="Aller à la photo {{ loop.index }}"></button>
         {% endfor %}
